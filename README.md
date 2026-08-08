@@ -185,6 +185,8 @@ SAVE
    ↓
 USE
 
+---
+
 ✦ V1 Architecture
 
 Design Resource Vault
@@ -225,6 +227,7 @@ Design Resource Vault
 └── types/
     └── index.ts
 
+---
 
 ✦ Tech Stack
 
@@ -241,6 +244,8 @@ Design Resource Vault
 
 
 The architecture intentionally keeps the data layer independent from the UI so it can evolve later.
+
+---
 
 ✦ Design Direction
 
@@ -275,6 +280,8 @@ The UI should stay out of the way.
 
 The system should remain usable when 61 resources becomes 600.
 
+---
+
 ✦ Current V1
 
 V1 focuses on building the foundation:
@@ -297,8 +304,12 @@ Resource Details
       +
 Local Persistence
 
+---
+
 ✦ Roadmap
+
 V1 — Foundation ✓
+
  Resource database
  Categories
  Search
@@ -311,6 +322,7 @@ V1 — Foundation ✓
  Add resource
  Local persistence
  Dark / light mode
+
 V2 — Visual Intelligence
  Redesign homepage around discovery
  Editorial resource layout
@@ -322,6 +334,7 @@ V2 — Visual Intelligence
  Richer resource detail pages
  Refined motion system
  Better responsive experience
+
 V3 — Intelligence
  Automatic URL metadata extraction
  AI-powered categorization
@@ -329,6 +342,7 @@ V3 — Intelligence
  Similar resource recommendations
  Website screenshot previews
  Smart collections
+
 Future
  Cloud sync
  Authentication
@@ -337,6 +351,8 @@ Future
  Community submissions
  Personal notes
  Cross-device sync
+
+---
 
 ✦ Contributing
 
@@ -355,6 +371,8 @@ people building products
 No link dumping.
 
 Signal over noise.
+
+---
 
 ✦ Philosophy
 
