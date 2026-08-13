@@ -148,6 +148,13 @@ export const categories: Category[] = [
     slug: "ui-ux-prototyping",
     description: "Prototyping tools for interface and UX design.",
   },
+  {
+    id: "iconography",
+    name: "ICONOGRAPHY",
+    emoji: "✨",
+    slug: "iconography",
+    description: "Curated collection of open-source, 3D, animated, brand, and specialty icons.",
+  },
 ];
 
 export const categoryMap = Object.fromEntries(

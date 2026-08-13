@@ -2,14 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { ExternalLink, Star, ArrowUpRight } from "lucide-react";
 import { Resource } from "@/types";
 import { categoryMap } from "@/data/categories";
 import { useResources } from "@/lib/resource-context";
 import { cn, getDomainFromUrl } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { CategoryIcon } from "@/components/ui/category-icon";
 
 interface ResourceCardProps {
   resource: Resource;
@@ -19,138 +17,101 @@ interface ResourceCardProps {
 export function FaviconBadge({ url, name }: { url: string; name: string }) {
   const [imgError, setImgError] = useState(false);
   const domain = getDomainFromUrl(url);
-  const faviconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+  const faviconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
 
   return (
-    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-border bg-muted/50 p-1 transition-colors group-hover:border-foreground/20">
+    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--surface-muted)] font-display text-xs font-bold text-[var(--text-muted)] uppercase overflow-hidden">
       {!imgError ? (
         <img
           src={faviconUrl}
           alt={name}
-          className="h-4 w-4 rounded-sm object-contain"
+          className="h-4 w-4 rounded-xs object-contain"
           onError={() => setImgError(true)}
           loading="lazy"
         />
       ) : (
-        <span className="text-[11px] font-bold tracking-tighter text-muted-foreground uppercase">
-          {name.charAt(0)}
-        </span>
+        <span>{name.charAt(0)}</span>
       )}
     </div>
   );
 }
 
-export function ResourceCard({ resource, index = 0 }: ResourceCardProps) {
+export function ResourceCard({ resource }: ResourceCardProps) {
   const { isFavorite, toggleFavorite } = useResources();
   const favorited = isFavorite(resource.id);
-  
   const primaryCategory = categoryMap[resource.categories[0]];
-  const additionalCategoriesCount = resource.categories.length - 1;
   const domain = getDomainFromUrl(resource.url);
 
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.25, delay: Math.min(index * 0.02, 0.2), ease: [0.16, 1, 0.3, 1] }}
-      className="group relative flex flex-col justify-between rounded-xl border border-border/80 bg-card p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/25 hover:shadow-md hover:shadow-black/5 dark:hover:shadow-black/20"
-    >
+    <div className="group archive-tile relative flex flex-col justify-between rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4 sm:p-5 overflow-hidden hover:border-[var(--border-strong)] hover:bg-[var(--surface-elevated)] select-none font-sans">
       <div>
-        {/* Header with Favicon, Title, and Favorite Button */}
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex items-start gap-2.5 min-w-0 flex-1">
-            <FaviconBadge url={resource.url} name={resource.name} />
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-1.5 flex-wrap">
-                <Link
-                  href={`/resources/${resource.slug}`}
-                  className="font-medium text-sm tracking-tight hover:text-foreground text-foreground/90 hover:underline underline-offset-2 transition-colors truncate"
-                >
-                  {resource.name}
-                </Link>
-                {resource.featured && (
-                  <Badge variant="outline" className="shrink-0 text-[10px] py-0 px-1.5 font-normal bg-accent/40 border-accent text-muted-foreground">
-                    Featured
-                  </Badge>
-                )}
-              </div>
-              <p className="text-[11px] text-muted-foreground/80 tracking-tight font-mono truncate mt-0.5">
-                {domain}
-              </p>
-            </div>
-          </div>
+        {/* Header: Badge & Favorite Button */}
+        <div className="flex items-center justify-between gap-2 mb-3">
+          <FaviconBadge url={resource.url} name={resource.name} />
 
-          <Button
-            variant="ghost"
-            size="icon"
-            className="shrink-0 h-7 w-7 rounded-md hover:bg-accent/60 text-muted-foreground hover:text-foreground"
+          <button
             onClick={(e) => {
               e.preventDefault();
+              e.stopPropagation();
               toggleFavorite(resource.id);
             }}
+            className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors p-1 cursor-pointer"
             aria-label={favorited ? "Remove from favorites" : "Add to favorites"}
           >
-            <motion.div
-              animate={{ scale: favorited ? [1, 1.25, 1] : 1 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Star
-                className={cn(
-                  "h-3.5 w-3.5 transition-colors",
-                  favorited ? "fill-amber-400 text-amber-400" : "text-muted-foreground/60 group-hover:text-muted-foreground"
-                )}
-              />
-            </motion.div>
-          </Button>
+            <Star
+              className={cn(
+                "h-3.5 w-3.5 transition-colors",
+                favorited ? "fill-[var(--warm-cream)] text-[var(--deep-muted-green)] font-bold" : "text-[var(--text-muted)] group-hover:text-[var(--text-secondary)]"
+              )}
+            />
+          </button>
         </div>
 
-        {/* Short Description */}
-        <p className="mt-3 text-xs text-muted-foreground leading-relaxed line-clamp-2">
-          {resource.description}
-        </p>
-
-        {/* Categories & Tags */}
-        <div className="mt-3 flex flex-wrap items-center gap-1.5">
-          {primaryCategory && (
-            <Badge variant="secondary" className="text-[10px] font-normal py-0.5 px-2 bg-secondary/70 text-secondary-foreground">
-              <span className="mr-1">{primaryCategory.emoji}</span>
-              {primaryCategory.name}
-            </Badge>
-          )}
-          {additionalCategoriesCount > 0 && (
-            <Badge variant="outline" className="text-[10px] font-normal py-0.5 px-1.5 text-muted-foreground">
-              +{additionalCategoriesCount}
-            </Badge>
-          )}
-
-          {resource.tags.slice(0, 3).map((tag) => (
-            <Badge key={tag} variant="outline" className="text-[10px] font-normal py-0.5 px-1.5 text-muted-foreground/90 border-border/60">
-              {tag}
-            </Badge>
-          ))}
-        </div>
-      </div>
-
-      {/* Footer Actions */}
-      <div className="mt-4 flex items-center justify-between border-t border-border/60 pt-2.5">
-        <Link
-          href={`/resources/${resource.slug}`}
-          className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors group/link"
-        >
-          View details
-          <ArrowUpRight className="h-3 w-3 transition-transform duration-150 group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
+        {/* Title & Domain */}
+        <Link href={`/resources/${resource.slug}`} className="block group/link">
+          <h3 className="font-display text-sm sm:text-base font-bold tracking-tight text-[var(--text-primary)] group-hover/link:text-[var(--accent)] transition-colors truncate">
+            {resource.name}
+          </h3>
+          <p className="text-[11px] font-mono text-[var(--text-muted)] truncate mt-0.5">
+            {domain}
+          </p>
         </Link>
-        <a
-          href={resource.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <ExternalLink className="h-3 w-3" />
-          Visit
-        </a>
       </div>
-    </motion.article>
+
+      {/* Footer: Category Tag & Detail Link */}
+      <div className="mt-4 pt-3 border-t border-[var(--border)]/60 flex items-center justify-between font-mono text-[10px]">
+        {primaryCategory ? (
+          <span className="truncate text-[var(--text-secondary)] bg-[var(--surface-muted)] px-2 py-0.5 rounded text-[10px] flex items-center gap-1.5 font-sans">
+            <span className="h-3 w-3 shrink-0 flex items-center justify-center">
+              <CategoryIcon id={primaryCategory.id} className="h-3 w-3" />
+            </span>
+            <span className="truncate">{primaryCategory.name}</span>
+          </span>
+        ) : (
+          <span className="text-[var(--text-muted)]">{domain}</span>
+        )}
+
+        <div className="flex items-center gap-2 text-[var(--text-muted)]">
+          <Link
+            href={`/resources/${resource.slug}`}
+            className="hover:text-[var(--text-primary)] transition-colors flex items-center gap-0.5"
+            title="View Details"
+          >
+            <ArrowUpRight className="h-3.5 w-3.5 group-hover:text-[var(--text-primary)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </Link>
+          <a
+            href={resource.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[var(--text-primary)] transition-colors"
+            title="Visit Website"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <ExternalLink className="h-3 w-3" />
+          </a>
+        </div>
+      </div>
+    </div>
   );
 }
+

@@ -6,9 +6,9 @@ import { getAllTags, getAllPurposes } from "@/data/resources";
 import { categories } from "@/data/categories";
 import { useResources } from "@/lib/resource-context";
 import { cn } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { SlidersHorizontal, X } from "lucide-react";
+import { CategoryIcon } from "@/components/ui/category-icon";
+
 
 interface FiltersProps {
   selectedCategories: string[];
@@ -71,100 +71,115 @@ export function Filters({
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 font-sans">
       <div className="flex flex-wrap items-center gap-2">
-        <div className="flex items-center gap-1.5 text-xs text-muted-foreground mr-1">
+        <div className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] mr-1 font-mono">
           <SlidersHorizontal className="h-3.5 w-3.5" />
-          Filters
+          FILTERS
         </div>
 
         {sortOptions.map((opt) => (
-          <Button
+          <button
             key={opt.value}
-            variant={sort === opt.value ? "default" : "outline"}
-            size="sm"
             onClick={() => onSortChange(opt.value)}
-            className="text-xs"
+            className={cn(
+              "px-3 py-1 rounded text-xs transition-colors font-mono",
+              sort === opt.value
+                ? "bg-[var(--text-primary)] text-[var(--background)] font-bold"
+                : "border border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+            )}
           >
             {opt.label}
-          </Button>
+          </button>
         ))}
 
-        <div className="w-px h-5 bg-border mx-1" />
+        <div className="w-px h-5 bg-[var(--border)] mx-1" />
 
-        <Button
-          variant={favoritesOnly ? "default" : "outline"}
-          size="sm"
+        <button
           onClick={() => onFavoritesChange(!favoritesOnly)}
-          className="text-xs"
+          className={cn(
+            "px-3 py-1 rounded text-xs transition-colors font-mono",
+            favoritesOnly
+              ? "bg-[var(--champagne)] text-[var(--midnight-navy)] font-bold"
+              : "border border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+          )}
         >
-          Favorites
-        </Button>
+          Favorites Only
+        </button>
 
         {hasFilters && (
-          <Button variant="ghost" size="sm" onClick={onClear} className="text-xs text-muted-foreground">
-            <X className="h-3 w-3 mr-1" />
+          <button onClick={onClear} className="flex items-center gap-1 text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] font-mono ml-1">
+            <X className="h-3 w-3" />
             Clear
-          </Button>
+          </button>
         )}
       </div>
 
       <div>
-        <div className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-          Categories
+        <div className="mb-2 text-[10px] font-mono font-bold uppercase tracking-wider text-[var(--text-muted)]">
+          CATEGORIES
         </div>
         <div className="flex flex-wrap gap-1.5">
           {categories.map((cat) => (
-            <Badge
+            <span
               key={cat.id}
-              variant={selectedCategories.includes(cat.id) ? "default" : "outline"}
               onClick={() => toggleCategory(cat.id)}
               className={cn(
-                "cursor-pointer text-[11px]",
-                selectedCategories.includes(cat.id) && "bg-primary text-primary-foreground"
+                "cursor-pointer text-[11px] px-2.5 py-1 rounded border transition-colors inline-flex items-center gap-1 select-none",
+                selectedCategories.includes(cat.id)
+                  ? "bg-[var(--text-primary)] text-[var(--background)] border-[var(--text-primary)] font-semibold"
+                  : "bg-[var(--surface)] border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--border-strong)]"
               )}
             >
-              {cat.emoji} {cat.name}
-            </Badge>
+              <CategoryIcon id={cat.id} className="h-3 w-3" /> {cat.name}
+            </span>
           ))}
         </div>
       </div>
 
       <div>
-        <div className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-          Tags
+        <div className="mb-2 text-[10px] font-mono font-bold uppercase tracking-wider text-[var(--text-muted)]">
+          TAGS
         </div>
         <div className="flex flex-wrap gap-1.5">
           {allTags.slice(0, 20).map((tag) => (
-            <Badge
+            <span
               key={tag}
-              variant={selectedTags.includes(tag) ? "default" : "outline"}
               onClick={() => toggleTag(tag)}
-              className="cursor-pointer text-[11px]"
+              className={cn(
+                "cursor-pointer text-[11px] px-2 py-0.5 rounded border transition-colors font-mono select-none",
+                selectedTags.includes(tag)
+                  ? "bg-[var(--accent)] text-[var(--background)] border-[var(--accent)] font-semibold"
+                  : "bg-[var(--surface-muted)] border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+              )}
             >
-              {tag}
-            </Badge>
+              #{tag}
+            </span>
           ))}
         </div>
       </div>
 
       {allPurposes.length > 0 && (
         <div>
-          <div className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-            Purpose
+          <div className="mb-2 text-[10px] font-mono font-bold uppercase tracking-wider text-[var(--text-muted)]">
+            PURPOSE
           </div>
           <div className="flex flex-wrap gap-1.5">
             {allPurposes.slice(0, 8).map((purpose) => (
-              <Badge
+              <span
                 key={purpose}
-                variant={selectedPurpose === purpose ? "default" : "outline"}
                 onClick={() =>
                   onPurposeChange(selectedPurpose === purpose ? "" : purpose)
                 }
-                className="cursor-pointer text-[11px] max-w-xs truncate"
+                className={cn(
+                  "cursor-pointer text-[11px] px-2 py-0.5 rounded border transition-colors font-sans max-w-xs truncate select-none",
+                  selectedPurpose === purpose
+                    ? "bg-[var(--accent)] text-[var(--background)] border-[var(--accent)] font-semibold"
+                    : "bg-[var(--surface-muted)] border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+                )}
               >
                 {purpose.length > 40 ? `${purpose.slice(0, 40)}…` : purpose}
-              </Badge>
+              </span>
             ))}
           </div>
         </div>

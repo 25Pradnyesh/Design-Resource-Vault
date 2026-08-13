@@ -1,23 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import { Providers } from "./providers";
 import { AppShell } from "@/components/layout/app-shell";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-  title: "Design & UI/UX Resource Vault",
+  title: "Design Resource Vault — Digital Design Archive",
   description:
-    "Your growing library of tools, references, and inspiration for UI/UX design, web design, and frontend development.",
+    "A curated editorial library of interface components, motion tools, 3D assets, iconography, and web inspiration.",
 };
 
 export default function RootLayout({
@@ -26,8 +15,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+    <html lang="en">
+      <body className="font-sans antialiased bg-[var(--background)] text-[var(--text-primary)] min-h-screen flex flex-col">
         <Providers>
           <AppShell>{children}</AppShell>
         </Providers>
@@ -35,3 +24,4 @@ export default function RootLayout({
     </html>
   );
 }
+

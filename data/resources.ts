@@ -18,7 +18,7 @@ function r(
   };
 }
 
-export const seedResources: Resource[] = [
+const rawSeedResources: Resource[] = [
   r({
     id: "motion-primitives",
     name: "Motion Primitives",
@@ -873,7 +873,427 @@ export const seedResources: Resource[] = [
     purpose: "Tailwind CSS component blocks and landing page templates.",
     featured: true,
   }),
+  r({
+    id: "ls-graphics-free-mockups",
+    name: "LS Graphics — Free Mockups",
+    url: "https://www.ls.graphics/free-mockups",
+    description: "High-quality, free branding and device mockups for digital product presentation.",
+    whatItDoes: "Provides photorealistic device, branding, packaging, and UI mockups.",
+    whyUseIt: "Elevates portfolio and client presentations with clean, high-resolution visual mockups.",
+    whenToUseIt: "When showcasing UI designs, mobile apps, or brand identities in real-world contexts.",
+    howToUseIt: "Download PSD/Figma template files, insert your screen designs into smart object layers, and export.",
+    categories: ["mockups-presentation", "visual-assets"],
+    tags: ["Mockups", "Free", "Branding", "Presentation", "Figma", "Photoshop"],
+    purpose: "Free high-end device and branding mockup templates.",
+    featured: true,
+  }),
+  r({
+    id: "mr-mockup",
+    name: "Mr.Mockup — Free Mockups",
+    url: "https://mrmockup.com/free-mockups/",
+    description: "Curated collection of free PSD mockups for graphic and web designers.",
+    whatItDoes: "Offers premium quality free mockups for apparel, stationary, devices, and digital products.",
+    whyUseIt: "High-resolution, easy-to-edit smart object PSDs for professional presentations.",
+    whenToUseIt: "When creating realistic product previews and portfolio visual assets.",
+    howToUseIt: "Download template PSDs, open in Photoshop or compatible editor, replace placeholder layers.",
+    categories: ["mockups-presentation", "visual-assets"],
+    tags: ["Mockups", "PSD", "Free", "Branding"],
+    purpose: "Free PSD mockup templates for graphic and interface presentation.",
+    featured: false,
+  }),
+  r({
+    id: "unblast",
+    name: "Unblast",
+    url: "https://unblast.com/",
+    description: "Free design resources including mockups, icons, fonts, templates, and vectors.",
+    whatItDoes: "Selection of free, high quality design assets contributed by top designers around the world.",
+    whyUseIt: "One-stop platform for downloading free mockups, typography, and graphic assets.",
+    whenToUseIt: "When building design libraries or searching for free presentation templates.",
+    howToUseIt: "Search asset categories, click direct download links, and import into your design tool.",
+    categories: ["mockups-presentation", "visual-assets", "color-typography"],
+    tags: ["Mockups", "Icons", "Fonts", "Free Assets"],
+    purpose: "Curated repository of free design resources, mockups, and fonts.",
+    featured: true,
+  }),
+  r({
+    id: "mockups-design",
+    name: "Mockups Design",
+    url: "https://mockups-design.com/",
+    description: "Simple, clean website with premium free mockups for personal and commercial projects.",
+    whatItDoes: "Provides 100% free PSD mockup templates for stationery, packaging, devices, and web design.",
+    whyUseIt: "Completely free for personal and commercial use without complex attribution requirements.",
+    whenToUseIt: "When you need quick, clean mockup templates for client work or case studies.",
+    howToUseIt: "Browse by category, download ZIP package containing PSD files, edit smart object layers.",
+    categories: ["mockups-presentation"],
+    tags: ["Mockups", "Free", "Commercial Use", "PSD"],
+    purpose: "Free mockup templates for personal and commercial web and print projects.",
+    featured: false,
+  }),
+  r({
+    id: "mockup-world",
+    name: "Mockup World",
+    url: "http://mockupworld.co/all-mockups/",
+    description: "Original free mockup directory aggregating photorealistic PSD templates.",
+    whatItDoes: "Categorizes thousands of verified, clean PSD mockup files from across the web.",
+    whyUseIt: "Large searchable directory of free mockups for iPhones, MacBooks, billboards, and print.",
+    whenToUseIt: "When looking for hard-to-find or specific device mockup templates.",
+    howToUseIt: "Search by keyword or tag, jump to verified download pages, and apply your design assets.",
+    categories: ["mockups-presentation"],
+    tags: ["Mockups", "Directory", "Devices", "Photoshop"],
+    purpose: "Searchable aggregator directory of free photorealistic PSD mockups.",
+    featured: false,
+  }),
+  r({
+    id: "lucide-icons",
+    name: "Lucide Icons",
+    url: "https://lucide.dev",
+    description: "Beautiful & consistent open-source icon library for modern web applications.",
+    whatItDoes: "Provides 1,000+ clean, customizable vector icons available for React, Vue, Svelte, and raw SVG.",
+    whyUseIt: "Official community fork of Feather Icons. Super clean 2px stroke weight, active maintenance.",
+    whenToUseIt: "Default choice for modern web app UI, dashboards, and design systems.",
+    howToUseIt: "Install `lucide-react` via npm or copy direct SVG code into your component tree.",
+    categories: ["iconography", "visual-assets", "ui-components"],
+    tags: ["Open Source Icons", "React", "SVG", "Icon Search"],
+    purpose: "Clean, consistent open-source icon suite for modern web applications.",
+    featured: true,
+  }),
+  r({
+    id: "heroicons",
+    name: "Heroicons",
+    url: "https://heroicons.com",
+    description: "Handcrafted SVG icons by the makers of Tailwind CSS.",
+    whatItDoes: "Offers outline, solid, mini, and micro icon styles in pure SVG and React/Vue components.",
+    whyUseIt: "Designed specifically to pair perfectly with Tailwind CSS typography and spacing.",
+    whenToUseIt: "When building Tailwind CSS web apps, landing pages, or product interfaces.",
+    howToUseIt: "Install `@heroicons/react` or copy SVG code directly from the website UI.",
+    categories: ["iconography", "ui-components"],
+    tags: ["Open Source Icons", "Tailwind", "SVG", "React"],
+    purpose: "Handcrafted SVG icons designed for Tailwind CSS interfaces.",
+    featured: true,
+  }),
+  r({
+    id: "tabler-icons",
+    name: "Tabler Icons",
+    url: "https://tabler-icons.io",
+    description: "Over 5,200 free pixel-perfect vector icons for web design.",
+    whatItDoes: "Huge collection of customizable stroke SVG icons for web and mobile interfaces.",
+    whyUseIt: "Extremely expansive coverage for generic, technical, and niche app UI actions.",
+    whenToUseIt: "When you need a single uniform icon family with massive coverage.",
+    howToUseIt: "Customize stroke weight and color on web, copy SVG or install React package.",
+    categories: ["iconography", "visual-assets"],
+    tags: ["Open Source Icons", "Icon Search", "SVG", "React"],
+    purpose: "Massive open-source vector icon set with customizable stroke weights.",
+    featured: false,
+  }),
+  r({
+    id: "iconify",
+    name: "Iconify",
+    url: "https://iconify.design",
+    description: "Universal icon framework containing over 200,000 open-source icons.",
+    whatItDoes: "Unifies major icon sets (Material, FontAwesome, Lucide, Carbon) under one unified framework.",
+    whyUseIt: "Access virtually every open-source icon library through a single component or API.",
+    whenToUseIt: "When managing design systems that combine icons from multiple design sets.",
+    howToUseIt: "Use `@iconify/react` and pass icon set identifiers like `icon='lucide:check'`.",
+    categories: ["iconography", "design-workflow"],
+    tags: ["Icon Search", "Open Source Icons", "SVG Tools", "React"],
+    purpose: "Universal framework aggregating 200,000+ open source vector icons.",
+    featured: true,
+  }),
+  r({
+    id: "simple-icons",
+    name: "Simple Icons",
+    url: "https://simpleicons.org",
+    description: "Over 3,000 free SVG icons for popular brand logos and tech stacks.",
+    whatItDoes: "Maintains canonical brand vector logos with exact official brand colors and HEX codes.",
+    whyUseIt: "Ensures accurate brand representation for tech stacks, social networks, and partner logos.",
+    whenToUseIt: "When adding brand logos, integration badges, or tech stack icons to product landing pages.",
+    howToUseIt: "Search by brand name, download raw SVG, or copy official brand HEX color codes.",
+    categories: ["iconography", "visual-assets"],
+    tags: ["Brand Icons", "Open Source Icons", "SVG"],
+    purpose: "Free SVG icon collection of world tech and social brand logos.",
+    featured: false,
+  }),
+  r({
+    id: "feather-icons",
+    name: "Feather Icons",
+    url: "https://feathericons.com",
+    description: "Simply beautiful open source icons designed on a 24x24 grid.",
+    whatItDoes: "Minimalist stroke vector icons designed for legibility at small interface scales.",
+    whyUseIt: "Iconic minimal aesthetic that defined modern lightweight web icon design.",
+    whenToUseIt: "When building minimal interfaces requiring simple, clear visual cues.",
+    howToUseIt: "Click icon to download SVG or install `feather-icons` via npm.",
+    categories: ["iconography"],
+    tags: ["Open Source Icons", "SVG", "Minimal"],
+    purpose: "Classic lightweight 24x24 open-source vector icon family.",
+    featured: false,
+  }),
+  r({
+    id: "remix-icon",
+    name: "Remix Icon",
+    url: "https://remixicon.com",
+    description: "Open-source neutral style system symbols elaborately crafted for designers and developers.",
+    whatItDoes: "Provides 2,800+ neutral fill and line icons across business, system, design, and media.",
+    whyUseIt: "Every icon comes in matching line and fill versions, ensuring consistent UI states.",
+    whenToUseIt: "When designing complex enterprise software, mobile apps, or web platforms.",
+    howToUseIt: "Download SVG/PNG, copy web font classes, or import via React/Vue packages.",
+    categories: ["iconography", "ui-components"],
+    tags: ["Open Source Icons", "Icon Search", "SVG", "Design System"],
+    purpose: "Neutral system icons with paired line and fill variants.",
+    featured: false,
+  }),
+  r({
+    id: "phosphor-icons",
+    name: "Phosphor Icons",
+    url: "https://phosphoricons.com",
+    description: "Flexible icon family for interfaces, diagrams, presentations, and print.",
+    whatItDoes: "Provides 9,000+ icons in 6 weights: Thin, Light, Regular, Bold, Fill, and Duotone.",
+    whyUseIt: "Unmatched weight flexibility allows perfect pairing with any font weight or visual mood.",
+    whenToUseIt: "When requiring multiple icon weights or duotone aesthetic in design systems.",
+    howToUseIt: "Use web editor to test weights, copy React components or SVG strings.",
+    categories: ["iconography", "visual-assets"],
+    tags: ["Open Source Icons", "Duotone", "React", "Design System"],
+    purpose: "Flexible icon family available across six custom weights and duotone styles.",
+    featured: true,
+  }),
+  r({
+    id: "font-awesome",
+    name: "Font Awesome",
+    url: "https://fontawesome.com",
+    description: "Internet's iconic font and icon toolkit used by millions of websites.",
+    whatItDoes: "Huge collection of solid, regular, light, thin, duotone, and brand icons.",
+    whyUseIt: "Industry veteran with comprehensive icon coverage and robust CDN/package distribution.",
+    whenToUseIt: "When working on traditional web applications or requiring maximum icon coverage.",
+    howToUseIt: "Include CDN script or npm `@fortawesome/react-fontawesome` package.",
+    categories: ["iconography"],
+    tags: ["Brand Icons", "Open Source Icons", "Premium Icons"],
+    purpose: "Classic icon toolkit and font system for web applications.",
+    featured: false,
+  }),
+  r({
+    id: "streamline-icons",
+    name: "Streamline Icons",
+    url: "https://streamlinehq.com",
+    description: "170,000+ vector icons, illustrations, and 3D assets in multiple styles.",
+    whatItDoes: "Extensive asset suite featuring micro icons, cyber icons, hand-drawn illustrations, and 3D graphics.",
+    whyUseIt: "World-class icon sets created by professional illustrators and icon designers.",
+    whenToUseIt: "When designing high-end corporate applications, landing pages, or mobile apps.",
+    howToUseIt: "Search via Streamline web app or desktop app, drag and drop SVG assets into Figma.",
+    categories: ["iconography", "visual-assets", "3d-interactive-web"],
+    tags: ["Premium Icons", "3D Icons", "Illustrations", "Figma Icon Plugins"],
+    purpose: "Extensive premium icon and illustration asset suite.",
+    featured: true,
+  }),
+  r({
+    id: "lordicon",
+    name: "Lordicon",
+    url: "https://lordicon.com",
+    description: "5,000+ animated vector icons for web, app, and presentation design.",
+    whatItDoes: "Delivers smooth, interactive Lottie and JSON animated icons that react to hover, click, or loop.",
+    whyUseIt: "Brings micro-interactions and visual life to empty states, success modals, and buttons.",
+    whenToUseIt: "When building animated onboarding flows, interactive landing pages, or micro-feedback.",
+    howToUseIt: "Customize colors on website, download Lottie JSON or embed via Lordicon web component.",
+    categories: ["iconography", "animation-motion-tools", "frontend-animation"],
+    tags: ["Animated Icons", "Lottie", "Micro-interactions", "Premium Icons"],
+    purpose: "Interactive animated Lottie icon library for micro-animations.",
+    featured: true,
+  }),
+  r({
+    id: "icons8-3d",
+    name: "Icons8 3D Icons",
+    url: "https://icons8.com/3d",
+    description: "Diverse collection of 3D icon packs and render assets for web and apps.",
+    whatItDoes: "Provides photorealistic and clay-style 3D icons across business, fintech, tech, and social.",
+    whyUseIt: "Adds depth, modern tactile aesthetic, and visual interest to landing pages and UI cards.",
+    whenToUseIt: "When designing modern Vibe/Web3 landing pages or feature hero highlights.",
+    howToUseIt: "Download PNG images or edit 3D angles using Icons8 3D design tools.",
+    categories: ["iconography", "3d-interactive-web", "visual-assets"],
+    tags: ["3D Icons", "Visual Assets", "PNG", "Render"],
+    purpose: "3D icon packs and render graphics for modern web landing pages.",
+    featured: false,
+  }),
+  r({
+    id: "noun-project",
+    name: "Noun Project",
+    url: "https://thenounproject.com",
+    description: "Over 5 million global icons and photos celebrating diversity and international symbolism.",
+    whatItDoes: "Global repository of user-contributed vector symbols covering niche, technical, and cultural objects.",
+    whyUseIt: "Unsurpassed variety for niche objects, specialty symbols, and rare real-world concepts.",
+    whenToUseIt: "When searching for niche specialty icons not found in standard icon libraries.",
+    howToUseIt: "Search by keyword, download SVG/PNG files, or copy with Noun Project Figma plugin.",
+    categories: ["iconography", "visual-assets"],
+    tags: ["Specialty Icons", "Icon Search", "SVG", "Figma Icon Plugins"],
+    purpose: "Global crowdsourced repository of 5+ million vector symbols.",
+    featured: false,
+  }),
+  r({
+    id: "iconoir",
+    name: "Iconoir",
+    url: "https://iconoir.com",
+    description: "One of the largest open-source icon libraries with 1,500+ clean vector icons.",
+    whatItDoes: "Simple, elegant line icons built with uniform stroke width and modern geometric aesthetics.",
+    whyUseIt: "No signup, completely free open-source library supporting React, React Native, Flutter, and Figma.",
+    whenToUseIt: "When building clean minimalist applications or mobile interfaces.",
+    howToUseIt: "Copy SVG directly from site or install `iconoir-react` package.",
+    categories: ["iconography"],
+    tags: ["Open Source Icons", "React", "SVG", "Figma"],
+    purpose: "Minimalist open-source SVG icon library supporting major web frameworks.",
+    featured: false,
+  }),
+  r({
+    id: "svgl",
+    name: "SVGL",
+    url: "https://svgl.app",
+    description: "Beautiful SVG logo library for modern web applications and developer tools.",
+    whatItDoes: "Curates developer, framework, database, AI, and SaaS brand logos in crisp vector format.",
+    whyUseIt: "Built specifically for modern stack showcases, dark mode compatibility, and instant copy/paste.",
+    whenToUseIt: "When creating tech stack sections, integration grids, or developer tool homepages.",
+    howToUseIt: "Click logo to copy SVG code directly, download SVG file, or use React package.",
+    categories: ["iconography", "visual-assets", "ui-components"],
+    tags: ["Brand Icons", "SVG Tools", "Developer Tools", "Open Source Icons"],
+    purpose: "Curated vector SVG library of framework, database, and developer brand logos.",
+    featured: true,
+  }),
+  r({
+    id: "icomoon",
+    name: "IcoMoon",
+    url: "https://icomoon.io",
+    description: "Custom icon font generator and vector icon management suite.",
+    whatItDoes: "Allows designers to select custom icon subsets, convert SVG vectors into custom web fonts or SVG sprites.",
+    whyUseIt: "Optimizes web performance by packing only the exact icons used in an app into a tiny web font.",
+    whenToUseIt: "When managing custom enterprise icon fonts or optimizing icon payload sizes.",
+    howToUseIt: "Import custom SVG files into IcoMoon app, select glyphs, and generate web font/CSS bundle.",
+    categories: ["iconography", "design-workflow"],
+    tags: ["SVG Tools", "Icon Learning", "Font Generator"],
+    purpose: "Custom web font and SVG sprite generator for icon optimization.",
+    featured: false,
+  }),
+  r({
+    id: "untitled-ui-icons",
+    name: "Untitled UI Icons",
+    url: "https://untitledui.com/icons",
+    description: "4,600+ clean, consistent essential vector icons crafted for Figma.",
+    whatItDoes: "Figma-first icon system designed to seamlessly match the Untitled UI design system.",
+    whyUseIt: "Provides pristine pixel grid alignment, neat component variants, and clean Figma structure.",
+    whenToUseIt: "When working in Figma design systems or pairing with Untitled UI design kits.",
+    howToUseIt: "Duplicate Figma file or use Untitled UI icons plugin in Figma.",
+    categories: ["iconography", "visual-assets"],
+    tags: ["Figma Icon Plugins", "Premium Icons", "Design System"],
+    purpose: "Clean Figma-native essential icon library.",
+    featured: true,
+  }),
+  r({
+    id: "iconbuddy",
+    name: "IconBuddy",
+    url: "https://iconbuddy.app",
+    description: "Search, customize, and download over 180+ open source icon sets with 200,000+ icons.",
+    whatItDoes: "Aggregates open-source icon sets with live SVG editor, recoloring, and bulk export capabilities.",
+    whyUseIt: "Fast multi-library search with instant background/color customization and SVG editing.",
+    whenToUseIt: "When searching for specific icons across multiple libraries simultaneously.",
+    howToUseIt: "Type search term, tweak icon color and size sliders, and copy SVG or JSX code.",
+    categories: ["iconography", "design-workflow"],
+    tags: ["Icon Search", "SVG Tools", "Open Source Icons"],
+    purpose: "Searchable aggregator and live SVG editor for 180+ open source icon sets.",
+    featured: false,
+  }),
 ];
+
+function normalizeUrl(urlStr: string): string {
+  try {
+    let clean = urlStr.toLowerCase().trim();
+    clean = clean.replace(/^https?:\/\//, "").replace(/^www\./, "");
+    if (clean.endsWith("/")) clean = clean.slice(0, -1);
+    return clean;
+  } catch {
+    return urlStr.toLowerCase().trim();
+  }
+}
+
+function normalizeName(nameStr: string): string {
+  return nameStr
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]/g, " ")
+    .replace(/\s+/g, " ");
+}
+
+export interface DatabaseStats {
+  totalResources: number;
+  newResourcesAdded: number;
+  duplicatesDetected: number;
+  duplicatesSkipped: number;
+  duplicateUrls: string[];
+  categoriesCount: number;
+}
+
+function processAndDeduplicate(rawList: Resource[]): {
+  resources: Resource[];
+  stats: DatabaseStats;
+} {
+  const resourceMap = new Map<string, Resource>();
+  const urlMap = new Map<string, string>();
+  let duplicatesDetected = 0;
+  const duplicateUrls: string[] = [];
+
+  for (const item of rawList) {
+    const normUrl = normalizeUrl(item.url);
+    const normName = normalizeName(item.name);
+
+    let existingKey: string | undefined;
+
+    if (urlMap.has(normUrl)) {
+      existingKey = urlMap.get(normUrl);
+    } else {
+      for (const [id, res] of resourceMap.entries()) {
+        if (normalizeName(res.name) === normName) {
+          existingKey = id;
+          break;
+        }
+      }
+    }
+
+    if (existingKey && resourceMap.has(existingKey)) {
+      duplicatesDetected++;
+      duplicateUrls.push(item.url);
+      const existing = resourceMap.get(existingKey)!;
+
+      const mergedCategories = Array.from(
+        new Set([...existing.categories, ...item.categories])
+      );
+      const mergedTags = Array.from(
+        new Set([...existing.tags, ...item.tags])
+      );
+
+      existing.categories = mergedCategories;
+      existing.tags = mergedTags;
+      if (item.featured) existing.featured = true;
+    } else {
+      resourceMap.set(item.id, { ...item });
+      urlMap.set(normUrl, item.id);
+    }
+  }
+
+  const finalResources = Array.from(resourceMap.values());
+
+  return {
+    resources: finalResources,
+    stats: {
+      totalResources: finalResources.length,
+      newResourcesAdded: rawList.length - 61 > 0 ? rawList.length - 61 : 0,
+      duplicatesDetected,
+      duplicatesSkipped: duplicatesDetected,
+      duplicateUrls,
+      categoriesCount: 22,
+    },
+  };
+}
+
+const processedDatabase = processAndDeduplicate(rawSeedResources);
+
+export const seedResources: Resource[] = processedDatabase.resources;
+
+export function getDatabaseStats(): DatabaseStats {
+  return processedDatabase.stats;
+}
 
 export function getResourceBySlug(slug: string): Resource | undefined {
   return seedResources.find((r) => r.slug === slug);

@@ -9,20 +9,17 @@ import {
   Clock,
   Plus,
   Sparkles,
-  Moon,
-  Sun,
   X,
   Link2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { categories } from "@/data/categories";
 import { useResources } from "@/lib/resource-context";
-import { useTheme } from "@/lib/theme-context";
 import { useUI } from "@/lib/ui-context";
-import { Button } from "@/components/ui/button";
+import { CategoryIcon } from "@/components/ui/category-icon";
 
 const navItems = [
-  { href: "/", label: "All Resources", icon: LayoutGrid },
+  { href: "/", label: "Archive Collection", icon: LayoutGrid },
   { href: "/favorites", label: "Favorites", icon: Star },
   { href: "/recently-viewed", label: "Recently Viewed", icon: Clock },
   { href: "/recently-added", label: "Recently Added", icon: Sparkles },
@@ -35,54 +32,54 @@ interface SidebarProps {
 export function Sidebar({ mobile = false }: SidebarProps) {
   const pathname = usePathname();
   const { categoryCounts, favorites } = useResources();
-  const { resolvedTheme, toggleTheme } = useTheme();
   const { setSidebarOpen, setAddResourceOpen, setAddByUrlOpen } = useUI();
 
   const content = (
-    <div className="flex h-full flex-col">
-      <div className="flex items-center justify-between px-5 py-5">
+    <div className="flex h-full flex-col bg-[var(--surface)] text-[var(--text-primary)] border-r border-[var(--border)] font-sans">
+      <div className="flex items-center justify-between px-4 py-4 border-b border-[var(--border)]">
         <Link href="/" className="group" onClick={() => setSidebarOpen(false)}>
-          <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-            Design & UI/UX
+          <div className="text-[10px] font-mono font-medium uppercase tracking-[0.2em] text-[var(--text-muted)]">
+            ARCHIVE INDEX
           </div>
-          <div className="mt-0.5 text-sm font-semibold tracking-tight group-hover:text-foreground/80 transition-colors">
+          <div className="mt-0.5 font-display text-sm font-bold tracking-tight text-[var(--text-primary)] group-hover:text-[var(--text-muted)] transition-colors uppercase">
             Resource Vault
           </div>
         </Link>
-        {mobile && (
-          <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(false)}>
-            <X className="h-4 w-4" />
-          </Button>
-        )}
+        <button 
+          onClick={() => setSidebarOpen(false)} 
+          className="p-1.5 rounded border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-muted)] transition-colors"
+          aria-label="Close Navigation Index Drawer"
+        >
+          <X className="h-4 w-4" />
+        </button>
       </div>
 
-      <div className="px-3 pb-3 space-y-1">
-        <Button
-          className="w-full justify-start"
+      <div className="p-3 space-y-1.5 border-b border-[var(--border)]">
+        <button
+          className="w-full flex items-center justify-center gap-2 rounded bg-[var(--text-primary)] text-[var(--background)] px-3 py-2 text-xs font-semibold hover:opacity-90 transition-opacity"
           onClick={() => {
             setAddResourceOpen(true);
             setSidebarOpen(false);
           }}
         >
-          <Plus className="h-4 w-4" />
+          <Plus className="h-3.5 w-3.5" />
           Add Resource
-        </Button>
-        <Button
-          variant="outline"
-          className="w-full justify-start"
+        </button>
+        <button
+          className="w-full flex items-center justify-center gap-2 rounded border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--text-secondary)] px-3 py-2 text-xs font-medium hover:text-[var(--text-primary)] hover:border-[var(--border-strong)] transition-colors"
           onClick={() => {
             setAddByUrlOpen(true);
             setSidebarOpen(false);
           }}
         >
-          <Link2 className="h-4 w-4" />
-          Add by URL
-        </Button>
+          <Link2 className="h-3.5 w-3.5" />
+          Import by URL
+        </button>
       </div>
 
-      <nav className="px-3 py-2">
-        <div className="mb-2 px-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-          Navigation
+      <nav className="px-3 py-3 space-y-0.5 border-b border-[var(--border)]">
+        <div className="mb-2 px-2 text-[10px] font-mono font-bold uppercase tracking-[0.15em] text-[var(--text-muted)]">
+          NAVIGATION
         </div>
         {navItems.map(({ href, label, icon: Icon }) => {
           const active = pathname === href;
@@ -97,25 +94,26 @@ export function Sidebar({ mobile = false }: SidebarProps) {
               href={href}
               onClick={() => setSidebarOpen(false)}
               className={cn(
-                "group relative flex items-center gap-2.5 rounded-md px-2 py-1.5 text-sm transition-colors",
+                "group flex items-center gap-2.5 rounded px-2.5 py-1.5 text-xs transition-colors",
                 active
-                  ? "bg-sidebar-accent text-foreground font-medium"
-                  : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-foreground"
+                  ? "bg-[var(--surface-elevated)] text-[var(--text-primary)] font-bold border-l-2 border-[var(--text-primary)]"
+                  : "text-[var(--text-secondary)] hover:bg-[var(--surface-muted)] hover:text-[var(--text-primary)]"
               )}
             >
-              <Icon className="h-4 w-4 shrink-0 opacity-70" />
+              <Icon className="h-3.5 w-3.5 shrink-0 opacity-70" />
               <span className="flex-1">{label}</span>
               {count !== undefined && count > 0 && (
-                <span className="text-[10px] tabular-nums text-muted-foreground">{count}</span>
+                <span className="text-[10px] font-mono text-[var(--text-muted)]">({count})</span>
               )}
             </Link>
           );
         })}
       </nav>
 
-      <div className="flex-1 overflow-y-auto px-3 py-2">
-        <div className="mb-2 px-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-          Categories
+      <div className="flex-1 overflow-y-auto px-3 py-3 space-y-0.5">
+        <div className="mb-2 px-2 text-[10px] font-mono font-bold uppercase tracking-[0.15em] text-[var(--text-muted)] flex items-center justify-between">
+          <span>COLLECTIONS</span>
+          <span className="font-mono text-[9px]">({categories.length})</span>
         </div>
         <div className="space-y-0.5">
           {categories.map((cat) => {
@@ -129,16 +127,18 @@ export function Sidebar({ mobile = false }: SidebarProps) {
                 href={href}
                 onClick={() => setSidebarOpen(false)}
                 className={cn(
-                  "flex items-center gap-2 rounded-md px-2 py-1.5 text-[13px] transition-colors",
+                  "flex items-center gap-2.5 rounded px-2.5 py-1.5 text-xs transition-colors",
                   active
-                    ? "bg-sidebar-accent text-foreground font-medium"
-                    : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-foreground"
+                    ? "bg-[var(--surface-elevated)] text-[var(--text-primary)] font-bold border-l-2 border-[var(--text-primary)]"
+                    : "text-[var(--text-secondary)] hover:bg-[var(--surface-muted)] hover:text-[var(--text-primary)]"
                 )}
               >
-                <span className="text-xs">{cat.emoji}</span>
+                <div className="h-4 w-4 shrink-0 flex items-center justify-center">
+                  <CategoryIcon id={cat.id} className="h-4 w-4" />
+                </div>
                 <span className="flex-1 truncate">{cat.name}</span>
                 {count > 0 && (
-                  <span className="text-[10px] tabular-nums text-muted-foreground">{count}</span>
+                  <span className="text-[10px] font-mono text-[var(--text-muted)]">{count}</span>
                 )}
               </Link>
             );
@@ -146,20 +146,8 @@ export function Sidebar({ mobile = false }: SidebarProps) {
         </div>
       </div>
 
-      <div className="border-t border-sidebar-border p-3">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="w-full justify-start text-muted-foreground"
-          onClick={toggleTheme}
-        >
-          {resolvedTheme === "dark" ? (
-            <Sun className="h-4 w-4" />
-          ) : (
-            <Moon className="h-4 w-4" />
-          )}
-          {resolvedTheme === "dark" ? "Light mode" : "Dark mode"}
-        </Button>
+      <div className="border-t border-[var(--border)] p-3 text-[10px] font-mono text-[var(--text-muted)] text-center">
+        DESIGN RESOURCE VAULT © V2
       </div>
     </div>
   );
@@ -170,8 +158,8 @@ export function Sidebar({ mobile = false }: SidebarProps) {
         initial={{ x: "-100%" }}
         animate={{ x: 0 }}
         exit={{ x: "-100%" }}
-        transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed inset-y-0 left-0 z-40 w-72 border-r border-sidebar-border bg-sidebar"
+        transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+        className="fixed inset-y-0 left-0 z-50 w-72 border-r border-[var(--border)] bg-[var(--surface)] shadow-2xl"
       >
         {content}
       </motion.aside>
@@ -179,8 +167,9 @@ export function Sidebar({ mobile = false }: SidebarProps) {
   }
 
   return (
-    <aside className="hidden lg:flex lg:w-64 lg:shrink-0 lg:flex-col lg:border-r lg:border-sidebar-border lg:bg-sidebar">
+    <aside className="hidden lg:flex lg:w-64 lg:shrink-0 lg:flex-col border-r border-[var(--border)] bg-[var(--surface)]">
       {content}
     </aside>
   );
 }
+
