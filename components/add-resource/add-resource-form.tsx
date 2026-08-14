@@ -10,6 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { CategoryIcon } from "@/components/ui/category-icon";
+import { cn } from "@/lib/utils";
 
 const emptyForm: CreateResourceInput = {
   name: "",
@@ -83,7 +85,7 @@ export function AddResourceForm({ open, onClose, initialData, editId }: AddResou
   };
 
   const addTag = () => {
-    const tag = tagInput.trim();
+    const tag = tagInput.trim().replace(/^#/, "");
     if (tag && !form.tags.includes(tag)) {
       updateField("tags", [...form.tags, tag]);
     }
@@ -124,19 +126,19 @@ export function AddResourceForm({ open, onClose, initialData, editId }: AddResou
       open={open}
       onClose={onClose}
       title={editId ? "Edit Resource" : "Add Resource"}
-      description="Add a new resource to your vault."
+      description="Register a new tool or reference to the vault."
       size="lg"
     >
-      <form onSubmit={handleSubmit} className="space-y-4 max-h-[70vh] overflow-y-auto pr-1">
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="Name" error={errors.name}>
+      <form onSubmit={handleSubmit} className="space-y-4 font-sans text-xs">
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Field label="RESOURCE NAME" error={errors.name}>
             <Input
               value={form.name}
               onChange={(e) => updateField("name", e.target.value)}
-              placeholder="Motion.dev"
+              placeholder="e.g. Motion.dev"
             />
           </Field>
-          <Field label="URL" error={errors.url}>
+          <Field label="WEBSITE URL" error={errors.url}>
             <Input
               value={form.url}
               onChange={(e) => updateField("url", e.target.value)}
@@ -145,11 +147,11 @@ export function AddResourceForm({ open, onClose, initialData, editId }: AddResou
           </Field>
         </div>
 
-        <Field label="Description" error={errors.description}>
+        <Field label="DESCRIPTION" error={errors.description}>
           <Textarea
             value={form.description}
             onChange={(e) => updateField("description", e.target.value)}
-            placeholder="Short description..."
+            placeholder="Concise summary of what this tool does..."
             rows={2}
           />
         </Field>
@@ -157,7 +159,7 @@ export function AddResourceForm({ open, onClose, initialData, editId }: AddResou
         {(["whatItDoes", "whyUseIt", "whenToUseIt", "howToUseIt"] as const).map((field) => (
           <Field
             key={field}
-            label={field.replace(/([A-Z])/g, " $1").replace(/^./, (s) => s.toUpperCase())}
+            label={field.replace(/([A-Z])/g, " $1").toUpperCase()}
           >
             <Textarea
               value={form[field]}
@@ -167,30 +169,41 @@ export function AddResourceForm({ open, onClose, initialData, editId }: AddResou
           </Field>
         ))}
 
-        <Field label="Purpose">
+        <Field label="PURPOSE">
           <Input
             value={form.purpose}
             onChange={(e) => updateField("purpose", e.target.value)}
-            placeholder="What is this resource for?"
+            placeholder="Primary use case and design purpose..."
           />
         </Field>
 
-        <Field label="Categories" error={errors.categories}>
-          <div className="flex flex-wrap gap-1.5 max-h-32 overflow-y-auto">
-            {categories.map((cat) => (
-              <Badge
-                key={cat.id}
-                variant={form.categories.includes(cat.id) ? "default" : "outline"}
-                onClick={() => toggleCategory(cat.id)}
-                className="cursor-pointer text-[11px]"
-              >
-                {cat.emoji} {cat.name}
-              </Badge>
-            ))}
+        <Field label="CATEGORIES" error={errors.categories}>
+          <div className="flex flex-wrap gap-1.5 max-h-32 overflow-y-auto p-1 border border-[var(--border)] rounded-lg bg-[var(--surface-hover)]">
+            {categories.map((cat) => {
+              const selected = form.categories.includes(cat.id);
+              return (
+                <button
+                  type="button"
+                  key={cat.id}
+                  onClick={() => toggleCategory(cat.id)}
+                  className={cn(
+                    "inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-[11px] font-sans transition-colors cursor-pointer",
+                    selected
+                      ? "bg-[var(--accent)] text-white font-semibold shadow-2xs"
+                      : "bg-[var(--surface)] border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                  )}
+                >
+                  <span className="h-3 w-3 shrink-0 flex items-center justify-center">
+                    <CategoryIcon id={cat.id} className="h-3 w-3" />
+                  </span>
+                  <span>{cat.name}</span>
+                </button>
+              );
+            })}
           </div>
         </Field>
 
-        <Field label="Tags">
+        <Field label="TAGS">
           <div className="flex gap-2">
             <Input
               value={tagInput}
@@ -201,14 +214,14 @@ export function AddResourceForm({ open, onClose, initialData, editId }: AddResou
                   addTag();
                 }
               }}
-              placeholder="Add tag and press Enter"
+              placeholder="Type tag and press Add"
             />
-            <Button type="button" variant="outline" onClick={addTag}>
+            <Button type="button" variant="outline" size="sm" onClick={addTag}>
               Add
             </Button>
           </div>
           {form.tags.length > 0 && (
-            <div className="mt-2 flex flex-wrap gap-1.5">
+            <div className="mt-2 flex flex-wrap gap-1.5 font-mono">
               {form.tags.map((tag) => (
                 <Badge
                   key={tag}
@@ -221,28 +234,28 @@ export function AddResourceForm({ open, onClose, initialData, editId }: AddResou
                   }
                   className="cursor-pointer"
                 >
-                  {tag} ×
+                  #{tag} ×
                 </Badge>
               ))}
             </div>
           )}
         </Field>
 
-        <label className="flex items-center gap-2 text-sm cursor-pointer">
+        <label className="flex items-center gap-2 text-xs text-[var(--text-secondary)] cursor-pointer pt-1 select-none">
           <input
             type="checkbox"
             checked={form.featured}
             onChange={(e) => updateField("featured", e.target.checked)}
-            className="rounded border-border"
+            className="rounded border-[var(--border)] accent-[var(--accent)]"
           />
-          Mark as featured
+          <span>Mark as Featured Resource</span>
         </label>
 
-        <div className="flex justify-end gap-2 pt-2 border-t border-border">
-          <Button type="button" variant="ghost" onClick={onClose}>
+        <div className="flex justify-end gap-2 pt-3 border-t border-[var(--border)]">
+          <Button type="button" variant="ghost" size="sm" onClick={onClose}>
             Cancel
           </Button>
-          <Button type="submit">{editId ? "Save Changes" : "Add Resource"}</Button>
+          <Button type="submit" size="sm">{editId ? "Save Changes" : "Add to Vault"}</Button>
         </div>
       </form>
     </Modal>
@@ -260,11 +273,11 @@ function Field({
 }) {
   return (
     <div>
-      <label className="mb-1.5 block text-xs font-medium text-muted-foreground">
+      <label className="mb-1 block font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)]">
         {label}
       </label>
       {children}
-      {error && <p className="mt-1 text-xs text-destructive">{error}</p>}
+      {error && <p className="mt-1 font-mono text-[10px] text-[var(--error)]">{error}</p>}
     </div>
   );
 }

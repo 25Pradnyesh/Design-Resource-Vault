@@ -4,9 +4,9 @@ import { AppShell } from "@/components/layout/app-shell";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Design Resource Vault — Digital Design Archive",
+  title: "Design Resource Vault — Curated Design Reference System",
   description:
-    "A curated editorial library of interface components, motion tools, 3D assets, iconography, and web inspiration.",
+    "A searchable, systematic visual reference library for designers and frontend developers.",
 };
 
 export default function RootLayout({
@@ -24,4 +24,3 @@ export default function RootLayout({
     </html>
   );
 }
-

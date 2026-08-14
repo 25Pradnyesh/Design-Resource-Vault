@@ -1,22 +1,24 @@
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 export default function NotFound() {
   return (
-    <div className="flex min-h-[60vh] flex-col items-center justify-center py-24 text-center px-4 font-mono">
-      <div className="text-7xl sm:text-9xl font-black tracking-tighter text-muted-foreground/20 uppercase select-none">
+    <div className="flex min-h-[60vh] flex-col items-center justify-center py-20 text-center px-4 font-sans select-none">
+      <div className="text-6xl sm:text-8xl font-black font-mono tracking-tighter text-[var(--text-muted)]/25">
         404
       </div>
-      <h1 className="mt-4 text-xl font-bold tracking-tight text-foreground uppercase">
-        ARCHIVE ENTRY NOT FOUND
+      <h1 className="mt-3 text-lg sm:text-xl font-bold tracking-tight text-[var(--text-primary)]">
+        Resource Not Found
       </h1>
-      <p className="mt-2 text-xs text-muted-foreground max-w-sm font-sans">
-        This resource or category doesn&apos;t exist or may have been re-indexed.
+      <p className="mt-1 text-xs text-[var(--text-muted)] max-w-sm">
+        The requested resource or category does not exist in the vault directory.
       </p>
       <Link
         href="/"
-        className="mt-8 bg-foreground text-background font-mono text-xs px-6 py-3 font-bold uppercase hover:opacity-90 transition-opacity"
+        className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[var(--text-primary)] text-[var(--background)] px-4 py-2 text-xs font-semibold hover:opacity-90 transition-opacity shadow-2xs"
       >
-        RETURN TO ARCHIVE
+        <ArrowLeft className="h-3.5 w-3.5" />
+        <span>Return to All Resources</span>
       </Link>
     </div>
   );

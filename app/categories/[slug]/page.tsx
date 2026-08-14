@@ -8,7 +8,8 @@ import { ArrowLeft, Search } from "lucide-react";
 import { getCategoryBySlug } from "@/data/categories";
 import { useResources } from "@/lib/resource-context";
 import { useFilterState, Filters } from "@/components/filters/filters";
-import { ResourceCard } from "@/components/resource-card/resource-card";
+import { ResourceGrid } from "@/components/resource-grid/resource-grid";
+import { CategoryIcon } from "@/components/ui/category-icon";
 import { Footer } from "@/components/layout/footer";
 
 export default function CategoryPage({
@@ -36,35 +37,36 @@ export default function CategoryPage({
 
   return (
     <div className="w-full flex flex-col min-h-screen bg-[var(--background)] text-[var(--text-primary)] font-sans">
-      {/* Archive Room Header */}
-      <div className="w-full border-b border-[var(--border)] bg-[var(--surface)] pt-12 pb-14 px-4 sm:px-8 lg:px-12">
+      {/* Category Header (Concise & Informative) */}
+      <div className="w-full border-b border-[var(--border)] bg-[var(--surface)] pt-8 pb-8 px-4 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-7xl">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 font-mono text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors mb-6 uppercase"
+            className="inline-flex items-center gap-1.5 font-mono text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors mb-4 uppercase"
           >
-            <ArrowLeft className="h-3.5 w-3.5" /> BACK TO ARCHIVE
+            <ArrowLeft className="h-3.5 w-3.5" /> BACK TO ALL RESOURCES
           </Link>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
-            <div className="lg:col-span-8 space-y-3">
-              <div className="flex items-center gap-2 font-mono text-xs text-[var(--text-muted)] uppercase tracking-wider">
-                <span className="text-xl">{category.emoji}</span>
-                <span>ROOM // {category.slug}</span>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+            <div className="space-y-2 max-w-2xl">
+              <div className="flex items-center gap-2.5 font-mono text-xs text-[var(--text-muted)] uppercase tracking-wider">
+                <span className="h-4 w-4 shrink-0 flex items-center justify-center text-[var(--accent)]">
+                  <CategoryIcon id={category.id} className="h-4 w-4" />
+                </span>
+                <span>CATEGORY // {category.slug}</span>
               </div>
-              <h1 className="font-display text-4xl sm:text-6xl font-black tracking-tight text-[var(--text-primary)] uppercase leading-tight">
+              <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-[var(--text-primary)]">
                 {category.name}
               </h1>
-              <p className="font-sans text-base text-[var(--text-secondary)] max-w-2xl">
+              <p className="text-xs sm:text-sm text-[var(--text-muted)] leading-relaxed">
                 {category.description}
               </p>
             </div>
 
-            <div className="lg:col-span-4 flex flex-col lg:items-end justify-end">
-              <div className="border border-[var(--border)] bg-[var(--surface-elevated)] p-4 rounded-xl font-mono text-xs text-right space-y-0.5">
-                <div className="text-[var(--text-muted)] text-[10px] tracking-wider uppercase">INDEXED COUNT</div>
-                <div className="text-3xl font-bold font-display text-[var(--accent)]">{categoryResources.length}</div>
-                <div className="text-[10px] text-[var(--text-muted)]">RESOURCES AVAILABLE</div>
+            <div className="shrink-0 flex items-center">
+              <div className="border border-[var(--border)] bg-[var(--surface-hover)] px-4 py-2.5 rounded-xl font-mono text-xs space-y-0.5 shadow-2xs">
+                <div className="text-[10px] uppercase tracking-wider text-[var(--text-muted)]">RESOURCES</div>
+                <div className="text-xl font-bold text-[var(--text-primary)]">{categoryResources.length}</div>
               </div>
             </div>
           </div>
@@ -72,18 +74,16 @@ export default function CategoryPage({
       </div>
 
       {/* Filter & Search Bar */}
-      <div className="w-full border-b border-[var(--border)] bg-[var(--background)] py-5 px-4 sm:px-8 lg:px-12">
-        <div className="mx-auto max-w-7xl space-y-4">
-          <div className="flex flex-col sm:flex-row items-center gap-4">
-            <div className="relative flex-1 w-full font-sans text-xs">
-              <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--text-muted)]" />
-              <input
-                value={filterState.query}
-                onChange={(e) => filterState.setQuery(e.target.value)}
-                placeholder={`Search within ${category.name}...`}
-                className="w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] py-2.5 pl-10 pr-4 text-[var(--text-primary)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--border-strong)] transition-colors"
-              />
-            </div>
+      <div className="w-full border-b border-[var(--border)] bg-[var(--background)] py-4 px-4 sm:px-8 lg:px-12">
+        <div className="mx-auto max-w-7xl space-y-3">
+          <div className="relative w-full">
+            <Search className="absolute left-3.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[var(--text-muted)]" />
+            <input
+              value={filterState.query}
+              onChange={(e) => filterState.setQuery(e.target.value)}
+              placeholder={`Search within ${category.name}...`}
+              className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] py-2 pl-9 pr-4 text-xs sm:text-sm text-[var(--text-primary)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--border-strong)] transition-colors shadow-2xs font-sans"
+            />
           </div>
 
           <Filters
@@ -102,21 +102,15 @@ export default function CategoryPage({
         </div>
       </div>
 
-      {/* Resource Grid Room */}
+      {/* Resource Grid */}
       <div className="w-full flex-1 py-10 px-4 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-7xl">
-          {categoryResources.length === 0 ? (
-            <div className="py-20 text-center font-mono text-xs text-[var(--text-muted)] space-y-2 border border-dashed border-[var(--border)] rounded-xl">
-              <div>NO RESOURCES FOUND IN THIS ROOM</div>
-              <div className="text-[11px] opacity-70">Try clearing active search queries or tags.</div>
-            </div>
-          ) : (
-            <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-              {categoryResources.map((resource) => (
-                <ResourceCard key={resource.id} resource={resource} />
-              ))}
-            </div>
-          )}
+          <ResourceGrid
+            resources={categoryResources}
+            emptyTitle={`No resources found in ${category.name}`}
+            emptyDescription="Try clearing your search query or active filter tags."
+            onClearFilters={filterState.clearFilters}
+          />
         </div>
       </div>
 

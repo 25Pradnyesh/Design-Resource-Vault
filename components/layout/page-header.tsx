@@ -13,15 +13,15 @@ interface PageHeaderProps {
 export function PageHeader({ title, subtitle, action, className }: PageHeaderProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: -8 }}
+      initial={{ opacity: 0, y: -4 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className={cn("mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between", className)}
+      transition={{ duration: 0.2 }}
+      className={cn("mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between font-sans", className)}
     >
       <div>
-        <h1 className="text-xl font-semibold tracking-tight sm:text-2xl">{title}</h1>
+        <h1 className="text-xl font-bold tracking-tight sm:text-2xl text-[var(--text-primary)]">{title}</h1>
         {subtitle && (
-          <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>
+          <p className="mt-1 text-xs sm:text-sm text-[var(--text-muted)]">{subtitle}</p>
         )}
       </div>
       {action && <div className="shrink-0">{action}</div>}
@@ -36,11 +36,11 @@ interface StatCardProps {
 
 export function StatCard({ label, value }: StatCardProps) {
   return (
-    <div className="rounded-lg border border-border bg-card px-4 py-3">
-      <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+    <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3.5 py-2.5 shadow-2xs font-sans">
+      <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-[var(--text-muted)]">
         {label}
       </div>
-      <div className="mt-1 text-2xl font-semibold tabular-nums tracking-tight">{value}</div>
+      <div className="mt-0.5 text-xl font-bold tabular-nums tracking-tight text-[var(--text-primary)]">{value}</div>
     </div>
   );
 }
@@ -49,19 +49,23 @@ interface SectionHeaderProps {
   title: string;
   count?: number;
   action?: React.ReactNode;
+  className?: string;
 }
 
-export function SectionHeader({ title, count, action }: SectionHeaderProps) {
+export function SectionHeader({ title, count, action, className }: SectionHeaderProps) {
   return (
-    <div className="mb-4 flex items-center justify-between">
-      <h2 className="text-sm font-semibold tracking-tight">
-        {title}
+    <div className={cn("mb-3 flex items-center justify-between font-sans", className)}>
+      <div className="flex items-center gap-2">
+        <span className="h-1.5 w-1.5 rounded-xs bg-[var(--accent)]" />
+        <h2 className="text-xs sm:text-sm font-bold tracking-tight uppercase text-[var(--text-primary)]">
+          {title}
+        </h2>
         {count !== undefined && (
-          <span className="ml-2 text-xs font-normal text-muted-foreground tabular-nums">
+          <span className="text-[11px] font-mono text-[var(--text-muted)] bg-[var(--surface-muted)] px-1.5 py-0.5 rounded">
             {count}
           </span>
         )}
-      </h2>
+      </div>
       {action}
     </div>
   );

@@ -1,117 +1,99 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { ExternalLink, Star, ArrowUpRight } from "lucide-react";
+import { Star, ArrowUpRight, Info } from "lucide-react";
 import { Resource } from "@/types";
-import { categoryMap } from "@/data/categories";
 import { useResources } from "@/lib/resource-context";
 import { cn, getDomainFromUrl } from "@/lib/utils";
-import { CategoryIcon } from "@/components/ui/category-icon";
+import { ResourcePreview } from "@/components/resource-card/resource-preview";
 
 interface ResourceCardProps {
   resource: Resource;
   index?: number;
 }
 
-export function FaviconBadge({ url, name }: { url: string; name: string }) {
-  const [imgError, setImgError] = useState(false);
-  const domain = getDomainFromUrl(url);
-  const faviconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
-
-  return (
-    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--surface-muted)] font-display text-xs font-bold text-[var(--text-muted)] uppercase overflow-hidden">
-      {!imgError ? (
-        <img
-          src={faviconUrl}
-          alt={name}
-          className="h-4 w-4 rounded-xs object-contain"
-          onError={() => setImgError(true)}
-          loading="lazy"
-        />
-      ) : (
-        <span>{name.charAt(0)}</span>
-      )}
-    </div>
-  );
-}
-
 export function ResourceCard({ resource }: ResourceCardProps) {
   const { isFavorite, toggleFavorite } = useResources();
   const favorited = isFavorite(resource.id);
-  const primaryCategory = categoryMap[resource.categories[0]];
   const domain = getDomainFromUrl(resource.url);
 
   return (
-    <div className="group archive-tile relative flex flex-col justify-between rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4 sm:p-5 overflow-hidden hover:border-[var(--border-strong)] hover:bg-[var(--surface-elevated)] select-none font-sans">
-      <div>
-        {/* Header: Badge & Favorite Button */}
-        <div className="flex items-center justify-between gap-2 mb-3">
-          <FaviconBadge url={resource.url} name={resource.name} />
+    <div className="group resource-card relative flex flex-col justify-between rounded-xl border border-[var(--border)] bg-[var(--surface)] p-2.5 sm:p-3 overflow-hidden hover:border-[var(--border-strong)] hover:bg-[var(--surface-hover)] select-none font-sans">
+      {/* Top Floating Action: Favorite Button (Isolated button, no navigation) */}
+      <button
+        type="button"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleFavorite(resource.id);
+        }}
+        className="absolute top-3.5 right-3.5 z-20 p-1.5 rounded-md bg-white/90 backdrop-blur-xs border border-black/10 text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:scale-105 transition-all cursor-pointer shadow-2xs"
+        aria-label={favorited ? `Remove ${resource.name} from favorites` : `Add ${resource.name} to favorites`}
+      >
+        <Star
+          className={cn(
+            "h-3.5 w-3.5 transition-colors",
+            favorited
+              ? "fill-[var(--accent)] text-[var(--accent)] font-bold"
+              : "text-[var(--text-muted)] group-hover:text-[var(--text-secondary)]"
+          )}
+        />
+      </button>
 
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              toggleFavorite(resource.id);
-            }}
-            className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors p-1 cursor-pointer"
-            aria-label={favorited ? "Remove from favorites" : "Add to favorites"}
-          >
-            <Star
-              className={cn(
-                "h-3.5 w-3.5 transition-colors",
-                favorited ? "fill-[var(--warm-cream)] text-[var(--deep-muted-green)] font-bold" : "text-[var(--text-muted)] group-hover:text-[var(--text-secondary)]"
-              )}
-            />
-          </button>
-        </div>
+      {/* Visual Preview (Independent external anchor) */}
+      <a
+        href={resource.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block w-full mb-2.5 overflow-hidden rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] group/preview"
+        aria-label={`Visit ${resource.name} website`}
+      >
+        <ResourcePreview resource={resource} />
+      </a>
 
-        {/* Title & Domain */}
-        <Link href={`/resources/${resource.slug}`} className="block group/link">
-          <h3 className="font-display text-sm sm:text-base font-bold tracking-tight text-[var(--text-primary)] group-hover/link:text-[var(--accent)] transition-colors truncate">
+      {/* Bottom Strip: Resource Name & Domain (External Link) + Internal Info Link + External Arrow */}
+      <div className="flex items-center justify-between gap-2 pt-1 border-t border-[var(--border)]/60">
+        {/* Resource Name and Domain */}
+        <a
+          href={resource.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="min-w-0 flex-1 outline-none group/title block"
+          title={`Visit ${domain}`}
+        >
+          <h3 className="text-xs sm:text-[13px] font-semibold text-[var(--text-primary)] group-hover/title:text-[var(--accent)] truncate transition-colors">
             {resource.name}
           </h3>
-          <p className="text-[11px] font-mono text-[var(--text-muted)] truncate mt-0.5">
+          <p className="text-[10px] font-mono text-[var(--text-muted)] truncate">
             {domain}
           </p>
-        </Link>
-      </div>
+        </a>
 
-      {/* Footer: Category Tag & Detail Link */}
-      <div className="mt-4 pt-3 border-t border-[var(--border)]/60 flex items-center justify-between font-mono text-[10px]">
-        {primaryCategory ? (
-          <span className="truncate text-[var(--text-secondary)] bg-[var(--surface-muted)] px-2 py-0.5 rounded text-[10px] flex items-center gap-1.5 font-sans">
-            <span className="h-3 w-3 shrink-0 flex items-center justify-center">
-              <CategoryIcon id={primaryCategory.id} className="h-3 w-3" />
-            </span>
-            <span className="truncate">{primaryCategory.name}</span>
-          </span>
-        ) : (
-          <span className="text-[var(--text-muted)]">{domain}</span>
-        )}
-
-        <div className="flex items-center gap-2 text-[var(--text-muted)]">
+        {/* Action Controls */}
+        <div className="flex items-center gap-1 shrink-0">
+          {/* Detail Page Link (Internal Documentation) */}
           <Link
             href={`/resources/${resource.slug}`}
-            className="hover:text-[var(--text-primary)] transition-colors flex items-center gap-0.5"
-            title="View Details"
+            className="p-1 rounded-md text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-muted)] transition-colors inline-flex items-center justify-center"
+            title="View resource documentation & details"
+            aria-label={`View details for ${resource.name}`}
           >
-            <ArrowUpRight className="h-3.5 w-3.5 group-hover:text-[var(--text-primary)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            <Info className="h-3 w-3" />
           </Link>
+
+          {/* Direct Visit External Arrow Indicator */}
           <a
             href={resource.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-[var(--text-primary)] transition-colors"
-            title="Visit Website"
-            onClick={(e) => e.stopPropagation()}
+            className="p-1 rounded text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors inline-flex items-center justify-center"
+            title={`Open ${domain}`}
+            aria-label={`Open ${resource.name} website`}
           >
-            <ExternalLink className="h-3 w-3" />
+            <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </a>
         </div>
       </div>
     </div>
   );
 }
-

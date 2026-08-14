@@ -19,7 +19,7 @@ function FaviconMini({ url, name }: { url: string; name: string }) {
   const iconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
 
   return (
-    <div className="h-5 w-5 shrink-0 rounded border border-border/60 bg-muted/30 flex items-center justify-center font-mono text-[9px] uppercase font-bold text-muted-foreground">
+    <div className="h-5 w-5 shrink-0 rounded border border-[var(--border)] bg-[var(--surface-muted)] flex items-center justify-center font-mono text-[9px] uppercase font-bold text-[var(--text-muted)]">
       {!error ? (
         <img
           src={iconUrl}
@@ -97,45 +97,45 @@ export function CommandMenu() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md"
+            className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs"
             onClick={() => setCommandMenuOpen(false)}
           />
           <div className="fixed inset-0 z-50 flex items-start justify-center pt-[12vh] px-4 pointer-events-none">
             <motion.div
-              initial={{ opacity: 0, scale: 0.97, y: -12 }}
+              initial={{ opacity: 0, scale: 0.98, y: -10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.97, y: -12 }}
-              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              exit={{ opacity: 0, scale: 0.98, y: -10 }}
+              transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
               className="pointer-events-auto w-full max-w-2xl rounded-xl border border-[var(--border)] bg-[var(--surface)] shadow-2xl overflow-hidden font-sans"
             >
               {/* Search Header */}
-              <div className="flex items-center gap-3 border-b border-[var(--border)] px-4 py-3.5 bg-[var(--background)]/80">
-                <Search className="h-4 w-4 text-[var(--text-muted)] shrink-0" />
+              <div className="flex items-center gap-3 border-b border-[var(--border)] px-4 py-3.5 bg-[var(--surface)]">
+                <Search className="h-4 w-4 text-[var(--accent)] shrink-0" />
                 <input
                   autoFocus
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder="Search archive entries, tags, categories..."
+                  placeholder="Search resources, categories, tags, workflows..."
                   className="flex-1 bg-transparent text-sm font-sans text-[var(--text-primary)] outline-none placeholder:text-[var(--text-muted)]"
                 />
-                <kbd className="hidden sm:inline-flex h-5 items-center rounded border border-[var(--border)] px-1.5 font-mono text-[10px] text-[var(--text-muted)]">
+                <kbd className="hidden sm:inline-flex h-5 items-center rounded border border-[var(--border)] bg-[var(--surface-muted)] px-1.5 font-mono text-[10px] text-[var(--text-muted)]">
                   ESC
                 </kbd>
               </div>
 
               {/* Results List */}
-              <div className="max-h-[60vh] overflow-y-auto p-2 space-y-1">
+              <div className="max-h-[55vh] overflow-y-auto p-2 space-y-0.5">
                 {query && results.length === 0 && (
                   <div className="px-4 py-12 text-center font-mono text-xs text-[var(--text-muted)]">
-                    NO ARCHIVE MATCHES FOUND FOR &quot;{query}&quot;
+                    NO MATCHES FOUND FOR &quot;{query}&quot;
                   </div>
                 )}
 
                 {!query && (
-                  <div className="px-4 py-10 text-center font-mono text-xs text-[var(--text-muted)] space-y-1">
-                    <Command className="h-6 w-6 mx-auto mb-2 opacity-40 text-[var(--accent)]" />
-                    <div>INDEX SEARCH · ENTER QUERY OR USE ARROWS</div>
+                  <div className="px-4 py-8 text-center font-mono text-xs text-[var(--text-muted)] space-y-1">
+                    <Command className="h-5 w-5 mx-auto mb-2 text-[var(--accent)]" />
+                    <div>TYPE A QUERY TO SEARCH THE VAULT</div>
                   </div>
                 )}
 
@@ -149,27 +149,27 @@ export function CommandMenu() {
                       onClick={() => navigate(resource.slug)}
                       onMouseEnter={() => setSelectedIndex(index)}
                       className={cn(
-                        "flex w-full items-center gap-3 rounded-lg px-3.5 py-3 text-left transition-colors font-sans",
+                        "flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left transition-colors font-sans cursor-pointer",
                         isSelected
-                          ? "bg-[var(--surface-elevated)] text-[var(--text-primary)] border border-[var(--accent)]/40 shadow-xs"
-                          : "hover:bg-[var(--surface-muted)] border border-transparent"
+                          ? "bg-[var(--accent-soft)] text-[var(--text-primary)] border border-[var(--accent)]/30"
+                          : "hover:bg-[var(--surface-hover)] border border-transparent"
                       )}
                     >
                       <FaviconMini url={resource.url} name={resource.name} />
 
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2">
-                          <span className="text-sm font-bold font-display text-[var(--text-primary)] truncate">
+                          <span className="text-xs sm:text-[13px] font-semibold text-[var(--text-primary)] truncate">
                             {resource.name}
                           </span>
                           {isFavorite(resource.id) && (
-                            <Star className="h-3 w-3 fill-[var(--champagne)] text-[var(--champagne)] shrink-0" />
+                            <Star className="h-3 w-3 fill-[var(--accent)] text-[var(--accent)] shrink-0" />
                           )}
                         </div>
-                        <div className="mt-0.5 flex flex-wrap items-center gap-2 text-[11px] font-mono text-[var(--text-muted)]">
+                        <div className="mt-0.5 flex flex-wrap items-center gap-2 text-[10px] font-mono text-[var(--text-muted)]">
                           {primaryCat && (
-                            <span className="text-[var(--text-secondary)] bg-[var(--surface-muted)] px-1.5 py-0.5 rounded text-[10px] flex items-center gap-1">
-                              <CategoryIcon id={primaryCat.id} className="h-3 w-3" />
+                            <span className="text-[var(--text-secondary)] bg-[var(--surface-muted)] px-1.5 py-0.5 rounded flex items-center gap-1">
+                              <CategoryIcon id={primaryCat.id} className="h-2.5 w-2.5" />
                               <span>{primaryCat.name}</span>
                             </span>
                           )}
@@ -180,8 +180,8 @@ export function CommandMenu() {
 
                       <ArrowRight
                         className={cn(
-                          "h-4 w-4 shrink-0 transition-transform",
-                          isSelected ? "text-[var(--accent)] translate-x-0.5" : "text-[var(--text-muted)] opacity-40"
+                          "h-3.5 w-3.5 shrink-0 transition-transform",
+                          isSelected ? "text-[var(--accent)] translate-x-0.5" : "text-[var(--text-muted)] opacity-30"
                         )}
                       />
                     </button>
@@ -189,13 +189,13 @@ export function CommandMenu() {
                 })}
               </div>
 
-              {/* Bottom Keyboard Nav Hints */}
-              <div className="border-t border-[var(--border)] bg-[var(--surface-muted)] px-4 py-2 flex items-center justify-between font-mono text-[10px] text-[var(--text-muted)]">
+              {/* Bottom Keyboard Navigation Hints */}
+              <div className="border-t border-[var(--border)] bg-[var(--surface-hover)] px-4 py-2 flex items-center justify-between font-mono text-[10px] text-[var(--text-muted)]">
                 <div className="flex items-center gap-3">
                   <span>NAVIGATE: ↑ ↓</span>
                   <span>SELECT: ↵</span>
                 </div>
-                <span>VAULT COMMAND INTERFACE</span>
+                <span>COMMAND VAULT</span>
               </div>
             </motion.div>
           </div>
@@ -211,11 +211,11 @@ export function SearchTrigger() {
   return (
     <button
       onClick={() => setCommandMenuOpen(true)}
-      className="flex items-center gap-2 rounded-md border border-border bg-background px-3 py-1.5 font-mono text-xs text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+      className="flex items-center gap-2 rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 font-mono text-xs text-[var(--text-muted)] transition-colors hover:border-[var(--border-strong)] hover:text-[var(--text-primary)] cursor-pointer"
     >
       <Search className="h-3.5 w-3.5" />
       <span className="hidden sm:inline">SEARCH...</span>
-      <kbd className="hidden sm:inline-flex ml-2 h-4 items-center rounded border border-border px-1 text-[9px]">
+      <kbd className="hidden sm:inline-flex ml-2 h-4 items-center rounded border border-[var(--border)] bg-[var(--surface-muted)] px-1 text-[9px]">
         ⌘K
       </kbd>
     </button>

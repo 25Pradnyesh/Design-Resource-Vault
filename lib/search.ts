@@ -34,8 +34,6 @@ function sortResources(resources: Resource[], sort: SortOption, viewCounts: Reco
   const sorted = [...resources];
 
   switch (sort) {
-    case "alphabetical":
-      return sorted.sort((a, b) => a.name.localeCompare(b.name));
     case "featured":
       return sorted.sort((a, b) => {
         if (a.featured !== b.featured) return a.featured ? -1 : 1;

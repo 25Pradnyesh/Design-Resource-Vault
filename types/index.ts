@@ -27,12 +27,13 @@ export interface Resource {
   purpose: string;
   featured: boolean;
   isUserAdded?: boolean;
+  previewImage?: string;
   createdAt: string;
   updatedAt: string;
   viewCount?: number;
 }
 
-export type SortOption = "recent" | "alphabetical" | "featured" | "most-used";
+export type SortOption = "recent" | "featured" | "most-used";
 
 export interface ResourceFilters {
   query?: string;

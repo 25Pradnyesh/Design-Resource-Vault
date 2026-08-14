@@ -13,11 +13,11 @@ export function Badge({ children, variant = "secondary", className, onClick }: B
     <Component
       onClick={onClick}
       className={cn(
-        "inline-flex items-center rounded-md px-2 py-0.5 text-[11px] font-medium tracking-wide transition-colors",
-        variant === "default" && "bg-primary text-primary-foreground",
-        variant === "secondary" && "bg-secondary text-secondary-foreground",
-        variant === "outline" && "border border-border text-muted-foreground",
-        onClick && "cursor-pointer hover:bg-accent hover:text-accent-foreground",
+        "inline-flex items-center rounded-md px-2 py-0.5 text-[11px] font-medium font-mono tracking-wide transition-colors select-none",
+        variant === "default" && "bg-[var(--accent)] text-white",
+        variant === "secondary" && "bg-[var(--surface-muted)] text-[var(--text-primary)] border border-[var(--border)]",
+        variant === "outline" && "border border-[var(--border)] text-[var(--text-muted)]",
+        onClick && "cursor-pointer hover:border-[var(--border-strong)] hover:text-[var(--text-primary)]",
         className
       )}
     >
