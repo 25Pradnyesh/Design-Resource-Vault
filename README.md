@@ -1,392 +1,313 @@
-# Design Resource Vault
+<div align="center">
 
-> A curated, searchable library of UI/UX resources, design tools, frontend utilities, inspiration, and creative references — built for people who actually ship.
+# DESIGN RESOURCE VAULT
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=next.js" />
-  <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react" />
-  <img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript" />
-  <img src="https://img.shields.io/badge/Tailwind-4-06B6D4?style=flat-square&logo=tailwindcss" />
-  <img src="https://img.shields.io/badge/Framer%20Motion-12-black?style=flat-square" />
-</p>
+**A curated design intelligence library for discovering the tools, interfaces, assets, patterns, and references behind better digital products.**
 
-<p align="center">
-  <strong>61 resources · 21 categories · one place to find the good shit.</strong>
-</p>
+<br />
 
----
+[![Next.js](https://img.shields.io/badge/Next.js-15.2-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.0-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4.0-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Curated Resources](https://img.shields.io/badge/Resources-89_Curated-684D95?style=for-the-badge)](#-the-22-design-disciplines)
+[![Categories](https://img.shields.io/badge/Categories-22_Disciplines-1F1F2C?style=for-the-badge)](#-the-22-design-disciplines)
 
-## ✦ What is Design Resource Vault?
+<br />
 
-Design Resource Vault is a personal **UI/UX and frontend resource intelligence library**.
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  ⌘K Instant Search  ·  89 Curated Objects  ·  22 Design Disciplines         │
+│  4-Quadrant Specs   ·  Deterministic Previews  ·  Client-Side Persistence   │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
 
-Instead of keeping hundreds of random browser bookmarks, scattered Notion pages, screenshots, and "I'll remember this website later" tabs, the Vault organizes useful resources into one searchable interface.
-
-Find inspiration.
-
-Discover tools.
-
-Save references.
-
-Ship better work.
-
-### The goal
-
-> **DISCOVER → SEARCH → FILTER → OPEN → SAVE → RETURN**
-
-The Vault is designed to grow continuously — new resources can be added without changing the underlying product architecture.
+</div>
 
 ---
 
-## ✦ What's Inside?
+## ✦ Overview & Philosophy
 
-The current V1 contains:
+**Design Resource Vault** is a high-density, systematic design intelligence system built to replace unorganized browser bookmarks and fragmented reference tabs.
 
-- **61 curated resources**
-- **21 design categories**
-- Global search
-- `⌘ K` / `Ctrl K` command palette
-- Category filtering
-- Tag filtering
-- Favorites
-- Recently viewed
-- Recently added
-- Related resources
-- Resource detail pages
-- Manual resource creation
-- Add-by-URL workflow
-- Local persistence
-- Dark / light theme
-- Responsive layouts
-- Motion-driven interactions
+Rather than acting as a passive link dump, the Vault functions as an interactive architectural directory. Every resource is indexed with precise operational metadata, contextual rationale, and direct preview capabilities to accelerate visual research and frontend decision-making.
 
----
-
-## ✦ Resource Categories
-
-Resources can belong to multiple categories.
-
-### Design & Inspiration
-
-- UI / Web Inspiration
-- Landing Page Inspiration
-- SaaS / Product Design
-- UX / User Flows
-- Portfolio Inspiration
-- Award-Winning / Experimental Web
-- Visual Search / Moodboarding
-
-### Motion & Frontend
-
-- Website Animation Inspiration
-- Animation / Motion Tools
-- Frontend Animation
-- UI Components
-- 3D / Interactive Web
-- Backgrounds / Visual Effects
-
-### Creative & Visual
-
-- Color / Typography
-- Visual Assets
-- Mockups / Presentation
-- Creative / Advertising
-
-### AI & Workflow
-
-- AI Design / Vibe Coding
-- Design Workflow
-- Learning / Vibe Coding
-- UI / UX Prototyping
+```
+                    ┌─────────────────────────┐
+                    │        DISCOVER         │
+                    │  Search · Filter · Cmd+K│
+                    └────────────┬────────────┘
+                                 │
+                                 ▼
+                    ┌─────────────────────────┐
+                    │         INSPECT         │
+                    │  4-Quadrant Specs · Live│
+                    └────────────┬────────────┘
+                                 │
+                                 ▼
+                    ┌─────────────────────────┐
+                    │      SAVE & BUILD       │
+                    │  Bookmarks · Execution  │
+                    └─────────────────────────┘
+```
 
 ---
 
-## ✦ Featured Resources
+## ⚡ Core Capabilities
 
-The Vault currently includes resources such as:
+### 1. Global Command Palette (`⌘K` / `Ctrl+K`)
+- Instant keyboard-driven fuzzy search across resource titles, domains, descriptions, tags, and operational metadata.
+- Arrow key navigation (`↑` / `↓`), instant preview favicons, category badges, and quick escape dismissal.
 
-**UI & Components**
+### 2. Systematic 4-Quadrant Specifications
+Every indexed entry provides structured design intelligence instead of generic one-line summaries:
+- **`WHAT IT DOES`** — Core utility and functional mechanics.
+- **`WHY USE IT`** — Competitive advantage and workflow value.
+- **`WHEN TO USE IT`** — Exact design and engineering scenarios.
+- **`HOW TO USE IT`** — Practical integration steps and best practices.
 
-- React Bits
-- shadcn/ui
-- Uiverse
-- VibeUI
-- Tailark
-- assistant-ui
+### 3. Multi-Faceted Filter Matrix
+- Multi-category selection with dynamic counts.
+- Tag-based filtering and purpose-driven keyword matching.
+- Sorting by **Recently Added**, **Curated Featured**, and **Most Used** (interaction-weighted).
+- Dedicated quick views for starred **Favorites** and **Recently Viewed** history.
 
-**Animation & Motion**
+### 4. Hybrid Visual Preview System
+- **Real Screen Previews**: High-fidelity static viewport captures.
+- **Procedural Blueprint Fallback**: Deterministic SVG vector geometry paired with category iconography and live Google favicon caching when external screenshots are unavailable.
 
-- Motion.dev
-- GSAP
-- Rive
-- LottieLab
-- LottieFiles
-- Lenis
-- Vanta.js
-- Motion Primitives
+### 5. In-Browser URL Metadata Importer
+- Built-in URL analyzer modal (`AddByUrlModal`) that extracts domains, parses contextual namespaces, and automatically suggests categories, tags, and 4-quadrant boilerplate for rapid expansion.
 
-**Inspiration**
-
-- Mobbin
-- Awwwards
-- Land-book
-- Landingfolio
-- SaaSPO
-- One Page Love
-- Minimal Gallery
-- Landing Love
-- Page Flows
-
-**AI / Vibe Coding**
-
-- v0
-- Google Stitch
-- Manus
-- Vibe Code Components
-- Vibe Coder Blog
-- Tickle Vibe Coding
-
-**Design Utilities**
-
-- Huemint
-- Realtime Colors
-- Haikei
-- Jitter
-- Mockup Design
-- Pixcap
-- Magic Animator
-
-…and more.
+### 6. Local-First Storage Architecture
+- Zero-backend latency: all favorites, custom-created resources, recently viewed entries, and view counts persist locally in the client via a pluggable `StorageAdapter` layer.
 
 ---
 
-# ✦ Product Philosophy
+## 🗂️ The 22 Design Disciplines
 
-The Vault is intentionally **not** designed as a traditional SaaS dashboard.
+The archive organizes 89 curated reference tools across 22 specialized domains:
 
-No meaningless analytics.
-
-No bloated admin panels.
-
-No 47-step onboarding flow.
-
-The primary interface revolves around **discovery**.
-
-### Good resource management should feel like:
-
-```text
-SEARCH
-   ↓
-DISCOVER
-   ↓
-UNDERSTAND
-   ↓
-SAVE
-   ↓
-USE
+| # | Discipline | Slug | Focus Area |
+|:---:|---|---|---|
+| **01** | **UI / Web Inspiration** | `ui-web-inspiration` | Curated web layouts, modern interface paradigms, and design indexes. |
+| **02** | **Landing Page Inspiration** | `landing-page-inspiration` | High-converting marketing sites, hero sections, and narrative pages. |
+| **03** | **SaaS / Product Design** | `saas-product-design` | Complex dashboards, data tables, settings layouts, and B2B workflows. |
+| **04** | **UX / User Flows** | `ux-user-flows` | Real product onboarding, checkout steps, mobile flows, and teardowns. |
+| **05** | **Website Animation** | `website-animation-inspiration` | Kinetic interaction, scroll-driven storytelling, and creative direction. |
+| **06** | **Animation & Motion Tools** | `animation-motion-tools` | Timeline engines, spline animators, Lottie utilities, and keyframe tools. |
+| **07** | **UI Components** | `ui-components` | Headless primitives, accessible UI systems, and copy-paste component kits. |
+| **08** | **Color & Typography** | `color-typography` | Contrast-tested palettes, type pairing scales, and font discovery engines. |
+| **09** | **Backgrounds & Visual Effects** | `backgrounds-visual-effects` | Shader gradients, mesh generators, canvas particle fields, and noise SVG. |
+| **10** | **3D & Interactive Web** | `3d-interactive-web` | Three.js scenes, WebGL shaders, Spline models, and canvas experiments. |
+| **11** | **Visual Assets** | `visual-assets` | Vector illustrations, open-source icon sets, and high-res photography. |
+| **12** | **Mockups & Presentation** | `mockups-presentation` | Photorealistic device frames, 3D clay mockups, and pitch deck visuals. |
+| **13** | **AI Design & Vibe Coding** | `ai-design-vibe-coding` | Generative UI generators, prompt-to-app tools, and AI canvas interfaces. |
+| **14** | **Frontend Animation** | `frontend-animation` | Code-first motion libraries (Framer Motion, GSAP, Tailwind transitions). |
+| **15** | **Visual Search & Moodboards** | `visual-search-moodboarding` | Visual discovery engines, spatial canvases, and aesthetic boards. |
+| **16** | **Award-Winning & Experimental** | `award-winning-experimental` | Awwwards winners, FWA honorees, and cutting-edge digital experiences. |
+| **17** | **Portfolio Inspiration** | `portfolio-inspiration` | Designer and creative technologist showcase portfolios and case studies. |
+| **18** | **Creative & Advertising** | `creative-advertising` | Bold promotional campaigns, brand identity systems, and ad layouts. |
+| **19** | **Design Workflow** | `design-workflow` | Figma plugins, asset optimizers, design tokens, and handoff utilities. |
+| **20** | **Learning & Vibe Coding** | `learning-vibe-coding` | Interactive tutorials, layout breakdowns, and creative coding guides. |
+| **21** | **UI / UX Prototyping** | `ui-ux-prototyping` | High-fidelity micro-interaction prototyping tools and design sandboxes. |
+| **22** | **Iconography** | `iconography` | Geometric glyph sets, animated icons, 3D symbols, and icon managers. |
 
 ---
 
-✦ V1 Architecture
+## 🎨 Design System & Aesthetics
 
-Design Resource Vault
-│
+The interface is built on a disciplined **warm stone / paper** design language inspired by editorial reference archives and systematic design checklists.
+
+### Core Color Palette
+
+```
+#F4F3EE ── [ Background ]    Warm stone base with minimal visual fatigue
+#FFFFFF ── [ Surface ]       Crisp elevated card and modal containers
+#1F1F2C ── [ Foreground ]    Deep ink typography for maximum contrast
+#E2DED6 ── [ Border ]        Hairline neutral boundary lines
+#684D95 ── [ Accent ]        Restrained editorial amethyst for active states
+```
+
+| Token | Hex / Value | Semantic Role |
+|---|---|---|
+| `--background` | `#F4F3EE` | Canvas background |
+| `--surface` | `#FFFFFF` | Primary card and drawer surface |
+| `--surface-muted` | `#EAE8E1` | Secondary containers & badge backgrounds |
+| `--surface-hover` | `#FAF9F6` | Interactive hover state |
+| `--text-primary` | `#1F1F2C` | High-emphasis headings and labels |
+| `--text-secondary` | `#4B5563` | Body copy and descriptions |
+| `--text-muted` | `#6B7280` | Metadata, tags, and timestamps |
+| `--border` | `#E2DED6` | Subdued component boundaries |
+| `--border-strong` | `#C8C3B8` | Hover state and active borders |
+| `--accent` | `#684D95` | Primary functional highlight & brand mark |
+
+### Iconography Architecture
+- **Phosphor & Custom SVG**: Uniform 32×32 geometric vector glyphs for category identification (`CategoryIcon`).
+- **Lucide React**: Clean 16×16 and 20×20 functional UI controls (Search, Menu, External Link, Star, Close, Arrows).
+
+---
+
+## 🛠️ Technology Stack & Engineering
+
+```
+┌──────────────────────────────────────────────────────────┐
+│                   Next.js 15 App Router                  │
+├────────────────────────────┬─────────────────────────────┤
+│      React 19 Server       │      React 19 Client        │
+│        Components          │      Interactive Trees      │
+├────────────────────────────┼─────────────────────────────┤
+│      Tailwind CSS v4       │     Framer Motion 12        │
+│   (Inline Token System)    │   (Spring Transitions)      │
+├────────────────────────────┴─────────────────────────────┤
+│         TypeScript 5 Strict Typing & Schemas             │
+├──────────────────────────────────────────────────────────┤
+│    Pluggable Client Storage Adapter (Local Persistence)   │
+└──────────────────────────────────────────────────────────┘
+```
+
+- **Framework**: [Next.js 15.2](https://nextjs.org/) (App Router, Turbopack, React 19)
+- **UI & State**: React 19, Context API (`ResourceContext`, `UIContext`, `ThemeContext`)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) with `@theme inline` design tokens
+- **Animations**: [Framer Motion 12](https://www.framer.com/motion/) for fluid modals, drawers, and list transitions
+- **Search & Scoring**: Custom multi-attribute substring and token scoring in `lib/search.ts`
+- **Recommendations**: Jaccard similarity coefficient on taxonomy categories and tags in `lib/related.ts`
+
+---
+
+## 📁 Repository Structure
+
+```
 ├── app/
-│   ├── categories/
-│   ├── favorites/
-│   ├── recently-added/
-│   ├── recently-viewed/
-│   ├── resources/
-│   └── add-resource/
-│
+│   ├── categories/[slug]/       # Category detail pages
+│   ├── favorites/               # User bookmarked resources
+│   ├── recently-added/          # Chronological additions
+│   ├── recently-viewed/         # Session inspection history
+│   ├── resources/[slug]/        # 4-Quadrant deep-dive specification pages
+│   ├── globals.css              # Tailwind v4 theme tokens & utilities
+│   ├── layout.tsx               # Root HTML shell & metadata
+│   ├── not-found.tsx            # Custom 404 handler
+│   ├── page.tsx                 # Primary Vault archive & search experience
+│   └── providers.tsx            # Root Context providers
 ├── components/
-│   ├── add-resource/
-│   ├── command-menu/
-│   ├── dashboard/
-│   ├── filters/
-│   ├── layout/
-│   ├── resource-card/
-│   ├── resource-detail/
-│   ├── resource-grid/
-│   ├── sidebar/
-│   └── ui/
-│
+│   ├── add-resource/            # Resource submission & URL auto-analyzer
+│   ├── archive/                 # Hero banner, 22-tile grid, featured highlights
+│   ├── command-menu/            # Global ⌘K search palette
+│   ├── dashboard/               # Metric overviews and summaries
+│   ├── filters/                 # Multi-faceted filter bar & sorters
+│   ├── layout/                  # AppShell, responsive header, drawer, footer
+│   ├── resource-card/           # Compact resource card with preview fallbacks
+│   ├── resource-detail/         # 4-Quadrant specification layout
+│   ├── resource-grid/           # Responsive CSS grid & empty states
+│   ├── sidebar/                 # Taxonomy navigation drawer
+│   └── ui/                      # Base primitives (Badge, Button, Input, Modal)
 ├── data/
-│   ├── categories.ts
-│   └── resources.ts
-│
+│   ├── categories.ts            # 22 Category definitions and helper maps
+│   └── resources.ts             # 89 Curated seed resources with structured specs
 ├── lib/
-│   ├── related.ts
-│   ├── resource-context.tsx
-│   ├── search.ts
-│   ├── storage.ts
-│   ├── theme-context.tsx
-│   ├── ui-context.tsx
-│   └── utils.ts
-│
-└── types/
-    └── index.ts
+│   ├── related.ts               # Taxonomy similarity recommendation engine
+│   ├── resource-context.tsx     # Reactive state management
+│   ├── search.ts                # Multi-field search & sorting engine
+│   ├── storage.ts               # Pluggable StorageAdapter (LocalStorage)
+│   ├── theme-context.tsx        # System / theme context
+│   ├── ui-context.tsx           # Global modal & drawer controls
+│   └── utils.ts                 # Class merging & URL parsing helpers
+├── types/
+│   └── index.ts                 # Full TypeScript interfaces & contracts
+├── package.json
+└── tsconfig.json
+```
 
 ---
 
-✦ Tech Stack
+## 🚀 Getting Started
 
-| Technology      | Purpose                 |
-| --------------- | ----------------------- |
-| Next.js 15      | Application framework   |
-| React 19        | UI                      |
-| TypeScript      | Type safety             |
-| Tailwind CSS v4 | Styling                 |
-| Framer Motion   | Motion & interactions   |
-| Lucide React    | Icons                   |
-| React Context   | Application state       |
-| LocalStorage    | Client-side persistence |
+### Prerequisites
+- Node.js 18.18.0 or higher
+- npm, pnpm, or yarn
 
+### Installation
 
-The architecture intentionally keeps the data layer independent from the UI so it can evolve later.
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/25Pradnyesh/Design-Resource-Vault.git
+   cd Design-Resource-Vault
+   ```
 
----
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-✦ Design Direction
+3. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
 
-The visual language is inspired by products and studios that prioritize clarity, typography, interaction, and restraint.
+4. **Open the application:**
+   Navigate to [http://localhost:3000](http://localhost:3000) in your browser.
 
-References
-Linear
-Vercel
-Raycast
-Mobbin
-Are.na
-Premium digital studios
-Principles
+### Available Scripts
 
-01 — Content first
-
-The resources are the product.
-
-02 — High information density
-
-Users should discover useful resources quickly without visual clutter.
-
-03 — Motion with purpose
-
-Animations should communicate interaction, not exist just because they can.
-
-04 — Quiet interface
-
-The UI should stay out of the way.
-
-05 — Designed to scale
-
-The system should remain usable when 61 resources becomes 600.
+| Command | Action |
+|---|---|
+| `npm run dev` | Starts local Next.js dev server with hot reload |
+| `npm run build` | Compiles optimized static production build |
+| `npm run start` | Boots the built production server |
+| `npm run lint` | Runs ESLint analysis across all components and pages |
 
 ---
 
-✦ Current V1
+## 📦 Data Schema & Adding Resources
 
-V1 focuses on building the foundation:
+Resources are strictly typed to guarantee data integrity across search, filtering, and detail specifications.
 
-61 Resources
-      +
-21 Categories
-      +
-Search
-      +
-Filtering
-      +
-Favorites
-      +
-History
-      +
-Related Resources
-      +
-Resource Details
-      +
-Local Persistence
+```typescript
+export interface Resource {
+  id: string;               // Unique slugified identifier (e.g. "framer-motion")
+  slug: string;             // Routing slug
+  name: string;             // Display name
+  url: string;              // External domain URL
+  description: string;      // 1-2 sentence executive overview
+  whatItDoes: string;       // Functional capabilities
+  whyUseIt: string;         // Core value proposition
+  whenToUseIt: string;      // Recommended use-case scenarios
+  howToUseIt: string;       // Practical workflow & integration
+  categories: string[];     // Array of category IDs from categories.ts
+  tags: string[];           // Discovery tags
+  purpose: string;          // Specific domain role
+  featured: boolean;        // Highlighted on homepage
+  previewImage?: string;    // Optional high-res screenshot URL
+  createdAt: string;        // ISO 8601 creation timestamp
+  updatedAt: string;        // ISO 8601 update timestamp
+}
+```
 
----
+### Contributing a Resource via Code
+Add a new object to `seedResources` in `data/resources.ts`:
 
-✦ Roadmap
-
-V1 — Foundation ✓
-
- Resource database
- Categories
- Search
- Filtering
- Favorites
- Recently viewed
- Recently added
- Resource details
- Related resources
- Add resource
- Local persistence
- Dark / light mode
-
-V2 — Visual Intelligence
- Redesign homepage around discovery
- Editorial resource layout
- Better resource cards
- Visual website previews
- Improved search experience
- Better command palette
- Enhanced category pages
- Richer resource detail pages
- Refined motion system
- Better responsive experience
-
-V3 — Intelligence
- Automatic URL metadata extraction
- AI-powered categorization
- AI-generated tags
- Similar resource recommendations
- Website screenshot previews
- Smart collections
-
-Future
- Cloud sync
- Authentication
- Public collections
- Browser extension
- Community submissions
- Personal notes
- Cross-device sync
+```typescript
+{
+  id: "shaders-co",
+  slug: "shaders-co",
+  name: "Shaders.co",
+  url: "https://shaders.co",
+  description: "Curated library of copy-paste GLSL shaders and interactive WebGL canvas backgrounds.",
+  whatItDoes: "Provides ready-to-use WebGL fragment shaders and generative canvas animations.",
+  whyUseIt: "Drastically reduces the time required to build custom shader backgrounds.",
+  whenToUseIt: "When building high-impact landing page hero sections or creative portfolios.",
+  howToUseIt: "Copy the GLSL code or install the React Three Fiber component wrapper.",
+  categories: ["3d-interactive-web", "backgrounds-visual-effects"],
+  tags: ["WebGL", "GLSL", "Shaders", "Three.js", "Canvas"],
+  purpose: "Interactive WebGL backgrounds and creative shader effects.",
+  featured: true,
+  createdAt: "2025-01-15T00:00:00Z",
+  updatedAt: "2025-01-15T00:00:00Z",
+}
+```
 
 ---
 
-✦ Contributing
+## 📄 License
 
-This project is currently being developed as a personal design resource system.
-
-If you have a resource that genuinely deserves to be here, the ideal contribution is something that provides real value to:
-
-designers
-frontend developers
-product designers
-creative developers
-UI/UX researchers
-indie hackers
-people building products
-
-No link dumping.
-
-Signal over noise.
-
----
-
-✦ Philosophy
-
-There are thousands of design resources on the internet.
-
-The problem isn't finding more.
-
-The problem is finding the right one at the right moment.
-
-Design Resource Vault exists to solve that.
-
-Less hunting. More designing.
-
-Built with caffeine, curiosity & questionable sleep schedules.
-
-Design Resource Vault
-Made by Pradnyesh
+This project is licensed under the [MIT License](LICENSE).
