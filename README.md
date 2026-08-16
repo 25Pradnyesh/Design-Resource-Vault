@@ -311,3 +311,20 @@ Add a new object to `seedResources` in `data/resources.ts`:
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## Built by Pradnyesh
+
+Design Resource Vault is built and curated by **Pradnyesh** — combining frontend engineering, product thinking, and a slightly obsessive love for good design.
+
+<p>
+  <a href="https://x.com/Pradnyesh_25">
+    <img src="https://img.shields.io/badge/X-@Pradnyesh__25-1F1F2C?style=flat-square&logo=x&logoColor=white" alt="Pradnyesh on X" />
+  </a>
+  <a href="https://github.com/25Pradnyesh">
+    <img src="https://img.shields.io/badge/GitHub-25Pradnyesh-1F1F2C?style=flat-square&logo=github&logoColor=white" alt="Pradnyesh on GitHub" />
+  </a>
+</p>
+
+> Built to collect less. Discover better. Build faster.
