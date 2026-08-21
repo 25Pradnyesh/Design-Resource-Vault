@@ -1,6 +1,6 @@
 "use client";
 
-import { Resource } from "@/types";
+import { Resource, ScoredResource } from "@/types";
 import { ResourceCard } from "@/components/resource-card/resource-card";
 import { EmptyState } from "@/components/ui/empty-state";
 
@@ -9,6 +9,8 @@ interface ResourceGridProps {
   emptyTitle?: string;
   emptyDescription?: string;
   onClearFilters?: () => void;
+  scoredMap?: Map<string, ScoredResource>;
+  activeQuery?: string;
 }
 
 export function ResourceGrid({
@@ -16,6 +18,8 @@ export function ResourceGrid({
   emptyTitle = "No resources found",
   emptyDescription = "Try adjusting your search query, clearing filters, or browsing other categories.",
   onClearFilters,
+  scoredMap,
+  activeQuery,
 }: ResourceGridProps) {
   if (resources.length === 0) {
     return (
@@ -41,6 +45,8 @@ export function ResourceGrid({
           key={resource.id}
           resource={resource}
           index={index}
+          scoredMatch={scoredMap?.get(resource.id)}
+          activeQuery={activeQuery}
         />
       ))}
     </div>

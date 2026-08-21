@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Resource } from "@/types";
 import { categoryMap } from "@/data/categories";
 import { getDomainFromUrl } from "@/lib/utils";
@@ -39,24 +40,29 @@ export function ResourcePreview({ resource, className = "" }: ResourcePreviewPro
   if (resource.previewImage && !imgError) {
     return (
       <div className={`relative w-full aspect-[16/10] overflow-hidden rounded-lg bg-[var(--surface-muted)] border border-[var(--border)] ${className}`}>
-        <img
+        <Image
           src={resource.previewImage}
           alt={resource.name}
-          className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-103"
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+          className="object-cover transition-transform duration-200 group-hover:scale-103"
           onError={() => setImgError(true)}
-          loading="lazy"
-          decoding="async"
+          unoptimized
         />
         {/* Supporting identity badge */}
-        <div className="absolute bottom-2 left-2 flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-white/95 backdrop-blur-xs border border-black/8 shadow-2xs font-mono text-[9px] text-[var(--text-primary)]">
+        <div className="absolute bottom-2 left-2 z-10 flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-white/95 backdrop-blur-xs border border-black/8 shadow-2xs font-mono text-[9px] text-[var(--text-primary)]">
           {!faviconError && (
-            <img
-              src={faviconUrl}
-              alt=""
-              className="h-3 w-3 rounded-xs object-contain"
-              onError={() => setFaviconError(true)}
-              loading="lazy"
-            />
+            <div className="relative h-3 w-3 rounded-xs overflow-hidden shrink-0">
+              <Image
+                src={faviconUrl}
+                alt=""
+                fill
+                sizes="12px"
+                className="object-contain"
+                onError={() => setFaviconError(true)}
+                unoptimized
+              />
+            </div>
           )}
           <span className="truncate max-w-[130px] font-medium">{domain}</span>
         </div>
@@ -83,13 +89,15 @@ export function ResourcePreview({ resource, className = "" }: ResourcePreviewPro
         </span>
 
         {!faviconError ? (
-          <div className="h-4.5 w-4.5 rounded bg-white/90 border border-black/8 flex items-center justify-center p-0.5 shadow-2xs shrink-0">
-            <img
+          <div className="relative h-4.5 w-4.5 rounded bg-white/90 border border-black/8 flex items-center justify-center p-0.5 shadow-2xs shrink-0 overflow-hidden">
+            <Image
               src={faviconUrl}
               alt=""
-              className="h-3 w-3 object-contain"
+              fill
+              sizes="18px"
+              className="object-contain p-0.5"
               onError={() => setFaviconError(true)}
-              loading="lazy"
+              unoptimized
             />
           </div>
         ) : (

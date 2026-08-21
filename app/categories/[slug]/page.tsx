@@ -1,16 +1,19 @@
 "use client";
 
 import { notFound } from "next/navigation";
-import { use } from "react";
+import { use, useMemo } from "react";
 import Link from "next/link";
-import { ArrowLeft, Search } from "lucide-react";
+import { ArrowLeft, Search, ArrowRight } from "lucide-react";
 
-import { getCategoryBySlug } from "@/data/categories";
+import { getCategoryBySlug, categories } from "@/data/categories";
 import { useResources } from "@/lib/resource-context";
 import { useFilterState, Filters } from "@/components/filters/filters";
 import { ResourceGrid } from "@/components/resource-grid/resource-grid";
 import { CategoryIcon } from "@/components/ui/category-icon";
 import { Footer } from "@/components/layout/footer";
+import { parseSearchIntent } from "@/lib/search-intent";
+import { scoreResource } from "@/lib/search";
+import { ScoredResource } from "@/types";
 
 export default function CategoryPage({
   params,
@@ -19,7 +22,7 @@ export default function CategoryPage({
 }) {
   const { slug } = use(params);
   const category = getCategoryBySlug(slug);
-  const { getFilteredResources } = useResources();
+  const { getFilteredResources, viewCounts } = useResources();
   const filterState = useFilterState();
 
   if (!category) {
@@ -35,9 +38,33 @@ export default function CategoryPage({
     sort: filterState.sort,
   });
 
+  const intent = useMemo(
+    () => parseSearchIntent(filterState.query || ""),
+    [filterState.query]
+  );
+
+  const scoredMap = useMemo(() => {
+    if (!filterState.query?.trim()) return undefined;
+    const map = new Map<string, ScoredResource>();
+    for (const r of categoryResources) {
+      const scored = scoreResource(r, intent, viewCounts);
+      if (scored) {
+        map.set(r.id, scored);
+      }
+    }
+    return map;
+  }, [categoryResources, intent, viewCounts, filterState.query]);
+
+  // Related adjacent categories
+  const relatedCategories = useMemo(() => {
+    return categories
+      .filter((c) => c.id !== category.id)
+      .slice(0, 4);
+  }, [category.id]);
+
   return (
     <div className="w-full flex flex-col min-h-screen bg-[var(--background)] text-[var(--text-primary)] font-sans">
-      {/* Category Header (Concise & Informative) */}
+      {/* Category Header (Focused Design Library Style) */}
       <div className="w-full border-b border-[var(--border)] bg-[var(--surface)] pt-8 pb-8 px-4 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-7xl">
           <Link
@@ -53,7 +80,7 @@ export default function CategoryPage({
                 <span className="h-4 w-4 shrink-0 flex items-center justify-center text-[var(--accent)]">
                   <CategoryIcon id={category.id} className="h-4 w-4" />
                 </span>
-                <span>CATEGORY // {category.slug}</span>
+                <span>DISCIPLINE // {category.slug}</span>
               </div>
               <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-[var(--text-primary)]">
                 {category.name}
@@ -73,7 +100,7 @@ export default function CategoryPage({
         </div>
       </div>
 
-      {/* Filter & Search Bar */}
+      {/* Filter & In-Category Search Bar */}
       <div className="w-full border-b border-[var(--border)] bg-[var(--background)] py-4 px-4 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-7xl space-y-3">
           <div className="relative w-full">
@@ -104,13 +131,47 @@ export default function CategoryPage({
 
       {/* Resource Grid */}
       <div className="w-full flex-1 py-10 px-4 sm:px-8 lg:px-12">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-7xl space-y-12">
           <ResourceGrid
             resources={categoryResources}
             emptyTitle={`No resources found in ${category.name}`}
             emptyDescription="Try clearing your search query or active filter tags."
             onClearFilters={filterState.clearFilters}
+            scoredMap={scoredMap}
+            activeQuery={filterState.query}
           />
+
+          {/* Related Adjacent Categories Section */}
+          <div className="pt-8 border-t border-[var(--border)]">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-xs bg-[var(--accent)]" />
+                <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[var(--text-primary)]">
+                  ADJACENT DISCIPLINES
+                </h3>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {relatedCategories.map((relCat) => (
+                <Link
+                  key={relCat.id}
+                  href={`/categories/${relCat.slug}`}
+                  className="p-3 rounded-xl border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-hover)] hover:border-[var(--border-strong)] transition-colors flex items-center justify-between group shadow-2xs"
+                >
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <span className="h-5 w-5 shrink-0 flex items-center justify-center text-[var(--accent)]">
+                      <CategoryIcon id={relCat.id} className="h-5 w-5" />
+                    </span>
+                    <span className="text-xs font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors truncate">
+                      {relCat.name}
+                    </span>
+                  </div>
+                  <ArrowRight className="h-3 w-3 text-[var(--text-muted)] opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all shrink-0" />
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 

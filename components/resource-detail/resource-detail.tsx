@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   ExternalLink,
@@ -9,12 +10,16 @@ import {
   Trash2,
   ArrowLeft,
   ArrowUpRight,
+  Sparkles,
+  Layers,
+  Palette,
+  Terminal,
 } from "lucide-react";
 import { Resource } from "@/types";
 import { categoryMap } from "@/data/categories";
 import { useResources } from "@/lib/resource-context";
 import { useUI } from "@/lib/ui-context";
-import { getRelatedResources } from "@/lib/related";
+import { getRelatedResourcesWithRationale } from "@/lib/related";
 import { cn, getDomainFromUrl } from "@/lib/utils";
 import { ResourceCard } from "@/components/resource-card/resource-card";
 import { ResourcePreview } from "@/components/resource-card/resource-preview";
@@ -26,6 +31,7 @@ interface ResourceDetailProps {
 }
 
 export function ResourceDetail({ resource }: ResourceDetailProps) {
+  const router = useRouter();
   const {
     resources,
     isFavorite,
@@ -39,14 +45,18 @@ export function ResourceDetail({ resource }: ResourceDetailProps) {
     trackView(resource.id);
   }, [resource.id, trackView]);
 
-  const related = getRelatedResources(resource, resources, 5);
+  const relatedWithRationale = useMemo(
+    () => getRelatedResourcesWithRationale(resource, resources, 5),
+    [resource, resources]
+  );
+
   const favorited = isFavorite(resource.id);
   const domain = getDomainFromUrl(resource.url);
 
   const handleDelete = () => {
     if (window.confirm(`Delete "${resource.name}"? This cannot be undone.`)) {
       deleteResource(resource.id);
-      window.history.back();
+      router.push("/");
     }
   };
 
@@ -73,7 +83,7 @@ export function ResourceDetail({ resource }: ResourceDetailProps) {
           <div className="flex flex-wrap items-center justify-between gap-4 font-mono text-xs text-[var(--text-muted)] uppercase mb-3">
             <div className="flex items-center gap-2">
               <span className="h-2 w-2 rounded-xs bg-[var(--accent)]" />
-              <span>REFERENCE ENTRY // {resource.id}</span>
+              <span>REFERENCE SPECIFICATION // {resource.id}</span>
             </div>
             <span>INDEXED {new Date(resource.createdAt).toLocaleDateString()}</span>
           </div>
@@ -88,7 +98,7 @@ export function ResourceDetail({ resource }: ResourceDetailProps) {
                 {resource.description}
               </p>
 
-              <div className="pt-1">
+              <div className="pt-1 flex items-center gap-3">
                 <a
                   href={resource.url}
                   target="_blank"
@@ -130,14 +140,14 @@ export function ResourceDetail({ resource }: ResourceDetailProps) {
                 <div className="flex items-center gap-2 w-full lg:w-auto pt-1">
                   <button
                     onClick={() => setEditingResourceId(resource.id)}
-                    className="flex-1 lg:flex-none flex items-center justify-center gap-1.5 border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                    className="flex-1 lg:flex-none flex items-center justify-center gap-1.5 border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer"
                   >
                     <Pencil className="h-3.5 w-3.5" />
                     EDIT
                   </button>
                   <button
                     onClick={handleDelete}
-                    className="flex-1 lg:flex-none flex items-center justify-center gap-1.5 border border-[var(--error)]/30 bg-[var(--error)]/10 text-[var(--error)] px-3 py-1.5 rounded-lg hover:bg-[var(--error)]/20"
+                    className="flex-1 lg:flex-none flex items-center justify-center gap-1.5 border border-[var(--error)]/30 bg-[var(--error)]/10 text-[var(--error)] px-3 py-1.5 rounded-lg hover:bg-[var(--error)]/20 cursor-pointer"
                   >
                     <Trash2 className="h-3.5 w-3.5" />
                     DELETE
@@ -150,7 +160,7 @@ export function ResourceDetail({ resource }: ResourceDetailProps) {
 
         {/* Main Reference Body */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Left Column: Visual Preview + Structured Guidelines */}
+          {/* Left Column: Visual Preview + 4-Quadrant Specifications */}
           <div className="lg:col-span-8 space-y-8">
             {/* Visual Preview Frame */}
             <div className="overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface)] shadow-xs">
@@ -170,31 +180,39 @@ export function ResourceDetail({ resource }: ResourceDetailProps) {
               </div>
             </div>
 
-            {/* Systematic Documentation Sections */}
+            {/* Systematic 4-Quadrant Specifications */}
             <div className="space-y-4">
-              {sections.map(({ label, content }) => {
-                if (!content) return null;
-                return (
-                  <div key={label} className="border border-[var(--border)] bg-[var(--surface)] p-4 rounded-xl space-y-1.5 shadow-2xs">
-                    <h3 className="font-mono text-[11px] font-bold uppercase tracking-wider text-[var(--accent)]">
-                      {label}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-[var(--text-primary)] leading-relaxed">
-                      {content}
-                    </p>
-                  </div>
-                );
-              })}
+              <div className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
+                <span className="h-2 w-2 rounded-xs bg-[var(--accent)]" />
+                <span>4-QUADRANT SPECIFICATIONS</span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                {sections.map(({ label, content }) => {
+                  if (!content) return null;
+                  return (
+                    <div key={label} className="border border-[var(--border)] bg-[var(--surface)] p-4 rounded-xl space-y-1.5 shadow-2xs">
+                      <h3 className="font-mono text-[11px] font-bold uppercase tracking-wider text-[var(--accent)]">
+                        {label}
+                      </h3>
+                      <p className="text-xs text-[var(--text-primary)] leading-relaxed">
+                        {content}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
 
-          {/* Right Column: Metadata Sidebar */}
+          {/* Right Column: Structured Metadata Sidebar */}
           <div className="lg:col-span-4 space-y-4">
             <div className="border border-[var(--border)] bg-[var(--surface)] p-5 rounded-xl space-y-5 shadow-2xs">
-              {/* Categories */}
+              {/* Disciplines / Categories */}
               <div>
-                <h3 className="font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)] mb-2.5">
-                  CATEGORIES
+                <h3 className="font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)] mb-2.5 flex items-center gap-1.5">
+                  <Layers className="h-3 w-3 text-[var(--accent)]" />
+                  <span>CATEGORIES</span>
                 </h3>
                 <div className="flex flex-wrap gap-1.5">
                   {resource.categories.map((catId) => {
@@ -214,11 +232,46 @@ export function ResourceDetail({ resource }: ResourceDetailProps) {
                 </div>
               </div>
 
+              {/* Technologies */}
+              {resource.technologies && resource.technologies.length > 0 && (
+                <div>
+                  <h3 className="font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)] mb-2 flex items-center gap-1.5">
+                    <Terminal className="h-3 w-3 text-[var(--accent)]" />
+                    <span>TECHNOLOGIES & FRAMEWORKS</span>
+                  </h3>
+                  <div className="flex flex-wrap gap-1.5 font-mono text-[11px]">
+                    {resource.technologies.map((tech) => (
+                      <span key={tech} className="border border-[var(--border)] bg-[var(--surface-muted)] px-2 py-0.5 rounded text-[var(--text-primary)]">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Visual Styles */}
+              {resource.styles && resource.styles.length > 0 && (
+                <div>
+                  <h3 className="font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)] mb-2 flex items-center gap-1.5">
+                    <Palette className="h-3 w-3 text-[var(--accent)]" />
+                    <span>VISUAL & INTERACTION STYLE</span>
+                  </h3>
+                  <div className="flex flex-wrap gap-1.5 font-mono text-[11px]">
+                    {resource.styles.map((style) => (
+                      <span key={style} className="border border-[var(--border)] bg-[var(--surface-muted)] px-2 py-0.5 rounded text-[var(--text-primary)]">
+                        {style}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Purpose */}
               {resource.purpose && (
                 <div>
-                  <h3 className="font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)] mb-1.5">
-                    PURPOSE
+                  <h3 className="font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)] mb-1.5 flex items-center gap-1.5">
+                    <Sparkles className="h-3 w-3 text-[var(--accent)]" />
+                    <span>PURPOSE & WORKFLOW VALUE</span>
                   </h3>
                   <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
                     {resource.purpose}
@@ -245,24 +298,29 @@ export function ResourceDetail({ resource }: ResourceDetailProps) {
           </div>
         </div>
 
-        {/* Related Resources Grid */}
-        {related.length > 0 && (
+        {/* Related References Grid with Relationship Rationale */}
+        {relatedWithRationale.length > 0 && (
           <div className="mt-14 pt-8 border-t border-[var(--border)]">
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-xs bg-[var(--accent)]" />
                 <h2 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[var(--text-primary)]">
-                  RELATED REFERENCES
+                  RELATED REFERENCES & ADJACENT DISCOVERY
                 </h2>
               </div>
               <span className="font-mono text-[11px] text-[var(--text-muted)]">
-                {related.length} SUGGESTIONS
+                {relatedWithRationale.length} SUGGESTIONS
               </span>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-3.5">
-              {related.map((r) => (
-                <ResourceCard key={r.id} resource={r} />
+              {relatedWithRationale.map((rel) => (
+                <div key={rel.resource.id} className="flex flex-col gap-1.5">
+                  <ResourceCard resource={rel.resource} />
+                  <span className="text-[10px] font-mono text-[var(--text-muted)] truncate px-1">
+                    {rel.relationshipRationale}
+                  </span>
+                </div>
               ))}
             </div>
           </div>
