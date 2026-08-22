@@ -63,7 +63,7 @@ export default function HomePage() {
       {!hasActiveFilters && <ArchiveFeatured />}
 
       {/* 04: Primary Resource Library & Filter System */}
-      <section className="w-full flex-1 py-10 px-4 sm:px-8 lg:px-12">
+      <section id="resources-library" className="w-full flex-1 py-10 px-4 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-7xl space-y-6">
           {/* Active Search Intent & Adjacent Concepts Strip */}
           {filterState.query?.trim() && intent.adjacentConcepts.length > 0 && (
