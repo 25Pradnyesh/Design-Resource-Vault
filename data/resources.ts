@@ -1443,9 +1443,150 @@ export function getResourceById(id: string): Resource | undefined {
   return seedResources.find((r) => r.id === id);
 }
 
-export function getAllPurposes(resources: Resource[]): string[] {
-  const purposes = resources.map((r) => r.purpose).filter(Boolean);
-  return [...new Set(purposes)].sort();
+export const CONTROLLED_PURPOSES = [
+  "Inspiration",
+  "Reference",
+  "Tool",
+  "Asset",
+  "Template",
+  "Component",
+  "Design System",
+  "Learning",
+  "AI",
+  "Development",
+] as const;
+
+export type ControlledPurpose = (typeof CONTROLLED_PURPOSES)[number];
+
+export function getResourcePrimaryPurpose(resource: Resource): ControlledPurpose {
+  const catSet = new Set(resource.categories || []);
+  const tagsLower = (resource.tags || []).map((t) => t.toLowerCase());
+  const text = `${resource.name} ${resource.description} ${resource.purpose} ${resource.whatItDoes}`.toLowerCase();
+
+  // 1. AI
+  if (
+    catSet.has("ai-design-vibe-coding") ||
+    tagsLower.includes("ai") ||
+    tagsLower.includes("llm") ||
+    tagsLower.includes("agent") ||
+    text.includes("ai-assisted") ||
+    text.includes("vibe coding")
+  ) {
+    return "AI";
+  }
+
+  // 2. Component & Design System
+  if (
+    catSet.has("ui-components") ||
+    tagsLower.includes("components") ||
+    tagsLower.includes("ui kit") ||
+    tagsLower.includes("design system")
+  ) {
+    if (text.includes("design system") || tagsLower.includes("design system")) {
+      return "Design System";
+    }
+    return "Component";
+  }
+
+  // 3. Learning
+  if (
+    catSet.has("learning-vibe-coding") ||
+    tagsLower.includes("learning") ||
+    tagsLower.includes("tutorial") ||
+    tagsLower.includes("course") ||
+    text.includes("tutorial") ||
+    text.includes("course") ||
+    text.includes("learn")
+  ) {
+    return "Learning";
+  }
+
+  // 4. Asset
+  if (
+    catSet.has("iconography") ||
+    catSet.has("visual-assets") ||
+    tagsLower.includes("icons") ||
+    tagsLower.includes("illustrations") ||
+    tagsLower.includes("svg") ||
+    tagsLower.includes("glyphs") ||
+    tagsLower.includes("open source icons")
+  ) {
+    return "Asset";
+  }
+
+  // 5. Template
+  if (
+    catSet.has("mockups-presentation") ||
+    tagsLower.includes("mockup") ||
+    tagsLower.includes("template") ||
+    tagsLower.includes("mockups") ||
+    text.includes("mockup") ||
+    text.includes("device mockup")
+  ) {
+    return "Template";
+  }
+
+  // 6. Tool
+  if (
+    catSet.has("animation-motion-tools") ||
+    catSet.has("design-workflow") ||
+    catSet.has("ui-ux-prototyping") ||
+    catSet.has("backgrounds-visual-effects") ||
+    tagsLower.includes("tool") ||
+    tagsLower.includes("generator") ||
+    tagsLower.includes("plugin") ||
+    text.includes("generator") ||
+    text.includes("tool")
+  ) {
+    return "Tool";
+  }
+
+  // 7. Development
+  if (
+    catSet.has("frontend-animation") ||
+    tagsLower.includes("three.js") ||
+    tagsLower.includes("webgl") ||
+    tagsLower.includes("shaders") ||
+    tagsLower.includes("react") ||
+    tagsLower.includes("javascript") ||
+    text.includes("framework") ||
+    text.includes("code library")
+  ) {
+    return "Development";
+  }
+
+  // 8. Inspiration
+  if (
+    catSet.has("portfolio-inspiration") ||
+    catSet.has("landing-page-inspiration") ||
+    catSet.has("ui-web-inspiration") ||
+    catSet.has("website-animation-inspiration") ||
+    catSet.has("award-winning-experimental") ||
+    catSet.has("visual-search-moodboarding") ||
+    catSet.has("creative-advertising") ||
+    catSet.has("saas-product-design") ||
+    catSet.has("ux-user-flows")
+  ) {
+    return "Inspiration";
+  }
+
+  return "Reference";
+}
+
+export function getAllPurposes(_resources?: Resource[]): string[] {
+  return [...CONTROLLED_PURPOSES];
+}
+
+export function getPurposeCounts(resources: Resource[]): Record<string, number> {
+  const counts: Record<string, number> = {};
+  for (const p of CONTROLLED_PURPOSES) {
+    counts[p] = 0;
+  }
+  for (const r of resources) {
+    const purpose = getResourcePrimaryPurpose(r);
+    counts[purpose] = (counts[purpose] ?? 0) + 1;
+  }
+  return counts;
 }
 
 export function getAllTags(resources: Resource[]): string[] {

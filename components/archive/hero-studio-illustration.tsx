@@ -48,9 +48,9 @@ export function HeroStudioIllustration() {
           >
             {/* Defs for gradients, patterns, and filters */}
             <defs>
-              <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#684D95" />
-                <stop offset="100%" stopColor="#4A346E" />
+              <linearGradient id="terracottaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#C85A32" />
+                <stop offset="100%" stopColor="#9A391A" />
               </linearGradient>
               <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stopColor="#3F8AE2" />
@@ -80,20 +80,20 @@ export function HeroStudioIllustration() {
             {/* 2. Left Creative Workstation: Designer Crafting UI */}
             <g id="designer-workstation">
               {/* Designer Laptop Base & Screen */}
-              <rect x="70" y="210" width="80" height="40" rx="3" fill="#1F1F2C" />
+              <rect x="70" y="210" width="80" height="40" rx="3" fill="#18181B" />
               <rect x="74" y="214" width="72" height="32" rx="2" fill="#FFFFFF" />
               
               {/* Screen Content: Miniature UI Layout Wireframe */}
-              <rect x="78" y="218" width="64" height="6" rx="1" fill="#684D95" opacity="0.8" />
-              <rect x="78" y="226" width="30" height="16" rx="1" fill="#E2DED6" />
+              <rect x="78" y="218" width="64" height="6" rx="1" fill="#C85A32" opacity="0.85" />
+              <rect x="78" y="226" width="30" height="16" rx="1" fill="#E5E2DC" />
               <rect x="111" y="226" width="31" height="16" rx="1" fill="#3F8AE2" opacity="0.4" />
 
               {/* Designer Figure (Minimal Editorial Stylization) */}
               {/* Head & Hair */}
               <circle cx="110" cy="155" r="14" fill="#FBBF24" />
-              <path d="M 98 152 Q 110 138 122 152 Q 116 142 98 152 Z" fill="#1F1F2C" />
+              <path d="M 98 152 Q 110 138 122 152 Q 116 142 98 152 Z" fill="#18181B" />
               {/* Torso & Arm typing */}
-              <path d="M 92 172 C 92 165 128 165 128 172 L 132 215 L 88 215 Z" fill="#684D95" />
+              <path d="M 92 172 C 92 165 128 165 128 172 L 132 215 L 88 215 Z" fill="#C85A32" />
               {/* Arm reaching to keyboard */}
               <path d="M 98 185 L 84 210 L 96 215" stroke="#FBBF24" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
               <path d="M 122 185 L 136 210 L 126 215" stroke="#FBBF24" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
@@ -102,15 +102,15 @@ export function HeroStudioIllustration() {
             {/* 3. Right Creative Workstation: Engineer Writing Code */}
             <g id="developer-workstation">
               {/* Dual Display Monitor */}
-              <rect x="390" y="180" width="90" height="65" rx="4" fill="#1F1F2C" />
-              <rect x="394" y="184" width="82" height="57" rx="3" fill="#181824" />
+              <rect x="390" y="180" width="90" height="65" rx="4" fill="#18181B" />
+              <rect x="394" y="184" width="82" height="57" rx="3" fill="#18181B" />
               {/* Monitor Stand */}
-              <rect x="430" y="245" width="10" height="12" fill="#6B7280" />
-              <ellipse cx="435" cy="257" rx="18" ry="4" fill="#4B5563" />
+              <rect x="430" y="245" width="10" height="12" fill="#78716C" />
+              <ellipse cx="435" cy="257" rx="18" ry="4" fill="#57534E" />
 
               {/* Code Syntax Lines on Developer Monitor */}
               <g opacity="0.9">
-                <line x1="400" y1="192" x2="435" y2="192" stroke="#A78BFA" strokeWidth="2.5" strokeLinecap="round" />
+                <line x1="400" y1="192" x2="435" y2="192" stroke="#E07A2B" strokeWidth="2.5" strokeLinecap="round" />
                 <line x1="440" y1="192" x2="465" y2="192" stroke="#60A5FA" strokeWidth="2.5" strokeLinecap="round" />
                 <line x1="406" y1="200" x2="450" y2="200" stroke="#34D399" strokeWidth="2.5" strokeLinecap="round" />
                 <line x1="406" y1="208" x2="460" y2="208" stroke="#F472B6" strokeWidth="2.5" strokeLinecap="round" />
@@ -132,47 +132,47 @@ export function HeroStudioIllustration() {
             {/* 4. Centerpiece: Interactive Floating Figma UI Frame (#Frame 01) */}
             <g id="center-ui-artboard">
               {/* Outer Glow & Shadow */}
-              <rect x="160" y="45" width="220" height="150" rx="8" fill="#FFFFFF" stroke="#684D95" strokeWidth="1.5" />
+              <rect x="160" y="45" width="220" height="150" rx="8" fill="#FFFFFF" stroke="#C85A32" strokeWidth="1.5" />
               
               {/* Frame Label Badge (Figma Style) */}
-              <rect x="160" y="28" width="86" height="16" rx="3" fill="#684D95" />
+              <rect x="160" y="28" width="86" height="16" rx="3" fill="#C85A32" />
               <text x="166" y="39" fill="#FFFFFF" fontSize="8" fontFamily="ui-monospace, monospace" fontWeight="bold">
                 ❖ UI_CANVAS_01
               </text>
 
               {/* Artboard Header */}
-              <rect x="170" y="55" width="200" height="14" rx="3" fill="#F4F3EE" />
-              <circle cx="178" cy="62" r="3" fill="#684D95" />
-              <line x1="186" y1="62" x2="230" y2="62" stroke="#1F1F2C" strokeWidth="2" strokeLinecap="round" />
-              <rect x="330" y="58" width="32" height="8" rx="2" fill="#684D95" />
+              <rect x="170" y="55" width="200" height="14" rx="3" fill="#FAF8F5" />
+              <circle cx="178" cy="62" r="3" fill="#C85A32" />
+              <line x1="186" y1="62" x2="230" y2="62" stroke="#18181B" strokeWidth="2" strokeLinecap="round" />
+              <rect x="330" y="58" width="32" height="8" rx="2" fill="#C85A32" />
 
               {/* Hero Banner inside Frame */}
-              <rect x="170" y="75" width="200" height="42" rx="4" fill="url(#purpleGrad)" />
+              <rect x="170" y="75" width="200" height="42" rx="4" fill="url(#terracottaGrad)" />
               <text x="180" y="92" fill="#FFFFFF" fontSize="9" fontWeight="bold" fontFamily="sans-serif">
                 DESIGN INTELLIGENCE
               </text>
               <line x1="180" y1="102" x2="250" y2="102" stroke="#FFFFFF" strokeOpacity="0.7" strokeWidth="2" strokeLinecap="round" />
 
               {/* Two Card Tiles inside UI Frame */}
-              <rect x="170" y="123" width="95" height="62" rx="4" fill="#FAF9F6" stroke="#E2DED6" strokeWidth="1" />
+              <rect x="170" y="123" width="95" height="62" rx="4" fill="#F7F5EE" stroke="#E5E2DC" strokeWidth="1" />
               <rect x="176" y="129" width="30" height="18" rx="2" fill="#3F8AE2" opacity="0.3" />
-              <line x1="176" y1="154" x2="240" y2="154" stroke="#1F1F2C" strokeWidth="2" strokeLinecap="round" />
-              <line x1="176" y1="162" x2="220" y2="162" stroke="#6B7280" strokeWidth="1.5" strokeLinecap="round" />
-              <rect x="176" y="171" width="40" height="6" rx="1.5" fill="#684D95" opacity="0.8" />
+              <line x1="176" y1="154" x2="240" y2="154" stroke="#18181B" strokeWidth="2" strokeLinecap="round" />
+              <line x1="176" y1="162" x2="220" y2="162" stroke="#78716C" strokeWidth="1.5" strokeLinecap="round" />
+              <rect x="176" y="171" width="40" height="6" rx="1.5" fill="#C85A32" opacity="0.85" />
 
-              <rect x="275" y="123" width="95" height="62" rx="4" fill="#FAF9F6" stroke="#E2DED6" strokeWidth="1" />
-              <rect x="281" y="129" width="30" height="18" rx="2" fill="#10B981" opacity="0.3" />
-              <line x1="281" y1="154" x2="345" y2="154" stroke="#1F1F2C" strokeWidth="2" strokeLinecap="round" />
-              <line x1="281" y1="162" x2="325" y2="162" stroke="#6B7280" strokeWidth="1.5" strokeLinecap="round" />
+              <rect x="275" y="123" width="95" height="62" rx="4" fill="#F7F5EE" stroke="#E5E2DC" strokeWidth="1" />
+              <rect x="281" y="129" width="30" height="18" rx="2" fill="#16A34A" opacity="0.3" />
+              <line x1="281" y1="154" x2="345" y2="154" stroke="#18181B" strokeWidth="2" strokeLinecap="round" />
+              <line x1="281" y1="162" x2="325" y2="162" stroke="#78716C" strokeWidth="1.5" strokeLinecap="round" />
               <rect x="281" y="171" width="40" height="6" rx="1.5" fill="#3F8AE2" opacity="0.8" />
 
               {/* Active Selection Handles & Dimension Guides */}
-              <rect x="156" y="41" width="7" height="7" fill="#FFFFFF" stroke="#684D95" strokeWidth="1.5" />
-              <rect x="377" y="41" width="7" height="7" fill="#FFFFFF" stroke="#684D95" strokeWidth="1.5" />
-              <rect x="156" y="192" width="7" height="7" fill="#FFFFFF" stroke="#684D95" strokeWidth="1.5" />
-              <rect x="377" y="192" width="7" height="7" fill="#FFFFFF" stroke="#684D95" strokeWidth="1.5" />
-              <rect x="267" y="41" width="7" height="7" fill="#FFFFFF" stroke="#684D95" strokeWidth="1.5" />
-              <rect x="267" y="192" width="7" height="7" fill="#FFFFFF" stroke="#684D95" strokeWidth="1.5" />
+              <rect x="156" y="41" width="7" height="7" fill="#FFFFFF" stroke="#C85A32" strokeWidth="1.5" />
+              <rect x="377" y="41" width="7" height="7" fill="#FFFFFF" stroke="#C85A32" strokeWidth="1.5" />
+              <rect x="156" y="192" width="7" height="7" fill="#FFFFFF" stroke="#C85A32" strokeWidth="1.5" />
+              <rect x="377" y="192" width="7" height="7" fill="#FFFFFF" stroke="#C85A32" strokeWidth="1.5" />
+              <rect x="267" y="41" width="7" height="7" fill="#FFFFFF" stroke="#C85A32" strokeWidth="1.5" />
+              <rect x="267" y="192" width="7" height="7" fill="#FFFFFF" stroke="#C85A32" strokeWidth="1.5" />
             </g>
 
             {/* 5. Vector Pen Tool & Bezier Curve Construction */}
@@ -196,28 +196,28 @@ export function HeroStudioIllustration() {
 
             {/* 6. Motion Animation Easing Curve Indicator */}
             <g id="easing-curve-graph" transform="translate(190, 220)">
-              <rect x="0" y="0" width="160" height="42" rx="4" fill="#FFFFFF" stroke="#E2DED6" strokeWidth="1" />
-              <text x="8" y="12" fill="#6B7280" fontSize="7" fontFamily="ui-monospace, monospace">
+              <rect x="0" y="0" width="160" height="42" rx="4" fill="#FFFFFF" stroke="#E5E2DC" strokeWidth="1" />
+              <text x="8" y="12" fill="#78716C" fontSize="7" fontFamily="ui-monospace, monospace">
                 ease-macos: cubic-bezier(0.16, 1, 0.3, 1)
               </text>
               <path
                 d="M 10 34 C 25 15, 60 18, 150 18"
-                stroke="#684D95"
+                stroke="#C85A32"
                 strokeWidth="2"
                 strokeLinecap="round"
                 fill="none"
               />
-              <circle cx="55" cy="19" r="4" fill="#684D95" />
-              <line x1="55" y1="14" x2="55" y2="36" stroke="#684D95" strokeWidth="1" strokeDasharray="2 2" />
+              <circle cx="55" cy="19" r="4" fill="#C85A32" />
+              <line x1="55" y1="14" x2="55" y2="36" stroke="#C85A32" strokeWidth="1" strokeDasharray="2 2" />
             </g>
 
             {/* 7. Wireframe Isometric 3D Solid (Polyhedron / Cube) */}
             <g id="isometric-3d-asset" transform="translate(420, 50)">
-              <polygon points="40,10 70,25 40,40 10,25" fill="#E0E7FF" stroke="#3F8AE2" strokeWidth="1.5" />
-              <polygon points="10,25 40,40 40,75 10,60" fill="#C7D2FE" stroke="#3F8AE2" strokeWidth="1.5" />
-              <polygon points="40,40 70,25 70,60 40,75" fill="#A5B4FC" stroke="#3F8AE2" strokeWidth="1.5" />
-              <line x1="40" y1="40" x2="40" y2="5" stroke="#684D95" strokeWidth="1" strokeDasharray="2 2" />
-              <circle cx="40" cy="5" r="2.5" fill="#684D95" />
+              <polygon points="40,10 70,25 40,40 10,25" fill="#F2EFE9" stroke="#3B5B75" strokeWidth="1.5" />
+              <polygon points="10,25 40,40 40,75 10,60" fill="#E5E2DC" stroke="#3B5B75" strokeWidth="1.5" />
+              <polygon points="40,40 70,25 70,60 40,75" fill="#CBC6BC" stroke="#3B5B75" strokeWidth="1.5" />
+              <line x1="40" y1="40" x2="40" y2="5" stroke="#C85A32" strokeWidth="1" strokeDasharray="2 2" />
+              <circle cx="40" cy="5" r="2.5" fill="#C85A32" />
             </g>
           </svg>
 
@@ -229,7 +229,7 @@ export function HeroStudioIllustration() {
             </div>
             <div className="relative h-9 flex items-baseline justify-center overflow-hidden">
               <div className="absolute inset-x-0 top-2 border-b border-dashed border-red-300" />
-              <div className="absolute inset-x-0 bottom-2 border-b border-dashed border-blue-400" />
+              <div className="absolute inset-x-0 bottom-2 border-b border-dashed border-stone-400" />
               <span className="text-2xl font-serif font-black tracking-tight text-[var(--text-primary)]">
                 Ag
               </span>
@@ -241,10 +241,10 @@ export function HeroStudioIllustration() {
 
           {/* Floating UI Specimen 02: Dynamic Color Palette Swatch */}
           <div className="absolute bottom-3 left-4 hidden sm:flex items-center gap-1.5 p-2 rounded-lg border border-[var(--border)] bg-[var(--surface)]/95 shadow-md backdrop-blur-xs animate-studio-float-2">
-            <div className="w-5 h-5 rounded-md bg-[#684D95] shadow-2xs border border-white/20" title="Accent Violet #684D95" />
-            <div className="w-5 h-5 rounded-md bg-[#3F8AE2] shadow-2xs border border-white/20" title="Electric Cobalt #3F8AE2" />
-            <div className="w-5 h-5 rounded-md bg-[#10B981] shadow-2xs border border-white/20" title="Emerald #10B981" />
-            <div className="w-5 h-5 rounded-md bg-[#F59E0B] shadow-2xs border border-white/20" title="Amber #F59E0B" />
+            <div className="w-5 h-5 rounded-md bg-[#C85A32] shadow-2xs border border-white/20" title="Accent Terracotta #C85A32" />
+            <div className="w-5 h-5 rounded-md bg-[#3B5B75] shadow-2xs border border-white/20" title="Slate Steel #3B5B75" />
+            <div className="w-5 h-5 rounded-md bg-[#16A34A] shadow-2xs border border-white/20" title="Emerald #16A34A" />
+            <div className="w-5 h-5 rounded-md bg-[#D97706] shadow-2xs border border-white/20" title="Amber #D97706" />
             <span className="font-mono text-[9px] text-[var(--text-muted)] pl-1 border-l border-[var(--border)]">
               PALETTE
             </span>

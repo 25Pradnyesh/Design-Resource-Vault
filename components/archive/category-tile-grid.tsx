@@ -16,14 +16,14 @@ export function CategoryTileGrid() {
           <div className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-xs bg-[var(--accent)]" />
             <h2 className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-[var(--text-primary)]">
-              DISCIPLINE INDEX
+              CATEGORIES
             </h2>
             <span className="text-[11px] font-mono text-[var(--text-muted)] bg-[var(--surface-muted)] px-2 py-0.5 rounded">
               {categories.length}
             </span>
           </div>
           <div className="text-[11px] font-mono text-[var(--text-muted)] tracking-wider uppercase hidden sm:block">
-            SYSTEMATIC ARCHIVE CATEGORIES
+            CURATED DIRECTORY
           </div>
         </div>
 

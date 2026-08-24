@@ -15,6 +15,7 @@ export default function FavoritesPage() {
     query: filterState.query,
     categories: filterState.selectedCategories,
     tags: filterState.selectedTags,
+    purposes: filterState.selectedPurposes,
     purpose: filterState.selectedPurpose,
     favoritesOnly: true,
     sort: filterState.sort,
@@ -54,11 +55,13 @@ export default function FavoritesPage() {
               selectedCategories={filterState.selectedCategories}
               selectedTags={filterState.selectedTags}
               selectedPurpose={filterState.selectedPurpose}
+              selectedPurposes={filterState.selectedPurposes}
               favoritesOnly={true}
               sort={filterState.sort}
               onCategoriesChange={filterState.setSelectedCategories}
               onTagsChange={filterState.setSelectedTags}
               onPurposeChange={filterState.setSelectedPurpose}
+              onPurposesChange={filterState.setSelectedPurposes}
               onFavoritesChange={() => {}}
               onSortChange={filterState.setSort}
               onClear={filterState.clearFilters}

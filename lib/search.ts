@@ -8,6 +8,7 @@ import {
 } from "@/types";
 import { categoryMap } from "@/data/categories";
 import { parseSearchIntent } from "@/lib/search-intent";
+import { getResourcePrimaryPurpose } from "@/data/resources";
 
 function normalize(text: string): string {
   return text.toLowerCase().trim();
@@ -293,10 +294,22 @@ export function filterResources(
     );
   }
 
-  if (filters.purpose) {
-    result = result.filter((r) =>
-      normalize(r.purpose).includes(normalize(filters.purpose!))
-    );
+  if (filters.purposes?.length) {
+    result = result.filter((r) => {
+      const primary = getResourcePrimaryPurpose(r);
+      return (
+        filters.purposes!.includes(primary) ||
+        filters.purposes!.some((p) => normalize(r.purpose).includes(normalize(p)))
+      );
+    });
+  } else if (filters.purpose) {
+    result = result.filter((r) => {
+      const primary = getResourcePrimaryPurpose(r);
+      return (
+        primary === filters.purpose ||
+        normalize(r.purpose).includes(normalize(filters.purpose!))
+      );
+    });
   }
 
   if (filters.technologies?.length) {

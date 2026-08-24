@@ -23,12 +23,12 @@ function getFallbackTheme(id: string): {
     .reduce((acc, char) => acc + char.charCodeAt(0), 0);
 
   const themes = [
-    { bg: "#F2EFE9", border: "#E2DED6", iconTint: "#684D95" },
-    { bg: "#EAE8E1", border: "#DCD8CF", iconTint: "#1F1F2C" },
-    { bg: "#EBECE8", border: "#D8DAD4", iconTint: "#3D6B52" },
-    { bg: "#E8ECF2", border: "#D4DBE6", iconTint: "#2B5C8F" },
-    { bg: "#EFECE8", border: "#E2DDD8", iconTint: "#8F4B2B" },
-    { bg: "#ECE8F0", border: "#DDD6E6", iconTint: "#5E3A8C" },
+    { bg: "#F4F0EA", border: "#E5E2DC", iconTint: "#C85A32" },
+    { bg: "#EFECE6", border: "#E0DDD6", iconTint: "#18181B" },
+    { bg: "#ECEFEA", border: "#D8DED4", iconTint: "#3D6B52" },
+    { bg: "#EAF0F4", border: "#D4DEE6", iconTint: "#2B5C8F" },
+    { bg: "#F2ECE6", border: "#E5DDD4", iconTint: "#A66B24" },
+    { bg: "#EFEFEF", border: "#E2E2E2", iconTint: "#57534E" },
   ];
 
   return themes[hash % themes.length];

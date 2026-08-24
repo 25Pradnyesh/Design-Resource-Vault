@@ -33,6 +33,7 @@ export default function CategoryPage({
     query: filterState.query,
     categories: [category.id],
     tags: filterState.selectedTags,
+    purposes: filterState.selectedPurposes,
     purpose: filterState.selectedPurpose,
     favoritesOnly: filterState.favoritesOnly,
     sort: filterState.sort,
@@ -80,7 +81,7 @@ export default function CategoryPage({
                 <span className="h-4 w-4 shrink-0 flex items-center justify-center text-[var(--accent)]">
                   <CategoryIcon id={category.id} className="h-4 w-4" />
                 </span>
-                <span>DISCIPLINE // {category.slug}</span>
+                <span>CATEGORY // {category.slug}</span>
               </div>
               <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-[var(--text-primary)]">
                 {category.name}
@@ -117,11 +118,13 @@ export default function CategoryPage({
             selectedCategories={[]}
             selectedTags={filterState.selectedTags}
             selectedPurpose={filterState.selectedPurpose}
+            selectedPurposes={filterState.selectedPurposes}
             favoritesOnly={filterState.favoritesOnly}
             sort={filterState.sort}
             onCategoriesChange={() => {}}
             onTagsChange={filterState.setSelectedTags}
             onPurposeChange={filterState.setSelectedPurpose}
+            onPurposesChange={filterState.setSelectedPurposes}
             onFavoritesChange={filterState.setFavoritesOnly}
             onSortChange={filterState.setSort}
             onClear={filterState.clearFilters}
@@ -147,7 +150,7 @@ export default function CategoryPage({
               <div className="flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-xs bg-[var(--accent)]" />
                 <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[var(--text-primary)]">
-                  ADJACENT DISCIPLINES
+                  ADJACENT CATEGORIES
                 </h3>
               </div>
             </div>

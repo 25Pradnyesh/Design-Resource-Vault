@@ -29,47 +29,48 @@
 }
 
 :root {
-  /* Systematic macOS-Inspired Canvas & Surface Tokens */
-  --background: #F4F3EE;
+  /* Systematic Editorial Archive Canvas & Surface Tokens */
+  --background: #FAF8F5;
   --surface: #FFFFFF;
   --surface-elevated: #FFFFFF;
-  --surface-muted: #EAE8E1;
-  --surface-hover: #FAF9F6;
-  --border: #E2DED6;
-  --border-strong: #C8C3B8;
-  --text-primary: #1F1F2C;
-  --text-secondary: #4B5563;
-  --text-muted: #6B7280;
+  --surface-muted: #F2EFE9;
+  --surface-hover: #F7F5EE;
+  --border: #E5E2DC;
+  --border-strong: #CBC6BC;
+  --text-primary: #18181B;
+  --text-secondary: #57534E;
+  --text-muted: #78716C;
   
-  /* Primary Functional Accent */
-  --accent: #684D95;
-  --accent-hover: #563F7B;
-  --accent-soft: rgba(104, 77, 149, 0.08);
-  --accent-secondary: #3F8AE2;
+  /* Primary Functional Accent: Restrained Warm Terracotta */
+  --accent: #C85A32;
+  --accent-hover: #A84420;
+  --accent-soft: rgba(200, 90, 50, 0.08);
+  --accent-muted: rgba(200, 90, 50, 0.15);
+  --accent-secondary: #3B5B75;
   
   /* Intelligence Engine Status Tokens */
-  --intel-high: #10B981;
-  --intel-high-bg: rgba(16, 185, 129, 0.08);
-  --intel-high-border: rgba(16, 185, 129, 0.25);
+  --intel-high: #16A34A;
+  --intel-high-bg: rgba(22, 163, 74, 0.08);
+  --intel-high-border: rgba(22, 163, 74, 0.25);
   
-  --intel-med: #684D95;
-  --intel-med-bg: rgba(104, 77, 149, 0.08);
-  --intel-med-border: rgba(104, 77, 149, 0.25);
+  --intel-med: #C85A32;
+  --intel-med-bg: rgba(200, 90, 50, 0.08);
+  --intel-med-border: rgba(200, 90, 50, 0.25);
   
-  --intel-adjacent: #2563EB;
-  --intel-adjacent-bg: rgba(37, 99, 235, 0.08);
-  --intel-adjacent-border: rgba(37, 99, 235, 0.2);
+  --intel-adjacent: #475569;
+  --intel-adjacent-bg: rgba(71, 85, 105, 0.08);
+  --intel-adjacent-border: rgba(71, 85, 105, 0.2);
 
   /* Semantic Status Colors */
-  --success: #10B981;
-  --warning: #F59E0B;
-  --error: #EF4444;
-  --ring: rgba(104, 77, 149, 0.25);
+  --success: #16A34A;
+  --warning: #D97706;
+  --error: #DC2626;
+  --ring: rgba(200, 90, 50, 0.25);
 
-  /* macOS Window & Spotlight Tokens */
-  --macos-window-shadow: 0 20px 48px -12px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.06);
-  --macos-card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
-  --macos-card-hover: 0 8px 24px -4px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+  /* Editorial Archive Elevation & Transition Tokens */
+  --macos-window-shadow: 0 20px 48px -12px rgba(24, 24, 27, 0.14), 0 0 0 1px rgba(24, 24, 27, 0.05);
+  --macos-card-shadow: 0 1px 3px 0 rgba(24, 24, 27, 0.03), 0 1px 2px -1px rgba(24, 24, 27, 0.03);
+  --macos-card-hover: 0 8px 24px -4px rgba(24, 24, 27, 0.07), 0 2px 6px -1px rgba(24, 24, 27, 0.03);
   --ease-macos: cubic-bezier(0.16, 1, 0.3, 1);
   --duration-fast: 160ms;
 }

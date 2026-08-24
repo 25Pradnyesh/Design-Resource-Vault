@@ -2,8 +2,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import { SortOption } from "@/types";
-import { getAllTags, getAllPurposes } from "@/data/resources";
 import { categories } from "@/data/categories";
+import { CONTROLLED_PURPOSES, getPurposeCounts } from "@/data/resources";
 import { useResources } from "@/lib/resource-context";
 import { cn } from "@/lib/utils";
 import {
@@ -15,7 +15,6 @@ import {
   Star,
   RotateCcw,
   Layers,
-  Tag as TagIcon,
   Target,
   ArrowUpDown,
 } from "lucide-react";
@@ -23,13 +22,15 @@ import { CategoryIcon } from "@/components/ui/category-icon";
 
 interface FiltersProps {
   selectedCategories: string[];
-  selectedTags: string[];
-  selectedPurpose: string;
+  selectedTags?: string[];
+  selectedPurpose?: string;
+  selectedPurposes?: string[];
   favoritesOnly: boolean;
   sort: SortOption;
   onCategoriesChange: (cats: string[]) => void;
-  onTagsChange: (tags: string[]) => void;
-  onPurposeChange: (purpose: string) => void;
+  onTagsChange?: (tags: string[]) => void;
+  onPurposeChange?: (purpose: string) => void;
+  onPurposesChange?: (purposes: string[]) => void;
   onFavoritesChange: (val: boolean) => void;
   onSortChange: (sort: SortOption) => void;
   onClear: () => void;
@@ -37,28 +38,33 @@ interface FiltersProps {
 
 export function Filters({
   selectedCategories,
-  selectedTags,
-  selectedPurpose,
+  selectedPurpose = "",
+  selectedPurposes = [],
   favoritesOnly,
   sort,
   onCategoriesChange,
-  onTagsChange,
   onPurposeChange,
+  onPurposesChange,
   onFavoritesChange,
   onSortChange,
   onClear,
 }: FiltersProps) {
   const { resources, categoryCounts } = useResources();
-  const allTags = getAllTags(resources);
-  const allPurposes = getAllPurposes(resources);
+  const purposeCounts = getPurposeCounts(resources);
 
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // Active purposes set combines selectedPurposes array and selectedPurpose string
+  const activePurposes = selectedPurposes.length > 0
+    ? selectedPurposes
+    : selectedPurpose
+    ? [selectedPurpose]
+    : [];
+
   const activeFilterCount =
     selectedCategories.length +
-    selectedTags.length +
-    (selectedPurpose ? 1 : 0) +
+    activePurposes.length +
     (favoritesOnly ? 1 : 0) +
     (sort !== "recent" ? 1 : 0);
 
@@ -94,12 +100,20 @@ export function Filters({
     );
   };
 
-  const toggleTag = (tag: string) => {
-    onTagsChange(
-      selectedTags.includes(tag)
-        ? selectedTags.filter((t) => t !== tag)
-        : [...selectedTags, tag]
-    );
+  const togglePurpose = (purpose: string) => {
+    let nextPurposes: string[];
+    if (activePurposes.includes(purpose)) {
+      nextPurposes = activePurposes.filter((p) => p !== purpose);
+    } else {
+      nextPurposes = [...activePurposes, purpose];
+    }
+
+    if (onPurposesChange) {
+      onPurposesChange(nextPurposes);
+    }
+    if (onPurposeChange) {
+      onPurposeChange(nextPurposes.length === 1 ? nextPurposes[0] : nextPurposes.join(","));
+    }
   };
 
   return (
@@ -107,7 +121,7 @@ export function Filters({
       {/* Primary Filter Control Toolbar */}
       <div className="flex flex-wrap items-center justify-between gap-2.5 py-1 text-xs">
         
-        {/* Left: Main [ FILTERS ] Trigger & Quick Sort Controls */}
+        {/* Left: Main [ FILTERS ] Trigger & Quick Controls */}
         <div className="flex flex-wrap items-center gap-2">
           
           {/* Primary [ FILTERS ] Dropdown Trigger */}
@@ -123,7 +137,7 @@ export function Filters({
             aria-expanded={isOpen}
             aria-haspopup="dialog"
           >
-            <SlidersHorizontal className={cn("h-3.5 w-3.5", isOpen ? "text-[var(--accent)]" : "text-[var(--accent)]")} />
+            <SlidersHorizontal className="h-3.5 w-3.5 text-[var(--accent)]" />
             <span>FILTERS</span>
             {activeFilterCount > 0 && (
               <span className="px-1.5 py-0.2 rounded-full bg-[var(--accent)] text-white text-[10px] font-mono font-bold">
@@ -204,20 +218,20 @@ export function Filters({
         )}
       </div>
 
-      {/* Sophisticated Filter Popover Panel with 200ms Animation */}
+      {/* Elegant Filter Dropdown Panel with Smooth CSS Animation */}
       {isOpen && (
         <>
           {/* Mobile Backdrop Overlay */}
           <div
-            className="fixed inset-0 z-40 bg-black/25 backdrop-blur-xs sm:hidden transition-opacity"
+            className="fixed inset-0 z-40 bg-black/20 backdrop-blur-xs sm:hidden transition-opacity"
             onClick={() => setIsOpen(false)}
           />
 
           {/* Main Dropdown Panel Container */}
           <div
-            className="fixed sm:absolute inset-x-3 bottom-3 sm:inset-auto sm:left-0 sm:top-full sm:mt-2.5 z-50 w-auto sm:w-full sm:max-w-4xl max-h-[85vh] sm:max-h-[640px] rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-2xl overflow-hidden flex flex-col font-sans animate-popover-in"
+            className="fixed sm:absolute inset-x-3 bottom-3 sm:inset-auto sm:left-0 sm:top-full sm:mt-2.5 z-50 w-auto sm:w-full sm:max-w-4xl max-h-[85vh] sm:max-h-[620px] rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-2xl overflow-hidden flex flex-col font-sans animate-popover-in"
             style={{
-              boxShadow: "0 24px 60px -12px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.05)",
+              boxShadow: "0 24px 60px -12px rgba(24, 24, 27, 0.16), 0 0 0 1px rgba(24, 24, 27, 0.05)",
             }}
           >
             {/* Panel Header */}
@@ -225,7 +239,7 @@ export function Filters({
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-xs bg-[var(--accent)]" />
                 <span className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
-                  FILTER ARCHIVE // REFINEMENT PANEL
+                  FILTERS
                 </span>
                 {activeFilterCount > 0 && (
                   <span className="px-2 py-0.5 rounded-full bg-[var(--accent)] text-white text-[10px] font-mono font-bold">
@@ -259,21 +273,21 @@ export function Filters({
             {/* Scrollable Filter Contents */}
             <div className="overflow-y-auto p-4 sm:p-6 space-y-6 flex-1">
               
-              {/* 01: CATEGORIES SECTION */}
+              {/* 01: CATEGORIES SECTION WITH CHECKBOXES */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border)]/70">
                   <div className="flex items-center gap-2">
                     <Layers className="h-3.5 w-3.5 text-[var(--accent)]" />
                     <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
-                      CATEGORIES & DISCIPLINES ({categories.length})
+                      CATEGORIES ({categories.length})
                     </h3>
                   </div>
                   <span className="font-mono text-[10px] text-[var(--text-muted)] uppercase">
-                    MULTI-SELECT INTERACTIVE
+                    {selectedCategories.length > 0 ? `${selectedCategories.length} SELECTED` : "MULTI-SELECT"}
                   </span>
                 </div>
 
-                {/* Category Multi-Column Grid */}
+                {/* Category Multi-Column Checkbox Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
                   {categories.map((cat) => {
                     const isSelected = selectedCategories.includes(cat.id);
@@ -330,123 +344,101 @@ export function Filters({
                 </div>
               </div>
 
-              {/* 02: TAGS SECTION */}
-              {allTags.length > 0 && (
-                <div className="space-y-3 pt-2">
-                  <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border)]/70">
-                    <div className="flex items-center gap-2">
-                      <TagIcon className="h-3.5 w-3.5 text-[var(--accent)]" />
-                      <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
-                        SPECIALTY TAGS ({allTags.length})
-                      </h3>
-                    </div>
-                    <span className="font-mono text-[10px] text-[var(--text-muted)] uppercase">
-                      {selectedTags.length > 0 ? `${selectedTags.length} SELECTED` : "OPTIONAL"}
-                    </span>
-                  </div>
-
-                  <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto pr-1">
-                    {allTags.map((tag) => {
-                      const isSelected = selectedTags.includes(tag);
-                      return (
-                        <button
-                          key={tag}
-                          type="button"
-                          onClick={() => toggleTag(tag)}
-                          className={cn(
-                            "px-2.5 py-1 rounded-lg text-[11px] font-mono transition-all duration-120 cursor-pointer flex items-center gap-1",
-                            isSelected
-                              ? "bg-[var(--accent)] text-white font-bold shadow-2xs"
-                              : "bg-[var(--surface-muted)] border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-strong)]"
-                          )}
-                        >
-                          {isSelected && <Check className="w-2.5 h-2.5 stroke-[3]" />}
-                          <span>#{tag}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-
-              {/* 03: PURPOSE & SORTING ROW */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                
-                {/* Purpose Selection */}
-                {allPurposes.length > 0 && (
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2 pb-1 border-b border-[var(--border)]/70">
-                      <Target className="h-3.5 w-3.5 text-[var(--accent)]" />
-                      <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
-                        PRIMARY PURPOSE
-                      </h3>
-                    </div>
-
-                    <div className="flex flex-wrap gap-1.5">
-                      <button
-                        type="button"
-                        onClick={() => onPurposeChange("")}
-                        className={cn(
-                          "px-2.5 py-1 rounded-lg text-xs transition-colors cursor-pointer",
-                          selectedPurpose === ""
-                            ? "bg-[var(--text-primary)] text-[var(--background)] font-bold"
-                            : "bg-[var(--surface-muted)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                        )}
-                      >
-                        All Purposes
-                      </button>
-                      {allPurposes.map((p) => (
-                        <button
-                          key={p}
-                          type="button"
-                          onClick={() => onPurposeChange(selectedPurpose === p ? "" : p)}
-                          className={cn(
-                            "px-2.5 py-1 rounded-lg text-xs transition-colors cursor-pointer truncate max-w-[200px]",
-                            selectedPurpose === p
-                              ? "bg-[var(--accent)] text-white font-bold shadow-2xs"
-                              : "bg-[var(--surface-muted)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                          )}
-                        >
-                          {p}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Sort Order Selector */}
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 pb-1 border-b border-[var(--border)]/70">
-                    <ArrowUpDown className="h-3.5 w-3.5 text-[var(--accent)]" />
+              {/* 02: PRIMARY PURPOSE SECTION WITH CHECKBOXES */}
+              <div className="space-y-3 pt-2">
+                <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border)]/70">
+                  <div className="flex items-center gap-2">
+                    <Target className="h-3.5 w-3.5 text-[var(--accent)]" />
                     <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
-                      SORT ORDER
+                      PURPOSE ({CONTROLLED_PURPOSES.length})
                     </h3>
                   </div>
-
-                  <div className="flex flex-wrap gap-1.5">
-                    {[
-                      { id: "recent" as SortOption, label: "Recently Added" },
-                      { id: "featured" as SortOption, label: "Featured" },
-                      { id: "most-used" as SortOption, label: "Most Used" },
-                      { id: "relevance" as SortOption, label: "Relevance" },
-                    ].map((item) => (
-                      <button
-                        key={item.id}
-                        type="button"
-                        onClick={() => onSortChange(item.id)}
-                        className={cn(
-                          "px-2.5 py-1 rounded-lg text-xs transition-colors cursor-pointer",
-                          sort === item.id
-                            ? "bg-[var(--text-primary)] text-[var(--background)] font-bold"
-                            : "bg-[var(--surface-muted)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                        )}
-                      >
-                        {item.label}
-                      </button>
-                    ))}
-                  </div>
+                  <span className="font-mono text-[10px] text-[var(--text-muted)] uppercase">
+                    {activePurposes.length > 0 ? `${activePurposes.length} SELECTED` : "MULTI-SELECT"}
+                  </span>
                 </div>
 
+                {/* Purpose Checkbox Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                  {CONTROLLED_PURPOSES.map((purpose) => {
+                    const isSelected = activePurposes.includes(purpose);
+                    const count = purposeCounts[purpose] ?? 0;
+
+                    return (
+                      <button
+                        key={purpose}
+                        type="button"
+                        onClick={() => togglePurpose(purpose)}
+                        className={cn(
+                          "flex items-center justify-between gap-2.5 px-3 py-2 rounded-xl border text-left text-xs transition-all duration-140 cursor-pointer group select-none",
+                          isSelected
+                            ? "bg-[var(--accent-soft)] border-[var(--accent)] text-[var(--text-primary)] font-semibold shadow-2xs"
+                            : "border-[var(--border)]/80 bg-[var(--surface)] hover:bg-[var(--surface-muted)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-strong)]"
+                        )}
+                      >
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          {/* Custom Checkbox: □ -> ☑ */}
+                          <div
+                            className={cn(
+                              "w-4 h-4 rounded-md flex items-center justify-center shrink-0 transition-all duration-140",
+                              isSelected
+                                ? "bg-[var(--accent)] text-white border border-[var(--accent)]"
+                                : "border border-[var(--border-strong)] bg-[var(--surface)] group-hover:border-[var(--text-secondary)]"
+                            )}
+                          >
+                            {isSelected && <Check className="w-3 h-3 stroke-[3]" />}
+                          </div>
+
+                          <span className="truncate">{purpose}</span>
+                        </div>
+
+                        <span
+                          className={cn(
+                            "font-mono text-[10px] px-1.5 py-0.2 rounded shrink-0",
+                            isSelected
+                              ? "bg-[var(--accent)] text-white font-bold"
+                              : "bg-[var(--surface-muted)] text-[var(--text-muted)] group-hover:text-[var(--text-primary)]"
+                          )}
+                        >
+                          {count}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* 03: SORT ORDER ROW */}
+              <div className="space-y-3 pt-2">
+                <div className="flex items-center gap-2 pb-1.5 border-b border-[var(--border)]/70">
+                  <ArrowUpDown className="h-3.5 w-3.5 text-[var(--accent)]" />
+                  <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
+                    SORT ORDER
+                  </h3>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    { id: "recent" as SortOption, label: "Recently Added" },
+                    { id: "featured" as SortOption, label: "Featured" },
+                    { id: "most-used" as SortOption, label: "Most Used" },
+                    { id: "relevance" as SortOption, label: "Relevance" },
+                  ].map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => onSortChange(item.id)}
+                      className={cn(
+                        "px-3 py-1.5 rounded-xl border text-xs font-mono transition-colors cursor-pointer",
+                        sort === item.id
+                          ? "bg-[var(--text-primary)] text-[var(--background)] border-[var(--text-primary)] font-bold shadow-2xs"
+                          : "border-[var(--border)] bg-[var(--surface-muted)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-strong)]"
+                      )}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
               </div>
 
             </div>
@@ -454,7 +446,7 @@ export function Filters({
             {/* Panel Footer */}
             <div className="flex items-center justify-between px-5 py-3 border-t border-[var(--border)] bg-[var(--surface-hover)] shrink-0">
               <div className="font-mono text-[11px] text-[var(--text-muted)]">
-                <span>{resources.length} TOTAL OBJECTS IN VAULT</span>
+                <span>{resources.length} OBJECTS IN VAULT</span>
               </div>
 
               <button
@@ -475,7 +467,7 @@ export function Filters({
 export function useFilterState() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [selectedPurpose, setSelectedPurpose] = useState("");
+  const [selectedPurposes, setSelectedPurposes] = useState<string[]>([]);
   const [favoritesOnly, setFavoritesOnly] = useState(false);
   const [sort, setSort] = useState<SortOption>("recent");
   const [query, setQuery] = useState("");
@@ -483,7 +475,7 @@ export function useFilterState() {
   const clearFilters = () => {
     setSelectedCategories([]);
     setSelectedTags([]);
-    setSelectedPurpose("");
+    setSelectedPurposes([]);
     setFavoritesOnly(false);
     setSort("recent");
     setQuery("");
@@ -494,8 +486,10 @@ export function useFilterState() {
     setSelectedCategories,
     selectedTags,
     setSelectedTags,
-    selectedPurpose,
-    setSelectedPurpose,
+    selectedPurpose: selectedPurposes[0] ?? "",
+    selectedPurposes,
+    setSelectedPurpose: (p: string) => setSelectedPurposes(p ? [p] : []),
+    setSelectedPurposes,
     favoritesOnly,
     setFavoritesOnly,
     sort,

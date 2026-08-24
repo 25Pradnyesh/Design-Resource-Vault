@@ -21,6 +21,7 @@ export default function HomePage() {
     query: filterState.query,
     categories: filterState.selectedCategories,
     tags: filterState.selectedTags,
+    purposes: filterState.selectedPurposes,
     purpose: filterState.selectedPurpose,
     favoritesOnly: filterState.favoritesOnly,
     sort: filterState.sort,
@@ -47,6 +48,7 @@ export default function HomePage() {
     Boolean(filterState.query) ||
     filterState.selectedCategories.length > 0 ||
     filterState.selectedTags.length > 0 ||
+    filterState.selectedPurposes.length > 0 ||
     Boolean(filterState.selectedPurpose) ||
     filterState.favoritesOnly ||
     (filterState.sort !== "recent" && filterState.sort !== "relevance");
@@ -56,7 +58,7 @@ export default function HomePage() {
       {/* 01: Intelligent Discovery Hero with In-Page Search */}
       <ArchiveHero query={filterState.query} onQueryChange={filterState.setQuery} />
 
-      {/* 02: 22-Category Visual Navigation Grid (shown when default browsing) */}
+      {/* 02: Categories Visual Navigation Grid (shown when default browsing) */}
       {!hasActiveFilters && <CategoryTileGrid />}
 
       {/* 03: Curated Featured Section (shown when default browsing) */}
@@ -120,11 +122,13 @@ export default function HomePage() {
               selectedCategories={filterState.selectedCategories}
               selectedTags={filterState.selectedTags}
               selectedPurpose={filterState.selectedPurpose}
+              selectedPurposes={filterState.selectedPurposes}
               favoritesOnly={filterState.favoritesOnly}
               sort={filterState.sort}
               onCategoriesChange={filterState.setSelectedCategories}
               onTagsChange={filterState.setSelectedTags}
               onPurposeChange={filterState.setSelectedPurpose}
+              onPurposesChange={filterState.setSelectedPurposes}
               onFavoritesChange={filterState.setFavoritesOnly}
               onSortChange={filterState.setSort}
               onClear={filterState.clearFilters}

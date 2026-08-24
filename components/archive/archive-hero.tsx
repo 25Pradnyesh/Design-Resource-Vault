@@ -81,7 +81,7 @@ export function ArchiveHero({ query = "", onQueryChange }: ArchiveHeroProps) {
                 href="#categories"
                 className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-[var(--border)] bg-[var(--surface)]/90 backdrop-blur-xs font-mono text-xs font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-strong)] transition-colors shadow-2xs"
               >
-                <span>INDEX ({categories.length})</span>
+                <span>CATEGORIES ({categories.length})</span>
                 <ArrowUpRight className="w-3.5 h-3.5 opacity-60" />
               </a>
 

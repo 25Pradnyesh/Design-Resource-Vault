@@ -44,6 +44,7 @@ export interface ResourceFilters {
   categories?: string[];
   tags?: string[];
   purpose?: string;
+  purposes?: string[];
   technologies?: string[];
   styles?: string[];
   favoritesOnly?: boolean;
