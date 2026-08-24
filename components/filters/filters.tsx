@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { SortOption } from "@/types";
-import { categories } from "@/data/categories";
-import { CONTROLLED_PURPOSES, getPurposeCounts } from "@/data/resources";
+import { categories, CATEGORY_GROUPS, CategoryGroup } from "@/data/categories";
 import { useResources } from "@/lib/resource-context";
 import { cn } from "@/lib/utils";
 import {
@@ -11,16 +10,18 @@ import {
   ChevronDown,
   Check,
   X,
-  Sparkles,
-  Star,
   RotateCcw,
+  Sparkles,
   Layers,
-  Target,
   ArrowUpDown,
+  Star,
 } from "lucide-react";
 import { CategoryIcon } from "@/components/ui/category-icon";
+import { ActiveFilterChips } from "./active-filter-chips";
 
-interface FiltersProps {
+export { ActiveFilterChips };
+
+export interface FiltersProps {
   selectedCategories: string[];
   selectedTags?: string[];
   selectedPurpose?: string;
@@ -34,43 +35,32 @@ interface FiltersProps {
   onFavoritesChange: (val: boolean) => void;
   onSortChange: (sort: SortOption) => void;
   onClear: () => void;
+  className?: string;
 }
 
 export function Filters({
-  selectedCategories,
-  selectedPurpose = "",
-  selectedPurposes = [],
-  favoritesOnly,
-  sort,
+  selectedCategories = [],
+  favoritesOnly = false,
+  sort = "recent",
   onCategoriesChange,
-  onPurposeChange,
-  onPurposesChange,
   onFavoritesChange,
   onSortChange,
   onClear,
+  className,
 }: FiltersProps) {
   const { resources, categoryCounts } = useResources();
-  const purposeCounts = getPurposeCounts(resources);
-
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Active purposes set combines selectedPurposes array and selectedPurpose string
-  const activePurposes = selectedPurposes.length > 0
-    ? selectedPurposes
-    : selectedPurpose
-    ? [selectedPurpose]
-    : [];
-
+  const activeCategoryCount = selectedCategories.length;
   const activeFilterCount =
-    selectedCategories.length +
-    activePurposes.length +
+    activeCategoryCount +
     (favoritesOnly ? 1 : 0) +
     (sort !== "recent" ? 1 : 0);
 
   const hasFilters = activeFilterCount > 0;
 
-  // Close dropdown on outside click or ESC key
+  // Close dropdown on outside click or ESC key without resetting selections
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
@@ -92,61 +82,68 @@ export function Filters({
     };
   }, [isOpen]);
 
-  const toggleCategory = (id: string) => {
-    onCategoriesChange(
-      selectedCategories.includes(id)
-        ? selectedCategories.filter((c) => c !== id)
-        : [...selectedCategories, id]
-    );
-  };
+  const toggleCategory = useCallback(
+    (id: string) => {
+      if (selectedCategories.includes(id)) {
+        onCategoriesChange(selectedCategories.filter((c) => c !== id));
+      } else {
+        onCategoriesChange([...selectedCategories, id]);
+      }
+    },
+    [selectedCategories, onCategoriesChange]
+  );
 
-  const togglePurpose = (purpose: string) => {
-    let nextPurposes: string[];
-    if (activePurposes.includes(purpose)) {
-      nextPurposes = activePurposes.filter((p) => p !== purpose);
-    } else {
-      nextPurposes = [...activePurposes, purpose];
-    }
-
-    if (onPurposesChange) {
-      onPurposesChange(nextPurposes);
-    }
-    if (onPurposeChange) {
-      onPurposeChange(nextPurposes.length === 1 ? nextPurposes[0] : nextPurposes.join(","));
-    }
-  };
+  const selectGroupCategories = useCallback(
+    (categoryIds: string[]) => {
+      const allSelected = categoryIds.every((id) => selectedCategories.includes(id));
+      if (allSelected) {
+        // Deselect group
+        onCategoriesChange(selectedCategories.filter((id) => !categoryIds.includes(id)));
+      } else {
+        // Select all in group
+        const newSelected = Array.from(new Set([...selectedCategories, ...categoryIds]));
+        onCategoriesChange(newSelected);
+      }
+    },
+    [selectedCategories, onCategoriesChange]
+  );
 
   return (
-    <div ref={containerRef} className="relative w-full font-sans select-none">
+    <div ref={containerRef} className={cn("relative w-full font-sans select-none", className)}>
       {/* Primary Filter Control Toolbar */}
       <div className="flex flex-wrap items-center justify-between gap-2.5 py-1 text-xs">
         
-        {/* Left: Main [ FILTERS ] Trigger & Quick Controls */}
+        {/* Left: Primary [ FILTERS ] Trigger & Quick Sort Controls */}
         <div className="flex flex-wrap items-center gap-2">
           
-          {/* Primary [ FILTERS ] Dropdown Trigger */}
+          {/* 01: ONE Primary [ FILTERS ] Button */}
           <button
             type="button"
-            onClick={() => setIsOpen(!isOpen)}
+            id="filters-primary-trigger"
+            onClick={() => setIsOpen((prev) => !prev)}
             className={cn(
-              "flex items-center gap-2 px-3.5 py-2 rounded-xl border font-mono text-xs uppercase tracking-wider transition-all duration-160 cursor-pointer shadow-2xs font-semibold",
-              isOpen || hasFilters
+              "flex items-center gap-2 px-3.5 py-2 rounded-xl border font-mono text-xs uppercase tracking-wider transition-all duration-160 cursor-pointer shadow-2xs font-semibold focus-visible:outline-2 focus-visible:outline-[var(--accent)]",
+              isOpen || activeCategoryCount > 0
                 ? "bg-[var(--text-primary)] text-[var(--background)] border-[var(--text-primary)] shadow-sm"
                 : "border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)] hover:border-[var(--border-strong)] hover:bg-[var(--surface-hover)]"
             )}
             aria-expanded={isOpen}
             aria-haspopup="dialog"
+            aria-label={`Open category filters. ${activeCategoryCount} active filters`}
           >
-            <SlidersHorizontal className="h-3.5 w-3.5 text-[var(--accent)]" />
+            <SlidersHorizontal className="h-3.5 w-3.5 text-[var(--accent)] shrink-0" />
             <span>FILTERS</span>
-            {activeFilterCount > 0 && (
-              <span className="px-1.5 py-0.2 rounded-full bg-[var(--accent)] text-white text-[10px] font-mono font-bold">
-                {activeFilterCount}
+
+            {/* Active Category Count Badge */}
+            {activeCategoryCount > 0 && (
+              <span className="px-1.5 py-0.5 rounded-full bg-[var(--accent)] text-white text-[10px] font-mono font-bold leading-none">
+                {activeCategoryCount}
               </span>
             )}
+
             <ChevronDown
               className={cn(
-                "h-3.5 w-3.5 transition-transform duration-200 ease-out",
+                "h-3.5 w-3.5 transition-transform duration-200 ease-out shrink-0",
                 isOpen && "rotate-180"
               )}
             />
@@ -164,6 +161,7 @@ export function Filters({
                 ? "bg-[var(--surface-muted)] text-[var(--text-primary)] border-[var(--border-strong)] font-bold"
                 : "border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
             )}
+            title="Sort by Recently Added"
           >
             <Sparkles className="h-3 w-3 text-[var(--accent)]" />
             <span>RECENT</span>
@@ -179,11 +177,12 @@ export function Filters({
                 ? "bg-[var(--accent-soft)] text-[var(--accent)] border-[var(--accent)] font-bold"
                 : "border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
             )}
+            title="Filter by Featured items"
           >
             <span>FEATURED</span>
           </button>
 
-          {/* Quick Filter: Favorites Only */}
+          {/* Quick Filter: Favorites */}
           <button
             type="button"
             onClick={() => onFavoritesChange(!favoritesOnly)}
@@ -193,6 +192,7 @@ export function Filters({
                 ? "bg-[var(--accent-soft)] text-[var(--accent)] border-[var(--accent)] font-bold"
                 : "border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
             )}
+            title="Toggle Starred Favorites"
           >
             <Star className={cn("h-3 w-3", favoritesOnly ? "fill-[var(--accent)] text-[var(--accent)]" : "text-[var(--text-muted)]")} />
             <span>FAVORITES</span>
@@ -218,197 +218,174 @@ export function Filters({
         )}
       </div>
 
-      {/* Elegant Filter Dropdown Panel with Smooth CSS Animation */}
+      {/* Editorial Category Archive Filter Popover Panel */}
       {isOpen && (
         <>
           {/* Mobile Backdrop Overlay */}
           <div
             className="fixed inset-0 z-40 bg-black/20 backdrop-blur-xs sm:hidden transition-opacity"
             onClick={() => setIsOpen(false)}
+            aria-hidden="true"
           />
 
-          {/* Main Dropdown Panel Container */}
+          {/* Popover Panel Container */}
           <div
-            className="fixed sm:absolute inset-x-3 bottom-3 sm:inset-auto sm:left-0 sm:top-full sm:mt-2.5 z-50 w-auto sm:w-full sm:max-w-4xl max-h-[85vh] sm:max-h-[620px] rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-2xl overflow-hidden flex flex-col font-sans animate-popover-in"
+            id="filters-popover-panel"
+            role="dialog"
+            aria-label="Category Archive Filter"
+            className="fixed sm:absolute inset-x-3 bottom-3 sm:inset-auto sm:left-0 sm:top-full sm:mt-2.5 z-50 w-auto sm:w-full sm:max-w-4xl max-h-[85vh] sm:max-h-[640px] rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-2xl overflow-hidden flex flex-col font-sans animate-popover-in"
             style={{
               boxShadow: "0 24px 60px -12px rgba(24, 24, 27, 0.16), 0 0 0 1px rgba(24, 24, 27, 0.05)",
             }}
           >
             {/* Panel Header */}
             <div className="flex items-center justify-between px-5 py-3.5 border-b border-[var(--border)] bg-[var(--surface-hover)] shrink-0">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 <div className="w-2 h-2 rounded-xs bg-[var(--accent)]" />
                 <span className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
-                  FILTERS
+                  CATEGORY ARCHIVE FILTER
                 </span>
-                {activeFilterCount > 0 && (
+                {activeCategoryCount > 0 && (
                   <span className="px-2 py-0.5 rounded-full bg-[var(--accent)] text-white text-[10px] font-mono font-bold">
-                    {activeFilterCount} ACTIVE
+                    {activeCategoryCount} SELECTED
                   </span>
                 )}
               </div>
 
               <div className="flex items-center gap-3">
-                {hasFilters && (
+                {activeCategoryCount > 0 && (
                   <button
                     type="button"
-                    onClick={onClear}
+                    onClick={() => onCategoriesChange([])}
                     className="flex items-center gap-1 font-mono text-[11px] text-[var(--accent)] hover:underline font-semibold cursor-pointer"
+                    title="Clear selected categories"
                   >
                     <RotateCcw className="h-3 w-3" />
-                    <span>CLEAR ALL</span>
+                    <span>RESET CATEGORIES</span>
                   </button>
                 )}
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
-                  className="p-1 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-muted)] transition-colors cursor-pointer"
+                  className="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-muted)] transition-colors cursor-pointer"
                   title="Close filters panel"
+                  aria-label="Close filters panel"
                 >
                   <X className="h-4 w-4" />
                 </button>
               </div>
             </div>
 
-            {/* Scrollable Filter Contents */}
+            {/* Scrollable Category Groups List with Large Touch Checkboxes */}
             <div className="overflow-y-auto p-4 sm:p-6 space-y-6 flex-1">
               
-              {/* 01: CATEGORIES SECTION WITH CHECKBOXES */}
-              <div className="space-y-3">
-                <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border)]/70">
-                  <div className="flex items-center gap-2">
-                    <Layers className="h-3.5 w-3.5 text-[var(--accent)]" />
-                    <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
-                      CATEGORIES ({categories.length})
-                    </h3>
-                  </div>
-                  <span className="font-mono text-[10px] text-[var(--text-muted)] uppercase">
-                    {selectedCategories.length > 0 ? `${selectedCategories.length} SELECTED` : "MULTI-SELECT"}
-                  </span>
-                </div>
+              {CATEGORY_GROUPS.map((group: CategoryGroup) => {
+                const groupCategories = group.categoryIds
+                  .map((id) => categories.find((c) => c.id === id))
+                  .filter((c): c is (typeof categories)[0] => Boolean(c));
 
-                {/* Category Multi-Column Checkbox Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-                  {categories.map((cat) => {
-                    const isSelected = selectedCategories.includes(cat.id);
-                    const count = categoryCounts[cat.id] ?? 0;
+                const groupSelectedCount = groupCategories.filter((c) =>
+                  selectedCategories.includes(c.id)
+                ).length;
+                const isAllGroupSelected =
+                  groupCategories.length > 0 && groupSelectedCount === groupCategories.length;
 
-                    return (
-                      <button
-                        key={cat.id}
-                        type="button"
-                        onClick={() => toggleCategory(cat.id)}
-                        className={cn(
-                          "flex items-center justify-between gap-2.5 px-3 py-2 rounded-xl border text-left text-xs transition-all duration-140 cursor-pointer group select-none",
-                          isSelected
-                            ? "bg-[var(--accent-soft)] border-[var(--accent)] text-[var(--text-primary)] font-semibold shadow-2xs"
-                            : "border-[var(--border)]/80 bg-[var(--surface)] hover:bg-[var(--surface-muted)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-strong)]"
-                        )}
-                      >
-                        <div className="flex items-center gap-2.5 min-w-0">
-                          {/* Custom Checkbox: □ -> ☑ */}
-                          <div
-                            className={cn(
-                              "w-4 h-4 rounded-md flex items-center justify-center shrink-0 transition-all duration-140",
-                              isSelected
-                                ? "bg-[var(--accent)] text-white border border-[var(--accent)]"
-                                : "border border-[var(--border-strong)] bg-[var(--surface)] group-hover:border-[var(--text-secondary)]"
-                            )}
-                          >
-                            {isSelected && <Check className="w-3 h-3 stroke-[3]" />}
-                          </div>
+                return (
+                  <div key={group.id} className="space-y-2.5">
+                    {/* Category Group Subheader */}
+                    <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border)]/70">
+                      <div className="flex items-center gap-2">
+                        <Layers className="h-3.5 w-3.5 text-[var(--accent)] shrink-0" />
+                        <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
+                          {group.name} ({groupCategories.length})
+                        </h3>
+                      </div>
 
-                          {/* Category Icon */}
-                          <span className="w-3.5 h-3.5 shrink-0 flex items-center justify-center text-[var(--text-muted)] group-hover:text-[var(--accent)]">
-                            <CategoryIcon id={cat.id} className="w-3.5 h-3.5" />
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => selectGroupCategories(group.categoryIds)}
+                          className="font-mono text-[10px] text-[var(--text-muted)] hover:text-[var(--accent)] uppercase transition-colors cursor-pointer underline-offset-2 hover:underline"
+                        >
+                          {isAllGroupSelected ? "DESELECT ALL" : "SELECT ALL"}
+                        </button>
+                        {groupSelectedCount > 0 && (
+                          <span className="font-mono text-[10px] px-1.5 py-0.2 rounded bg-[var(--accent-soft)] text-[var(--accent)] font-semibold">
+                            {groupSelectedCount}
                           </span>
-
-                          {/* Category Title */}
-                          <span className="truncate">{cat.name}</span>
-                        </div>
-
-                        {/* Dynamic Count Badge */}
-                        <span
-                          className={cn(
-                            "font-mono text-[10px] px-1.5 py-0.2 rounded shrink-0",
-                            isSelected
-                              ? "bg-[var(--accent)] text-white font-bold"
-                              : "bg-[var(--surface-muted)] text-[var(--text-muted)] group-hover:text-[var(--text-primary)]"
-                          )}
-                        >
-                          {count}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* 02: PRIMARY PURPOSE SECTION WITH CHECKBOXES */}
-              <div className="space-y-3 pt-2">
-                <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border)]/70">
-                  <div className="flex items-center gap-2">
-                    <Target className="h-3.5 w-3.5 text-[var(--accent)]" />
-                    <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
-                      PURPOSE ({CONTROLLED_PURPOSES.length})
-                    </h3>
-                  </div>
-                  <span className="font-mono text-[10px] text-[var(--text-muted)] uppercase">
-                    {activePurposes.length > 0 ? `${activePurposes.length} SELECTED` : "MULTI-SELECT"}
-                  </span>
-                </div>
-
-                {/* Purpose Checkbox Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-                  {CONTROLLED_PURPOSES.map((purpose) => {
-                    const isSelected = activePurposes.includes(purpose);
-                    const count = purposeCounts[purpose] ?? 0;
-
-                    return (
-                      <button
-                        key={purpose}
-                        type="button"
-                        onClick={() => togglePurpose(purpose)}
-                        className={cn(
-                          "flex items-center justify-between gap-2.5 px-3 py-2 rounded-xl border text-left text-xs transition-all duration-140 cursor-pointer group select-none",
-                          isSelected
-                            ? "bg-[var(--accent-soft)] border-[var(--accent)] text-[var(--text-primary)] font-semibold shadow-2xs"
-                            : "border-[var(--border)]/80 bg-[var(--surface)] hover:bg-[var(--surface-muted)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-strong)]"
                         )}
-                      >
-                        <div className="flex items-center gap-2.5 min-w-0">
-                          {/* Custom Checkbox: □ -> ☑ */}
-                          <div
+                      </div>
+                    </div>
+
+                    {/* Category Multi-Column Checkbox Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                      {groupCategories.map((cat) => {
+                        const isSelected = selectedCategories.includes(cat.id);
+                        const count = categoryCounts[cat.id] ?? 0;
+
+                        return (
+                          <button
+                            key={cat.id}
+                            type="button"
+                            role="checkbox"
+                            aria-checked={isSelected}
+                            onClick={() => toggleCategory(cat.id)}
                             className={cn(
-                              "w-4 h-4 rounded-md flex items-center justify-center shrink-0 transition-all duration-140",
+                              "flex items-center justify-between gap-2.5 px-3 py-2 rounded-xl border text-left text-xs transition-all duration-140 cursor-pointer group select-none focus-visible:outline-2 focus-visible:outline-[var(--accent)]",
                               isSelected
-                                ? "bg-[var(--accent)] text-white border border-[var(--accent)]"
-                                : "border border-[var(--border-strong)] bg-[var(--surface)] group-hover:border-[var(--text-secondary)]"
+                                ? "bg-[var(--accent-soft)] border-[var(--accent)] text-[var(--text-primary)] font-semibold shadow-2xs"
+                                : "border-[var(--border)]/80 bg-[var(--surface)] hover:bg-[var(--surface-muted)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-strong)]"
                             )}
                           >
-                            {isSelected && <Check className="w-3 h-3 stroke-[3]" />}
-                          </div>
+                            <div className="flex items-center gap-2.5 min-w-0">
+                              {/* Large Accessible Checkbox Indicator: □ -> ☑ */}
+                              <div
+                                className={cn(
+                                  "w-4 h-4 rounded-md flex items-center justify-center shrink-0 transition-all duration-140",
+                                  isSelected
+                                    ? "bg-[var(--accent)] text-white border border-[var(--accent)] shadow-2xs"
+                                    : "border border-[var(--border-strong)] bg-[var(--surface)] group-hover:border-[var(--text-secondary)]"
+                                )}
+                              >
+                                {isSelected && <Check className="w-3 h-3 stroke-[3]" />}
+                              </div>
 
-                          <span className="truncate">{purpose}</span>
-                        </div>
+                              {/* Custom Category SVG Icon */}
+                              <span
+                                className={cn(
+                                  "w-3.5 h-3.5 shrink-0 flex items-center justify-center transition-colors",
+                                  isSelected
+                                    ? "text-[var(--accent)]"
+                                    : "text-[var(--text-muted)] group-hover:text-[var(--text-primary)]"
+                                )}
+                              >
+                                <CategoryIcon id={cat.id} className="w-3.5 h-3.5" />
+                              </span>
 
-                        <span
-                          className={cn(
-                            "font-mono text-[10px] px-1.5 py-0.2 rounded shrink-0",
-                            isSelected
-                              ? "bg-[var(--accent)] text-white font-bold"
-                              : "bg-[var(--surface-muted)] text-[var(--text-muted)] group-hover:text-[var(--text-primary)]"
-                          )}
-                        >
-                          {count}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
+                              {/* Category Name */}
+                              <span className="truncate text-[12px]">{cat.name}</span>
+                            </div>
 
-              {/* 03: SORT ORDER ROW */}
+                            {/* Live Category Resource Count Badge */}
+                            <span
+                              className={cn(
+                                "font-mono text-[10px] px-1.5 py-0.2 rounded shrink-0 transition-colors",
+                                isSelected
+                                  ? "bg-[var(--accent)] text-white font-bold"
+                                  : "bg-[var(--surface-muted)] text-[var(--text-muted)] group-hover:text-[var(--text-primary)]"
+                              )}
+                            >
+                              {count}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+
+              {/* Sort Order Setting Row */}
               <div className="space-y-3 pt-2">
                 <div className="flex items-center gap-2 pb-1.5 border-b border-[var(--border)]/70">
                   <ArrowUpDown className="h-3.5 w-3.5 text-[var(--accent)]" />
@@ -447,15 +424,31 @@ export function Filters({
             <div className="flex items-center justify-between px-5 py-3 border-t border-[var(--border)] bg-[var(--surface-hover)] shrink-0">
               <div className="font-mono text-[11px] text-[var(--text-muted)]">
                 <span>{resources.length} OBJECTS IN VAULT</span>
+                {activeCategoryCount > 0 && (
+                  <span className="ml-2 text-[var(--accent)] font-semibold">
+                    ({activeCategoryCount} {activeCategoryCount === 1 ? "category" : "categories"} filtered)
+                  </span>
+                )}
               </div>
 
-              <button
-                type="button"
-                onClick={() => setIsOpen(false)}
-                className="px-4 py-1.5 rounded-xl bg-[var(--text-primary)] text-[var(--background)] font-mono text-xs font-bold uppercase tracking-wider hover:opacity-90 transition-opacity cursor-pointer shadow-2xs"
-              >
-                VIEW RESULTS
-              </button>
+              <div className="flex items-center gap-2">
+                {hasFilters && (
+                  <button
+                    type="button"
+                    onClick={onClear}
+                    className="px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-mono text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer shadow-2xs"
+                  >
+                    CLEAR ALL
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setIsOpen(false)}
+                  className="px-4 py-1.5 rounded-xl bg-[var(--text-primary)] text-[var(--background)] font-mono text-xs font-bold uppercase tracking-wider hover:opacity-90 transition-opacity cursor-pointer shadow-2xs"
+                >
+                  VIEW RESULTS
+                </button>
+              </div>
             </div>
           </div>
         </>

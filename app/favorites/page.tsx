@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ArrowLeft, Star } from "lucide-react";
 import { useResources } from "@/lib/resource-context";
-import { useFilterState, Filters } from "@/components/filters/filters";
+import { useFilterState, Filters, ActiveFilterChips } from "@/components/filters";
 import { ResourceGrid } from "@/components/resource-grid/resource-grid";
 import { Footer } from "@/components/layout/footer";
 
@@ -50,7 +50,7 @@ export default function FavoritesPage() {
       {/* Filters (if items exist) */}
       {resources.length > 0 && (
         <div className="w-full border-b border-[var(--border)] bg-[var(--background)] py-3 px-4 sm:px-8 lg:px-12">
-          <div className="mx-auto max-w-7xl">
+          <div className="mx-auto max-w-7xl space-y-2">
             <Filters
               selectedCategories={filterState.selectedCategories}
               selectedTags={filterState.selectedTags}
@@ -66,6 +66,19 @@ export default function FavoritesPage() {
               onSortChange={filterState.setSort}
               onClear={filterState.clearFilters}
             />
+
+            {filterState.selectedCategories.length > 0 && (
+              <ActiveFilterChips
+                selectedCategories={filterState.selectedCategories}
+                onRemoveCategory={(catId) =>
+                  filterState.setSelectedCategories(
+                    filterState.selectedCategories.filter((c) => c !== catId)
+                  )
+                }
+                onClearAll={filterState.clearFilters}
+                totalResults={resources.length}
+              />
+            )}
           </div>
         </div>
       )}

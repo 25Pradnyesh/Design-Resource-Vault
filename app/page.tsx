@@ -5,7 +5,7 @@ import { useResources } from "@/lib/resource-context";
 import { ArchiveHero } from "@/components/archive/archive-hero";
 import { CategoryTileGrid } from "@/components/archive/category-tile-grid";
 import { ArchiveFeatured } from "@/components/archive/archive-featured";
-import { Filters, useFilterState } from "@/components/filters/filters";
+import { Filters, ActiveFilterChips, useFilterState } from "@/components/filters";
 import { ResourceGrid } from "@/components/resource-grid/resource-grid";
 import { Footer } from "@/components/layout/footer";
 import { parseSearchIntent } from "@/lib/search-intent";
@@ -133,6 +133,20 @@ export default function HomePage() {
               onSortChange={filterState.setSort}
               onClear={filterState.clearFilters}
             />
+
+            {/* Removable Active Filter Chips Strip */}
+            {filterState.selectedCategories.length > 0 && (
+              <ActiveFilterChips
+                selectedCategories={filterState.selectedCategories}
+                onRemoveCategory={(catId) =>
+                  filterState.setSelectedCategories(
+                    filterState.selectedCategories.filter((c) => c !== catId)
+                  )
+                }
+                onClearAll={filterState.clearFilters}
+                totalResults={filtered.length}
+              />
+            )}
           </div>
 
           {/* Scannable Multi-Column Resource Grid with Scoring */}

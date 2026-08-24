@@ -6,7 +6,7 @@ import { getFeaturedResources, getRecentResources } from "@/lib/search";
 import { PageHeader, StatCard, SectionHeader } from "@/components/layout/page-header";
 import { ResourceGrid } from "@/components/resource-grid/resource-grid";
 import { SearchTrigger } from "@/components/command-menu/command-menu";
-import { Filters, useFilterState } from "@/components/filters/filters";
+import { Filters, ActiveFilterChips, useFilterState } from "@/components/filters";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 
@@ -91,6 +91,18 @@ export function DashboardContent() {
             onSortChange={filterState.setSort}
             onClear={filterState.clearFilters}
           />
+          {filterState.selectedCategories.length > 0 && (
+            <ActiveFilterChips
+              selectedCategories={filterState.selectedCategories}
+              onRemoveCategory={(catId) =>
+                filterState.setSelectedCategories(
+                  filterState.selectedCategories.filter((c) => c !== catId)
+                )
+              }
+              onClearAll={filterState.clearFilters}
+              totalResults={filtered.length}
+            />
+          )}
         </div>
 
         <ResourceGrid resources={filtered} />

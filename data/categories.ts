@@ -168,3 +168,72 @@ export function getCategoryById(id: string): Category | undefined {
 export function getCategoryBySlug(slug: string): Category | undefined {
   return categories.find((c) => c.slug === slug);
 }
+
+export interface CategoryGroup {
+  id: string;
+  name: string;
+  description: string;
+  categoryIds: string[];
+}
+
+export const CATEGORY_GROUPS: CategoryGroup[] = [
+  {
+    id: "inspiration",
+    name: "Inspiration & Web",
+    description: "Curated web showcases, landing pages, portfolios, and creative references",
+    categoryIds: [
+      "ui-web-inspiration",
+      "landing-page-inspiration",
+      "saas-product-design",
+      "portfolio-inspiration",
+      "award-winning-experimental",
+      "creative-advertising",
+    ],
+  },
+  {
+    id: "interaction",
+    name: "Interaction & Motion",
+    description: "Web animation, interactive 3D, physics, shaders, and dynamic visual effects",
+    categoryIds: [
+      "website-animation-inspiration",
+      "animation-motion-tools",
+      "frontend-animation",
+      "3d-interactive-web",
+      "backgrounds-visual-effects",
+    ],
+  },
+  {
+    id: "visual-assets",
+    name: "Visual Systems & Assets",
+    description: "Component libraries, typography, color palettes, iconography, and mockups",
+    categoryIds: [
+      "ui-components",
+      "color-typography",
+      "visual-assets",
+      "iconography",
+      "mockups-presentation",
+      "visual-search-moodboarding",
+    ],
+  },
+  {
+    id: "product-engineering",
+    name: "Product & Engineering",
+    description: "UX flows, prototyping, AI coding tools, design workflow, and tutorials",
+    categoryIds: [
+      "ux-user-flows",
+      "ui-ux-prototyping",
+      "ai-design-vibe-coding",
+      "design-workflow",
+      "learning-vibe-coding",
+    ],
+  },
+];
+
+export function getCategoriesByGroup(groupId: string): Category[] {
+  const group = CATEGORY_GROUPS.find((g) => g.id === groupId);
+  if (!group) return [];
+  return group.categoryIds
+    .map((id) => categoryMap[id])
+    .filter((c): c is Category => Boolean(c));
+}
+
