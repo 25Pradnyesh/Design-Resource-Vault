@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Star, ArrowUpRight, Info } from "lucide-react";
+import { Heart, ArrowUpRight, Info } from "lucide-react";
 import { Resource, ScoredResource } from "@/types";
 import { categoryMap } from "@/data/categories";
 import { useResources } from "@/lib/resource-context";
@@ -29,16 +29,16 @@ export function ResourceCard({
   const matchExplanation = scoredMatch?.matchExplanation;
 
   return (
-    <div className="group resource-card relative flex flex-col justify-between rounded-xl border border-[var(--border)] bg-[var(--surface)] p-2.5 sm:p-3 overflow-hidden hover:border-[var(--border-strong)] hover:bg-[var(--surface-hover)] select-none font-sans">
+    <div className="group resource-card relative flex flex-col justify-between rounded-2xl border border-[#E2E8F0] bg-white p-3 overflow-hidden hover:border-[#CBD5E1] hover:bg-white select-none font-sans transition-all duration-200">
       {/* Top Left: Active Match Score Pill (when querying) */}
       {activeQuery && matchPercentage !== undefined && (
         <div className="absolute top-3.5 left-3.5 z-20 pointer-events-none">
           <span
             className={cn(
-              "px-2 py-0.5 rounded-md font-mono text-[9px] font-bold border backdrop-blur-xs shadow-2xs",
+              "px-2.5 py-0.5 rounded-full font-mono text-[9px] font-bold border backdrop-blur-xs shadow-2xs",
               matchPercentage >= 85
-                ? "bg-emerald-500/90 text-white border-emerald-600/30"
-                : "bg-[var(--accent)]/90 text-white border-[var(--accent-hover)]/30"
+                ? "bg-emerald-500 text-white border-emerald-600/30"
+                : "bg-[#00C4CC] text-[#0B132B] border-[#00C4CC]/30 font-black"
             )}
           >
             {matchPercentage}% MATCH
@@ -54,15 +54,15 @@ export function ResourceCard({
           e.stopPropagation();
           toggleFavorite(resource.id);
         }}
-        className="absolute top-3.5 right-3.5 z-20 p-1.5 rounded-md bg-white/90 backdrop-blur-xs border border-black/10 text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:scale-105 transition-all cursor-pointer shadow-2xs"
+        className="absolute top-3.5 right-3.5 z-20 p-1.5 rounded-full bg-white/95 backdrop-blur-xs border border-black/8 text-[#64748B] hover:text-[#FA5252] hover:scale-110 active:scale-95 transition-all cursor-pointer shadow-2xs"
         aria-label={favorited ? `Remove ${resource.name} from favorites` : `Add ${resource.name} to favorites`}
       >
-        <Star
+        <Heart
           className={cn(
             "h-3.5 w-3.5 transition-colors",
             favorited
-              ? "fill-[var(--accent)] text-[var(--accent)] font-bold"
-              : "text-[var(--text-muted)] group-hover:text-[var(--text-secondary)]"
+              ? "fill-[#FA5252] text-[#FA5252]"
+              : "text-[#94A3B8] group-hover:text-[#64748B]"
           )}
         />
       </button>
@@ -72,7 +72,7 @@ export function ResourceCard({
         href={resource.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="block w-full mb-2.5 overflow-hidden rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] group/preview"
+        className="block w-full mb-2.5 overflow-hidden rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-[#00C4CC] group/preview"
         aria-label={`Visit ${resource.name} website`}
       >
         <ResourcePreview resource={resource} />
@@ -80,13 +80,13 @@ export function ResourceCard({
 
       {/* Contextual Match Rationale (shown on active search query) */}
       {activeQuery && matchExplanation && (
-        <div className="mb-2 px-2 py-1 rounded-md bg-[var(--surface-muted)] text-[10px] text-[var(--text-secondary)] line-clamp-1 italic font-sans border border-[var(--border)]/50">
+        <div className="mb-2 px-2.5 py-1 rounded-lg bg-[#F1F5F9] text-[10px] text-[#334155] line-clamp-1 italic font-sans border border-[#E2E8F0]">
           &ldquo;{matchExplanation}&rdquo;
         </div>
       )}
 
       {/* Bottom Metadata & Controls */}
-      <div className="flex items-center justify-between gap-2 pt-1 border-t border-[var(--border)]/60">
+      <div className="flex items-center justify-between gap-2 pt-1 border-t border-[#E2E8F0]/70">
         {/* Resource Name and Domain */}
         <a
           href={resource.url}
@@ -96,19 +96,19 @@ export function ResourceCard({
           title={`Visit ${domain}`}
         >
           <div className="flex items-center gap-1.5">
-            <h3 className="text-xs sm:text-[13px] font-semibold text-[var(--text-primary)] group-hover/title:text-[var(--accent)] truncate transition-colors">
+            <h3 className="text-xs sm:text-[13px] font-bold text-[#0B132B] group-hover/title:text-[#00C4CC] truncate transition-colors">
               {resource.name}
             </h3>
             {resource.featured && (
-              <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] shrink-0" title="Featured Resource" />
+              <span className="h-1.5 w-1.5 rounded-full bg-[#00C4CC] shrink-0 shadow-xs" title="Featured Resource" />
             )}
           </div>
-          <div className="flex items-center gap-1.5 text-[10px] font-mono text-[var(--text-muted)] truncate">
-            <span className="truncate">{domain}</span>
+          <div className="flex items-center gap-1.5 text-[10px] font-mono text-[#64748B] truncate">
+            <span className="truncate font-semibold">{domain}</span>
             {primaryCat && (
               <>
                 <span className="opacity-40">·</span>
-                <span className="truncate opacity-75">{primaryCat.name}</span>
+                <span className="truncate opacity-80">{primaryCat.name}</span>
               </>
             )}
           </div>
@@ -119,7 +119,7 @@ export function ResourceCard({
           {/* Detail Page Link (Internal Documentation) */}
           <Link
             href={`/resources/${resource.slug}`}
-            className="p-1 rounded-md text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-muted)] transition-colors inline-flex items-center justify-center"
+            className="p-1.5 rounded-full text-[#64748B] hover:text-[#0B132B] hover:bg-[#F1F5F9] transition-colors inline-flex items-center justify-center"
             title="View resource specifications & details"
             aria-label={`View details for ${resource.name}`}
           >
@@ -131,7 +131,7 @@ export function ResourceCard({
             href={resource.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-1 rounded text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors inline-flex items-center justify-center"
+            className="p-1.5 rounded-full text-[#64748B] hover:text-[#0B132B] hover:bg-[#F1F5F9] transition-colors inline-flex items-center justify-center"
             title={`Open ${domain}`}
             aria-label={`Open ${resource.name} website`}
           >

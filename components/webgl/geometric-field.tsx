@@ -16,10 +16,10 @@ export function createGeometricField(): GeometricFieldObjects {
   const disposables: (THREE.BufferGeometry | THREE.Material)[] = [];
 
   // Theme Colors
-  const accentColor = new THREE.Color("#EB5A28");
-  const secondaryColor = new THREE.Color("#F59E0B");
-  const gridColor = new THREE.Color("#E6E2DA");
-  const nodeColor = new THREE.Color("#141416");
+  const accentColor = new THREE.Color("#00C4CC");
+  const secondaryColor = new THREE.Color("#FBBF24");
+  const gridColor = new THREE.Color("#E2E8F0");
+  const nodeColor = new THREE.Color("#0B132B");
 
   // 1. Blueprint Horizon Grid Plane
   const gridHelper = new THREE.GridHelper(36, 24, accentColor, gridColor);
