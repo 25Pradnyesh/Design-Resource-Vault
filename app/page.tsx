@@ -56,7 +56,7 @@ export default function HomePage() {
   return (
     <div className="w-full flex flex-col min-h-screen bg-[var(--background)] text-[var(--text-primary)] font-sans">
       {/* 01: Intelligent Discovery Hero with In-Page Search */}
-      <ArchiveHero query={filterState.query} onQueryChange={filterState.setQuery} />
+      <ArchiveHero />
 
       {/* 02: Categories Visual Navigation Grid (shown when default browsing) */}
       {!hasActiveFilters && <CategoryTileGrid />}

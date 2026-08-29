@@ -165,14 +165,21 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               </motion.div>
 
               {/* --------------------------------------------------------
-                  BRAND TITLE
+                  BRAND TITLE (Responsive: VAULT on mobile, full name on sm+)
               --------------------------------------------------------- */}
               <span
-                className={`whitespace-nowrap font-sans text-xs font-black tracking-tight transition-[color,opacity] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:text-[#00C4CC] sm:text-sm md:text-[15px] ${
+                className={`hidden sm:inline-block whitespace-nowrap font-sans text-xs font-black tracking-tight transition-[color,opacity] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:text-[#00C4CC] md:text-[15px] ${
                   scrollTier === "deep" ? "text-[#0B132B]/90" : "text-[#0B132B]"
                 }`}
               >
                 DESIGN RESOURCE VAULT
+              </span>
+              <span
+                className={`inline-block sm:hidden whitespace-nowrap font-sans text-xs font-black tracking-tight transition-[color,opacity] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:text-[#00C4CC] ${
+                  scrollTier === "deep" ? "text-[#0B132B]/90" : "text-[#0B132B]"
+                }`}
+              >
+                VAULT
               </span>
             </Link>
           </div>

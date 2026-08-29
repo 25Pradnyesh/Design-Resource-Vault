@@ -29,9 +29,9 @@ export function ResourceGrid({
         action={
           onClearFilters
             ? {
-                label: "Clear All Filters",
-                onClick: onClearFilters,
-              }
+              label: "Clear All Filters",
+              onClick: onClearFilters,
+            }
             : undefined
         }
       />
