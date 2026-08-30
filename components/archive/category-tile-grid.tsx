@@ -29,7 +29,7 @@ export function CategoryTileGrid() {
         </div>
 
         {/* 6-Column Category Grid matching Reference Benchmark */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3.5 sm:gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 gap-3.5 sm:gap-4 lg:gap-4.5">
           {categories.map((cat, idx) => {
             const theme = CATEGORY_THEMES[cat.id] || {
               id: cat.id,
@@ -46,28 +46,33 @@ export function CategoryTileGrid() {
               <Link
                 key={cat.id}
                 href={`/categories/${cat.slug}`}
-                className="group category-card-item relative flex flex-col justify-between rounded-2xl p-3.5 sm:p-4 overflow-hidden border transition-all duration-250 ease-out cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#00C4CC] hover:-translate-y-1.5 hover:shadow-lg"
+                className="group category-card-item relative flex flex-col justify-between rounded-2xl p-3.5 sm:p-4 overflow-hidden border bg-[var(--card-bg)] hover:bg-[var(--card-hover-bg)] border-[var(--card-border)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#00C4CC] focus-visible:ring-offset-2 hover:-translate-y-1 hover:shadow-md hover:border-[#CBD5E1] motion-reduce:hover:translate-y-0 motion-reduce:transform-none select-none"
                 style={{
-                  backgroundColor: theme.bg,
-                  borderColor: theme.border,
-                }}
+                  "--card-bg": theme.bg,
+                  "--card-hover-bg": theme.hoverBg,
+                  "--card-border": theme.border,
+                  "--card-accent": theme.accent,
+                } as React.CSSProperties}
               >
-                {/* 01: Top Index Number */}
-                <div className="flex items-center justify-between font-mono text-[10.5px] font-black text-[#64748B]">
-                  <span className="tracking-wider text-[#334155] group-hover:text-[#0B132B] transition-colors">
+                {/* 01: Top Index Number & Metadata Label */}
+                <div className="flex items-center justify-between font-mono text-[10px] font-bold text-[#64748B]">
+                  <span className="tracking-wider text-[#334155] font-black group-hover:text-[#0B132B] transition-colors duration-250">
                     {theme.num}
+                  </span>
+                  <span className="text-[9px] font-semibold uppercase tracking-widest text-[#94A3B8] opacity-70 group-hover:opacity-100 transition-opacity duration-250">
+                    CAT
                   </span>
                 </div>
 
-                {/* 02: Large Dominant 3D Category Illustration with Upward Shift & Scale on Hover */}
-                <div className="my-2.5 sm:my-3.5 flex items-center justify-center p-1 w-full h-18 sm:h-20 transition-transform duration-250 ease-out group-hover:scale-106 group-hover:-translate-y-1">
-                  <Category3DIcon id={cat.id} className="w-full h-full object-contain" />
+                {/* 02: Centered 3D Category Artwork with Layered Upward Shift & Controlled 1.04 Scale */}
+                <div className="my-3 sm:my-3.5 flex items-center justify-center p-1 w-full h-18 sm:h-20 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1.5 group-hover:scale-104 pointer-events-none motion-reduce:group-hover:translate-y-0 motion-reduce:group-hover:scale-100">
+                  <Category3DIcon id={cat.id} className="w-full h-full object-contain filter drop-shadow-2xs group-hover:drop-shadow-xs transition-[filter] duration-300" />
                 </div>
 
-                {/* 03: Bottom Metadata (Category Title, Count, and Arrow) */}
-                <div className="flex items-end justify-between pt-1.5 gap-1.5 border-t border-black/5">
+                {/* 03: Bottom Metadata (Category Title, Count, and Directional Arrow) */}
+                <div className="flex items-end justify-between pt-2 gap-2 border-t border-black/6">
                   <div className="min-w-0 flex-1 space-y-0.5">
-                    <h3 className="text-[11px] sm:text-[12px] font-black uppercase tracking-tight text-[#0B132B] leading-tight line-clamp-2">
+                    <h3 className="text-[10.5px] sm:text-[11.5px] lg:text-[12px] font-black uppercase tracking-tight text-[#0B132B] leading-tight line-clamp-2 transition-colors duration-250 group-hover:text-[#00C4CC]">
                       {theme.name}
                     </h3>
                     <p className="font-mono text-[9px] text-[#64748B] uppercase tracking-wider font-bold">
@@ -75,9 +80,9 @@ export function CategoryTileGrid() {
                     </p>
                   </div>
 
-                  {/* Circular Arrow Button with Subtle Shift on Hover */}
-                  <div className="w-6 h-6 rounded-full bg-white/95 border border-black/8 flex items-center justify-center text-[#334155] shadow-2xs group-hover:bg-white group-hover:text-[#0B132B] group-hover:translate-x-0.5 group-hover:shadow-xs transition-all duration-200 shrink-0">
-                    <ArrowRight className="w-3 h-3" />
+                  {/* Circular Arrow Button with 4px Horizontal Shift on Hover */}
+                  <div className="w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full bg-white/95 border border-black/8 flex items-center justify-center text-[#475569] shadow-2xs group-hover:bg-white group-hover:text-[#0B132B] group-hover:border-black/15 group-hover:translate-x-1 group-hover:shadow-xs transition-all duration-250 ease-[cubic-bezier(0.16,1,0.3,1)] shrink-0 motion-reduce:group-hover:translate-x-0">
+                    <ArrowRight className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                   </div>
                 </div>
               </Link>

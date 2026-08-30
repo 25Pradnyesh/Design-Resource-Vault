@@ -132,14 +132,14 @@ body {
 .category-card-item {
   box-shadow: var(--card-shadow);
   will-change: transform, box-shadow;
-  transition: transform 220ms var(--ease-smooth),
-              box-shadow 220ms ease,
-              border-color 220ms ease,
-              filter 220ms ease;
+  transition: transform 280ms var(--ease-smooth),
+              box-shadow 280ms var(--ease-smooth),
+              border-color 280ms var(--ease-smooth),
+              background-color 280ms var(--ease-smooth);
 }
 
 .category-card-item:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
   box-shadow: var(--card-hover-shadow);
 }
 
