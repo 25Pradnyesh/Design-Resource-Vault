@@ -9,26 +9,25 @@ import {
 import { categoryMap } from "@/data/categories";
 import { parseSearchIntent } from "@/lib/search-intent";
 import { getResourcePrimaryPurpose } from "@/data/resources";
+import { getDomainFromUrl } from "@/lib/utils";
 
 function normalize(text: string): string {
   return text.toLowerCase().trim();
 }
 
 /**
- * Multi-Signal Deterministic Scoring Engine
+ * Multi-Signal Deterministic Scoring Engine with Strict Priority:
  * 
- * Signal Weights:
- * - Exact Name Match: 60 pts
- * - Name Substring/Prefix: 40 pts
- * - Category Match: 30 pts
- * - Technology Match: 28 pts
- * - Style / Aesthetic Match: 28 pts
- * - Tag Match: 22 pts
- * - Purpose Match: 18 pts
- * - 4-Quadrant Specs (What/Why/When/How): 12 pts
- * - Description Text: 10 pts
- * - Featured Boost: 5 pts
- * - Usage/View Count Boost: 0-8 pts
+ * Signal Priority & Weights:
+ * 1. Resource Name Match (highest relevance: 30-60 pts)
+ * 2. Domain Match (high relevance: 25-50 pts)
+ * 3. Tag Match (medium relevance: 22-30 pts)
+ * 4. Category Match (medium relevance: 25-30 pts)
+ * 5. Technology Match (28 pts)
+ * 6. Style / Aesthetic Match (28 pts)
+ * 7. Purpose Match (18 pts)
+ * 8. Specifications Match (What/Why/When/How/Desc: 8-24 pts)
+ * 9. Quality & Usage Boosters (Featured: 5 pts, View Count: 0-8 pts)
  */
 export function scoreResource(
   resource: Resource,
@@ -66,46 +65,125 @@ export function scoreResource(
   const normWhen = normalize(resource.whenToUseIt);
   const normHow = normalize(resource.howToUseIt);
 
+  const rawDomain = getDomainFromUrl(resource.url);
+  const normDomain = normalize(rawDomain);
+  const domainRoot = normDomain.replace(/\.[a-z0-9]+$/i, "");
+
   const resourceTags = resource.tags.map(normalize);
   const resourceTechs = (resource.technologies ?? []).map(normalize);
   const resourceStyles = (resource.styles ?? []).map(normalize);
 
-  // 1. Exact & Name Matches
+  // Tokens for forgiving prefix / substring matching
+  const queryTokens = normQuery.split(/[\s,+/|;:-]+/).filter(Boolean);
+  const nameWords = normName.split(/[\s,+/|;:-]+/).filter(Boolean);
+
+  // 1. RESOURCE NAME MATCHES (Highest Priority)
   if (normName === normQuery) {
     score += 60;
     reasons.push({ field: "name", label: "Exact Name Match", matchedText: resource.name });
+  } else if (normName.startsWith(normQuery)) {
+    score += 50;
+    reasons.push({ field: "name", label: "Name Prefix Match", matchedText: resource.name });
   } else if (normName.includes(normQuery) || normQuery.includes(normName)) {
     score += 40;
-    reasons.push({ field: "name", label: "Name Match", matchedText: resource.name });
+    reasons.push({ field: "name", label: "Name Substring Match", matchedText: resource.name });
   } else {
-    // Check individual keywords in name
-    for (const kw of intent.keywords) {
-      if (normName.includes(kw)) {
+    // Check forgiving token/prefix matches on name words
+    let nameHit = false;
+    for (const kw of queryTokens) {
+      if (kw.length >= 2) {
+        const wordPrefixMatch = nameWords.some(
+          (w) => (w.length >= 2 && w.startsWith(kw)) || (w.length >= 4 && kw.length >= 4 && kw.startsWith(w))
+        );
+        if (wordPrefixMatch) {
+          score += 30;
+          reasons.push({ field: "name", label: "Name Keyword Match", matchedText: kw });
+          nameHit = true;
+          break;
+        } else if (kw.length >= 3 && normName.includes(kw)) {
+          score += 25;
+          reasons.push({ field: "name", label: "Name Token Match", matchedText: kw });
+          nameHit = true;
+          break;
+        }
+      }
+    }
+    if (!nameHit) {
+      for (const kw of intent.keywords) {
+        if (kw.length >= 3 && normName.includes(kw)) {
+          score += 25;
+          reasons.push({ field: "name", label: "Name Keyword", matchedText: kw });
+          break;
+        }
+      }
+    }
+  }
+
+  // 2. DOMAIN MATCHES (High Priority)
+  if (normDomain === normQuery || domainRoot === normQuery) {
+    score += 50;
+    reasons.push({ field: "domain", label: "Exact Domain Match", matchedText: rawDomain });
+  } else if (normDomain.startsWith(normQuery) || (domainRoot.length >= 3 && domainRoot.startsWith(normQuery))) {
+    score += 40;
+    reasons.push({ field: "domain", label: "Domain Prefix Match", matchedText: rawDomain });
+  } else if (normDomain.includes(normQuery) || (normQuery.length >= 3 && domainRoot.includes(normQuery))) {
+    score += 35;
+    reasons.push({ field: "domain", label: "Domain Match", matchedText: rawDomain });
+  } else {
+    for (const kw of queryTokens) {
+      if (kw.length >= 3 && (normDomain.includes(kw) || domainRoot.includes(kw))) {
         score += 25;
-        reasons.push({ field: "name", label: "Name Keyword", matchedText: kw });
+        reasons.push({ field: "domain", label: "Domain Token Match", matchedText: rawDomain });
         break;
       }
     }
   }
 
-  // 2. Category Matches
+  // 3. TAG MATCHES (Medium-High Priority)
+  for (const tag of resource.tags) {
+    const normTag = normalize(tag);
+    if (normTag === normQuery) {
+      score += 30;
+      matchedTags.push(tag);
+      reasons.push({ field: "tag", label: "Exact Tag Match", matchedText: tag });
+    } else if (normTag.startsWith(normQuery) || (normQuery.length >= 3 && normTag.includes(normQuery))) {
+      score += 24;
+      matchedTags.push(tag);
+      reasons.push({ field: "tag", label: "Tag Match", matchedText: tag });
+    } else {
+      for (const kw of queryTokens) {
+        if (kw.length >= 3 && (normTag.startsWith(kw) || normTag.includes(kw) || (normTag.length >= 4 && kw.startsWith(normTag)))) {
+          score += 22;
+          matchedTags.push(tag);
+          reasons.push({ field: "tag", label: "Tag Match", matchedText: tag });
+          break;
+        }
+      }
+    }
+  }
+
+  // 4. CATEGORY MATCHES (Medium-High Priority)
   for (const catId of resource.categories) {
     const cat = categoryMap[catId];
     const catName = cat ? normalize(cat.name) : "";
     const catSlug = cat ? normalize(cat.slug) : "";
 
+    const isExactCat = catSlug === normQuery || catName === normQuery;
+    const isPrefixCat = (normQuery.length >= 3 && (catSlug.startsWith(normQuery) || catName.startsWith(normQuery))) || (normQuery.length >= 4 && catName.includes(normQuery));
     const matchesCat =
+      isExactCat ||
+      isPrefixCat ||
       intent.categories.includes(catId) ||
-      intent.keywords.some((kw) => catSlug.includes(kw) || catName.includes(kw));
+      queryTokens.some((kw) => kw.length >= 3 && (catSlug.includes(kw) || catName.includes(kw) || catName.split(/\s+/).some((w) => w.startsWith(kw))));
 
     if (matchesCat) {
-      score += 30;
+      score += isExactCat ? 35 : 28;
       matchedCategories.push(cat?.name ?? catId);
-      reasons.push({ field: "category", label: "Category", matchedText: cat?.name ?? catId });
+      reasons.push({ field: "category", label: "Category Match", matchedText: cat?.name ?? catId });
     }
   }
 
-  // 3. Technology Matches
+  // 5. TECHNOLOGY MATCHES
   for (const tech of intent.technologies) {
     const normTech = normalize(tech);
     const inExplicitTech = resourceTechs.some((t) => t.includes(normTech) || normTech.includes(t));
@@ -119,7 +197,7 @@ export function scoreResource(
     }
   }
 
-  // 4. Style Matches
+  // 6. STYLE MATCHES
   for (const style of intent.styles) {
     const normStyle = normalize(style);
     const inExplicitStyle = resourceStyles.some((s) => s.includes(normStyle) || normStyle.includes(s));
@@ -133,29 +211,19 @@ export function scoreResource(
     }
   }
 
-  // 5. Tag Matches
-  for (const tag of resource.tags) {
-    const normTag = normalize(tag);
-    if (intent.keywords.some((kw) => normTag.includes(kw) || kw.includes(normTag))) {
-      score += 22;
-      matchedTags.push(tag);
-      reasons.push({ field: "tag", label: "Tag", matchedText: tag });
-    }
-  }
-
-  // 6. Purpose Match
-  for (const kw of intent.keywords) {
-    if (normPurpose.includes(kw)) {
+  // 7. PURPOSE MATCH
+  for (const kw of queryTokens) {
+    if (kw.length >= 3 && normPurpose.includes(kw)) {
       score += 18;
       reasons.push({ field: "purpose", label: "Purpose", matchedText: kw });
       break;
     }
   }
 
-  // 7. 4-Quadrant Specifications Match (What/Why/When/How)
+  // 8. 4-QUADRANT SPECIFICATIONS MATCH (What/Why/When/How/Desc)
   let specHits = 0;
-  for (const kw of intent.keywords) {
-    if (normWhat.includes(kw) || normWhy.includes(kw) || normWhen.includes(kw) || normHow.includes(kw) || normDesc.includes(kw)) {
+  for (const kw of queryTokens) {
+    if (kw.length >= 3 && (normWhat.includes(kw) || normWhy.includes(kw) || normWhen.includes(kw) || normHow.includes(kw) || normDesc.includes(kw))) {
       specHits++;
     }
   }
@@ -169,7 +237,7 @@ export function scoreResource(
     return null;
   }
 
-  // 8. Quality & Usage Boosters
+  // 9. QUALITY & USAGE BOOSTERS
   if (resource.featured) {
     score += 5;
   }
@@ -184,11 +252,14 @@ export function scoreResource(
 
   // Generate explainable match explanation
   const explanationParts: string[] = [];
+  if (reasons.some((r) => r.field === "domain")) {
+    explanationParts.push(rawDomain);
+  }
   if (matchedCategories.length > 0) {
     explanationParts.push(matchedCategories[0]);
   }
   if (matchedStyles.length > 0) {
-    explanationParts.push(`${matchedStyles.join(", ")} visual language`);
+    explanationParts.push(`${matchedStyles.join(", ")} style`);
   }
   if (matchedTechnologies.length > 0) {
     explanationParts.push(`${matchedTechnologies.join(", ")} interaction`);
@@ -199,11 +270,11 @@ export function scoreResource(
 
   let matchExplanation = "";
   if (explanationParts.length >= 2) {
-    matchExplanation = `Strong match: combines ${explanationParts.join(", ")}.`;
+    matchExplanation = `Strong match: combines ${explanationParts.slice(0, 2).join(", ")}.`;
   } else if (explanationParts.length === 1) {
     matchExplanation = `Relevant match for ${explanationParts[0]}.`;
   } else {
-    matchExplanation = `Matched query across operational specifications and purpose.`;
+    matchExplanation = `Matched query across specifications and archive metadata.`;
   }
 
   return {

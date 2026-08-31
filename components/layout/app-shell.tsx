@@ -22,6 +22,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const { favorites } = useResources();
   const shouldReduceMotion = useReducedMotion();
   const [scrollTier, setScrollTier] = useState<"top" | "light" | "deep">("top");
+  const [isMac, setIsMac] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsMac(/(Mac|iPhone|iPod|iPad)/i.test(navigator.platform || navigator.userAgent));
+    }
+  }, []);
 
   useEffect(() => {
     const onScroll = () => {
@@ -249,7 +256,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                   scrollTier === "deep" ? "border border-black/5 bg-white/60" : "border border-[#E2E8F0] bg-white"
                 }`}
               >
-                ⌘K
+                {isMac ? "⌘K" : "Ctrl+K"}
               </kbd>
             </button>
 
@@ -276,7 +283,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                   scrollTier === "deep" ? "border border-black/5 bg-white/60" : "border border-[#E2E8F0] bg-white"
                 }`}
               >
-                ⌘K
+                {isMac ? "⌘K" : "Ctrl+K"}
               </kbd>
             </button>
 

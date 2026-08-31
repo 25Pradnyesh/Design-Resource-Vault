@@ -65,7 +65,7 @@ export interface SearchIntent {
 }
 
 export interface MatchReason {
-  field: "name" | "category" | "tag" | "technology" | "style" | "purpose" | "spec";
+  field: "name" | "domain" | "category" | "tag" | "technology" | "style" | "purpose" | "spec";
   label: string;
   matchedText: string;
 }

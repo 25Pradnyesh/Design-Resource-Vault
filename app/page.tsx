@@ -135,7 +135,7 @@ export default function HomePage() {
             />
 
             {/* Removable Active Filter Chips Strip */}
-            {filterState.selectedCategories.length > 0 && (
+            {(filterState.selectedCategories.length > 0 || Boolean(filterState.query?.trim())) && (
               <ActiveFilterChips
                 selectedCategories={filterState.selectedCategories}
                 onRemoveCategory={(catId) =>
@@ -143,6 +143,8 @@ export default function HomePage() {
                     filterState.selectedCategories.filter((c) => c !== catId)
                   )
                 }
+                activeQuery={filterState.query}
+                onClearQuery={() => filterState.setQuery("")}
                 onClearAll={filterState.clearFilters}
                 totalResults={filtered.length}
               />
