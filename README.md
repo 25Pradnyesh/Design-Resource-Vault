@@ -7,7 +7,14 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178c6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4.0-38bdf8?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/)
 [![Playwright](https://img.shields.io/badge/Playwright-Audited-2EAD33?style=flat-square&logo=playwright)](https://playwright.dev/)
+[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=flat-square)](https://vercel.com/)
 [![License](https://img.shields.io/badge/License-Not_Specified-64748b?style=flat-square)](#-license)
+
+---
+
+## 🌐 Live Demo
+
+**[→ Visit Design Resource Vault](https://design-resource-vault.vercel.app/)**
 
 ---
 
@@ -372,6 +379,20 @@ node scripts/test-search-ux.mjs
 - `1024 × 768` — Tablet Landscape (Zero overflow, 4 category cols, compact brand)
 - `768 × 1024` — Tablet Portrait (Zero overflow, 4 category cols, compact brand)
 - `390 × 844` — Mobile (Zero overflow, 2 category cols, drawer menu, search icon)
+
+---
+
+## 🚀 Deployment
+
+Design Resource Vault is deployed on Vercel.
+
+The GitHub repository is connected to Vercel, so every push to the `main` branch automatically triggers a new production deployment.
+
+```text
+GitHub → main → Vercel → Production
+```
+
+Production: [https://design-resource-vault.vercel.app/](https://design-resource-vault.vercel.app/)
 
 ---
 
