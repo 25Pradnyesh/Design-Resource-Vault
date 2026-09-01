@@ -57,9 +57,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <header
         className={`fixed inset-x-0 top-0 z-40 h-16 select-none transition-[background-color,backdrop-filter,border-color,box-shadow] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           scrollTier === "top"
-            ? "border-b border-[#E2E8F0]/70 bg-white/85 backdrop-blur-[12px] shadow-none"
+            ? "border-b border-[var(--border)]/70 bg-white/85 backdrop-blur-[12px] shadow-none"
             : scrollTier === "light"
-            ? "border-b border-[#E2E8F0]/30 bg-white/50 backdrop-blur-[10px] shadow-none"
+            ? "border-b border-[var(--border)]/30 bg-white/50 backdrop-blur-[10px] shadow-none"
             : "border-b border-transparent bg-white/[0.18] backdrop-blur-[6px] shadow-none"
         }`}
       >
@@ -71,16 +71,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <div className="relative z-20 flex items-center shrink-0">
             <button
               onClick={() => setSidebarOpen(true)}
-              className={`flex cursor-pointer items-center gap-1.5 sm:gap-2 rounded-full px-2.5 sm:px-3.5 py-1.5 font-sans text-xs font-bold text-[#0B132B] transition-[background-color,border-color,box-shadow,transform] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-98 ${
+              className={`flex cursor-pointer items-center gap-1.5 sm:gap-2 rounded-full px-2.5 sm:px-3.5 py-1.5 font-sans text-xs font-bold text-[var(--text-primary)] transition-[background-color,border-color,box-shadow,transform] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-98 ${
                 scrollTier === "top"
-                  ? "border border-[#E2E8F0] bg-white/95 shadow-2xs hover:border-[#CBD5E1] hover:bg-white"
+                  ? "border border-[var(--border)] bg-white/95 shadow-2xs hover:border-[var(--border-strong)] hover:bg-white"
                   : scrollTier === "light"
-                  ? "border border-[#E2E8F0]/60 bg-white/70 shadow-none hover:border-[#CBD5E1] hover:bg-white/95"
-                  : "border border-black/5 bg-white/40 shadow-none hover:border-[#CBD5E1]/60 hover:bg-white/85"
+                  ? "border border-[var(--border)]/60 bg-white/70 shadow-none hover:border-[var(--border-strong)] hover:bg-white/95"
+                  : "border border-black/5 bg-white/40 shadow-none hover:border-[var(--border-strong)]/60 hover:bg-white/85"
               }`}
               aria-label="Open Navigation Index Drawer"
             >
-              <Menu className="h-3.5 w-3.5 text-[#64748B]" />
+              <Menu className="h-3.5 w-3.5 text-[var(--text-muted)]" />
 
               <span className="font-sans text-[11px] font-black uppercase tracking-wider">
                 MENU
@@ -187,15 +187,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                     < 1200px: Compact "VAULT" (Prevents collision with right actions)
                 --------------------------------------------------------- */}
                 <span
-                  className={`hidden xl:inline-block whitespace-nowrap font-sans text-xs font-black tracking-tight transition-[color,opacity] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:text-[#00C4CC] md:text-[15px] ${
-                    scrollTier === "deep" ? "text-[#0B132B]/90" : "text-[#0B132B]"
+                  className={`hidden xl:inline-block whitespace-nowrap font-sans text-xs font-black tracking-tight transition-[color,opacity] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:text-[var(--accent)] md:text-[15px] ${
+                    scrollTier === "deep" ? "text-[var(--text-primary)]/90" : "text-[var(--text-primary)]"
                   }`}
                 >
                   DESIGN RESOURCE VAULT
                 </span>
                 <span
-                  className={`inline-block xl:hidden whitespace-nowrap font-sans text-xs sm:text-[13px] font-black tracking-tight transition-[color,opacity] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:text-[#00C4CC] ${
-                    scrollTier === "deep" ? "text-[#0B132B]/90" : "text-[#0B132B]"
+                  className={`inline-block xl:hidden whitespace-nowrap font-sans text-xs sm:text-[13px] font-black tracking-tight transition-[color,opacity] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:text-[var(--accent)] ${
+                    scrollTier === "deep" ? "text-[var(--text-primary)]/90" : "text-[var(--text-primary)]"
                   }`}
                 >
                   VAULT
@@ -213,19 +213,19 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             {/* FAVORITES */}
             <Link
               href="/favorites"
-              className={`flex items-center gap-1 sm:gap-1.5 rounded-full px-2 py-1.5 sm:px-3 text-xs text-[#0B132B] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-98 ${
+              className={`flex items-center gap-1 sm:gap-1.5 rounded-full px-2 py-1.5 sm:px-3 text-xs text-[var(--text-primary)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-98 ${
                 scrollTier === "top"
-                  ? "border border-[#E2E8F0] bg-white/95 shadow-2xs hover:border-[#CBD5E1] hover:bg-white"
+                  ? "border border-[var(--border)] bg-white/95 shadow-2xs hover:border-[var(--border-strong)] hover:bg-white"
                   : scrollTier === "light"
-                  ? "border border-[#E2E8F0]/60 bg-white/70 shadow-none hover:border-[#CBD5E1] hover:bg-white/95"
-                  : "border border-black/5 bg-white/40 shadow-none hover:border-[#CBD5E1]/60 hover:bg-white/85"
+                  ? "border border-[var(--border)]/60 bg-white/70 shadow-none hover:border-[var(--border-strong)] hover:bg-white/95"
+                  : "border border-black/5 bg-white/40 shadow-none hover:border-[var(--border-strong)]/60 hover:bg-white/85"
               }`}
               title="View starred favorites"
               aria-label="Favorites"
             >
               <Heart
-                className="h-3.5 w-3.5 text-[#FA5252]"
-                fill="#FA5252"
+                className="h-3.5 w-3.5 text-[var(--accent-coral)]"
+                fill="var(--accent-coral)"
               />
 
               <span className="font-mono text-[10px] sm:text-[11px] font-bold">
@@ -238,22 +238,22 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               onClick={() => setCommandMenuOpen(true)}
               className={`hidden xl:flex cursor-pointer items-center gap-2.5 rounded-full px-3.5 py-1.5 text-xs transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-98 ${
                 scrollTier === "top"
-                  ? "border border-[#E2E8F0] bg-[#F8FAFC] text-[#64748B] shadow-2xs hover:border-[#CBD5E1] hover:bg-white hover:text-[#0B132B]"
+                  ? "border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--text-muted)] shadow-2xs hover:border-[var(--border-strong)] hover:bg-white hover:text-[var(--text-primary)]"
                   : scrollTier === "light"
-                  ? "border border-[#E2E8F0]/60 bg-[#F8FAFC]/70 text-[#64748B] shadow-none hover:border-[#CBD5E1] hover:bg-white/95 hover:text-[#0B132B]"
-                  : "border border-black/5 bg-white/40 text-[#64748B] shadow-none hover:border-[#CBD5E1]/60 hover:bg-white/85 hover:text-[#0B132B]"
+                  ? "border border-[var(--border)]/60 bg-[var(--surface-muted)]/70 text-[var(--text-muted)] shadow-none hover:border-[var(--border-strong)] hover:bg-white/95 hover:text-[var(--text-primary)]"
+                  : "border border-black/5 bg-white/40 text-[var(--text-muted)] shadow-none hover:border-[var(--border-strong)]/60 hover:bg-white/85 hover:text-[var(--text-primary)]"
               }`}
               aria-label="Search resources"
             >
-              <Search className="h-3.5 w-3.5 text-[#94A3B8]" />
+              <Search className="h-3.5 w-3.5 text-[var(--text-muted)]" />
 
               <span className="font-sans text-[11px] font-medium">
                 Search resources...
               </span>
 
               <kbd
-                className={`inline-flex h-4 items-center rounded px-1.5 font-mono text-[9px] font-semibold text-[#64748B] transition-colors duration-300 ${
-                  scrollTier === "deep" ? "border border-black/5 bg-white/60" : "border border-[#E2E8F0] bg-white"
+                className={`inline-flex h-4 items-center rounded px-1.5 font-mono text-[9px] font-semibold text-[var(--text-muted)] transition-colors duration-300 ${
+                  scrollTier === "deep" ? "border border-black/5 bg-white/60" : "border border-[var(--border)] bg-white"
                 }`}
               >
                 {isMac ? "⌘K" : "Ctrl+K"}
@@ -265,22 +265,22 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               onClick={() => setCommandMenuOpen(true)}
               className={`hidden sm:flex xl:hidden cursor-pointer items-center gap-2 rounded-full px-3 py-1.5 text-xs transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-98 ${
                 scrollTier === "top"
-                  ? "border border-[#E2E8F0] bg-[#F8FAFC] text-[#64748B] shadow-2xs hover:border-[#CBD5E1] hover:bg-white hover:text-[#0B132B]"
+                  ? "border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--text-muted)] shadow-2xs hover:border-[var(--border-strong)] hover:bg-white hover:text-[var(--text-primary)]"
                   : scrollTier === "light"
-                  ? "border border-[#E2E8F0]/60 bg-[#F8FAFC]/70 text-[#64748B] shadow-none hover:border-[#CBD5E1] hover:bg-white/95 hover:text-[#0B132B]"
-                  : "border border-black/5 bg-white/40 text-[#64748B] shadow-none hover:border-[#CBD5E1]/60 hover:bg-white/85 hover:text-[#0B132B]"
+                  ? "border border-[var(--border)]/60 bg-[var(--surface-muted)]/70 text-[var(--text-muted)] shadow-none hover:border-[var(--border-strong)] hover:bg-white/95 hover:text-[var(--text-primary)]"
+                  : "border border-black/5 bg-white/40 text-[var(--text-muted)] shadow-none hover:border-[var(--border-strong)]/60 hover:bg-white/85 hover:text-[var(--text-primary)]"
               }`}
               aria-label="Search resources"
             >
-              <Search className="h-3.5 w-3.5 text-[#94A3B8]" />
+              <Search className="h-3.5 w-3.5 text-[var(--text-muted)]" />
 
               <span className="font-sans text-[11px] font-medium hidden md:inline">
                 Search
               </span>
 
               <kbd
-                className={`inline-flex h-4 items-center rounded px-1 font-mono text-[9px] font-semibold text-[#64748B] transition-colors duration-300 ${
-                  scrollTier === "deep" ? "border border-black/5 bg-white/60" : "border border-[#E2E8F0] bg-white"
+                className={`inline-flex h-4 items-center rounded px-1 font-mono text-[9px] font-semibold text-[var(--text-muted)] transition-colors duration-300 ${
+                  scrollTier === "deep" ? "border border-black/5 bg-white/60" : "border border-[var(--border)] bg-white"
                 }`}
               >
                 {isMac ? "⌘K" : "Ctrl+K"}
@@ -290,12 +290,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             {/* MOBILE SEARCH ICON BUTTON (< 640px) */}
             <button
               onClick={() => setCommandMenuOpen(true)}
-              className={`flex cursor-pointer items-center justify-center rounded-full p-2 text-[#64748B] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-98 sm:hidden ${
+              className={`flex cursor-pointer items-center justify-center rounded-full p-2 text-[var(--text-muted)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-98 sm:hidden ${
                 scrollTier === "top"
-                  ? "border border-[#E2E8F0] bg-white/95 shadow-2xs hover:bg-white hover:text-[#0B132B]"
+                  ? "border border-[var(--border)] bg-white/95 shadow-2xs hover:bg-white hover:text-[var(--text-primary)]"
                   : scrollTier === "light"
-                  ? "border border-[#E2E8F0]/60 bg-white/70 shadow-none hover:bg-white/95 hover:text-[#0B132B]"
-                  : "border border-black/5 bg-white/40 shadow-none hover:bg-white/85 hover:text-[#0B132B]"
+                  ? "border border-[var(--border)]/60 bg-white/70 shadow-none hover:bg-white/95 hover:text-[var(--text-primary)]"
+                  : "border border-black/5 bg-white/40 shadow-none hover:bg-white/85 hover:text-[var(--text-primary)]"
               }`}
               aria-label="Search"
             >
@@ -305,12 +305,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             {/* ADD BUTTON */}
             <button
               onClick={() => setAddResourceOpen(true)}
-              className={`flex cursor-pointer items-center gap-1.5 rounded-full px-2.5 py-1.5 sm:px-4 text-xs font-bold text-white shadow-2xs transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-[#1E293B] hover:shadow-xs active:scale-98 ${
-                scrollTier === "deep" ? "bg-[#0B132B]/90" : "bg-[#0B132B]"
+              className={`flex cursor-pointer items-center gap-1.5 rounded-full px-2.5 py-1.5 sm:px-4 text-xs font-bold text-white shadow-2xs transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-[var(--text-secondary)] hover:shadow-xs active:scale-98 ${
+                scrollTier === "deep" ? "bg-[var(--text-primary)]/90" : "bg-[var(--text-primary)]"
               }`}
               aria-label="Add new resource"
             >
-              <Plus className="h-3.5 w-3.5 text-[#00C4CC]" />
+              <Plus className="h-3.5 w-3.5 text-[var(--accent)]" />
 
               <span className="font-sans text-[11px] font-black uppercase tracking-wider hidden sm:inline">
                 ADD
@@ -327,7 +327,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         {sidebarOpen && (
           <>
             <div
-              className="fixed inset-0 z-50 bg-[#0B132B]/40 backdrop-blur-xs"
+              className="fixed inset-0 z-50 bg-[var(--text-primary)]/40 backdrop-blur-xs"
               onClick={() => setSidebarOpen(false)}
             />
 

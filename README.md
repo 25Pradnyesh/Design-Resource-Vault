@@ -71,13 +71,18 @@ Resources are organized across 22 specialized design disciplines grouped into 4 
 
 ## Design System
 
-The Design Resource Vault interface is built on a custom design token architecture:
+The Design Resource Vault interface is built on a consolidated semantic design token architecture:
 
-### Color Palette
-- **Canvas & Surfaces**: Crisp white (`#FFFFFF`), subtle slate canvas (`#F8FAFC`), and clean border lines (`#E2E8F0`, `#CBD5E1`).
-- **Typography & Ink**: Deep navy ink (`#0B132B`) for primary titles, slate (`#334155`) for body content, and muted slate (`#64748B`) for technical metadata.
-- **Accent Family**: Electric Aqua (`#00C4CC`), Mint (`#10B981`), Emerald (`#059669`), Warm Yellow (`#FBBF24`), Orange (`#FB923C`), Coral (`#FA5252`), and Rose (`#F43F5E`).
-- **Color Discipline**: Strict exclusion of generic purple, violet, indigo, and neon gradient styling.
+### Foundation Colors
+- **Canvas & Surfaces**: Crisp white (`--background`, `--surface`: `#FFFFFF`), subtle canvas (`--background-subtle`, `--surface-hover`: `#F8FAFC`), and muted surface (`--surface-muted`: `#F1F5F9`).
+- **Typography & Ink**: Deep navy ink (`--text-primary`: `#0B132B`) for primary titles, slate (`--text-secondary`: `#334155`) for body content, and cool neutral (`--text-muted`: `#64748B`) for technical metadata.
+- **Borders**: Light border (`--border`, `--border-subtle`, `--border-default`: `#E2E8F0`) and strong interactive border (`--border-strong`: `#CBD5E1`).
+
+### Accent & Semantic Colors
+- **Primary Accent**: Electric Aqua / Cyan (`--accent`, `--accent-primary`: `#00C4CC`) for active signals, tab indicators, and focus rings.
+- **Supporting Accents**: Mint (`--accent-mint`: `#10B981`), Emerald (`--accent-green`: `#22C55E`), Warm Yellow (`--accent-yellow`: `#FBBF24`), Orange (`--accent-orange`: `#FB923C`), Coral (`--accent-coral`: `#FA5252`), and Rose (`--accent-pink`: `#F472B6`).
+- **Semantic Roles**: Success (`--semantic-success`: `#10B981`), Warning (`--semantic-warning`: `#F59E0B`), Error / Destructive (`--semantic-error`: `#E11D48`).
+- **Color Discipline**: Strict exclusion of accidental purple, violet, indigo, and neon gradient styling.
 
 ### Typography
 - **Primary Interface**: System sans-serif stack (`-apple-system`, `BlinkMacSystemFont`, `Inter`, `Segoe UI`, `Roboto`) with tight tracking and high-contrast weights.

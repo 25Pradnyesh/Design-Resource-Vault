@@ -176,7 +176,7 @@ export function CommandMenu() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: shouldReduceMotion ? 0 : 0.18 }}
-            className="fixed inset-0 bg-[#0B132B]/50 backdrop-blur-xs cursor-pointer"
+            className="fixed inset-0 bg-[var(--text-primary)]/50 backdrop-blur-xs cursor-pointer"
             onClick={() => setCommandMenuOpen(false)}
             aria-hidden="true"
           />

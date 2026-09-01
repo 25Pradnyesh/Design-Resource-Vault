@@ -56,16 +56,16 @@ export function ArchiveHero() {
           <div className="lg:col-span-6 flex flex-col justify-center space-y-6 sm:space-y-7">
             
             {/* Curated Eyebrow Tag */}
-            <div className="inline-flex items-center gap-2 self-start font-mono text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-[#0B132B]">
-              <span className="h-2 w-2 rounded-full bg-[#10B981] inline-block shadow-xs animate-pulse" />
+            <div className="inline-flex items-center gap-2 self-start font-mono text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-[var(--text-primary)]">
+              <span className="h-2 w-2 rounded-full bg-[var(--intel-high)] inline-block shadow-xs animate-pulse" />
               <span>CURATED DESIGN INTELLIGENCE // ARCHIVE REFERENCE</span>
             </div>
 
             {/* Dominant Editorial Headline: DESIGN RESOURCES / FOR PEOPLE WHO / ACTUALLY DESIGN */}
             <div className="space-y-0.5">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[58px] xl:text-[68px] font-black tracking-tight text-[#0B132B] leading-[0.98] uppercase font-sans">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[58px] xl:text-[68px] font-black tracking-tight text-[var(--text-primary)] leading-[0.98] uppercase font-sans">
                 DESIGN RESOURCES<br />
-                <span className="text-[#00C4CC]">
+                <span className="text-[var(--accent)]">
                   FOR PEOPLE WHO
                 </span><br />
                 ACTUALLY DESIGN
@@ -73,7 +73,7 @@ export function ArchiveHero() {
             </div>
 
             {/* Editorial Positioning Subtitle */}
-            <p className="text-sm sm:text-base md:text-lg text-[#334155] font-medium max-w-lg leading-relaxed">
+            <p className="text-sm sm:text-base md:text-lg text-[var(--text-secondary)] font-medium max-w-lg leading-relaxed">
               Handpicked visual references, design systems, UI components, motion patterns, and creative tools for designers and frontend engineers.
             </p>
 
@@ -82,9 +82,9 @@ export function ArchiveHero() {
               {/* Primary CTA: EXPLORE (Navy Pill) */}
               <a
                 href="#categories"
-                className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-[#0B132B] text-white font-sans text-xs sm:text-[13px] font-bold uppercase tracking-wider hover:bg-[#1E293B] hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 cursor-pointer shadow-md group/btn"
+                className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-[var(--text-primary)] text-white font-sans text-xs sm:text-[13px] font-bold uppercase tracking-wider hover:bg-[var(--text-secondary)] hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 cursor-pointer shadow-md group/btn"
               >
-                <LayoutGrid className="w-4 h-4 text-[#00C4CC] transition-transform duration-200 group-hover/btn:scale-110" />
+                <LayoutGrid className="w-4 h-4 text-[var(--accent)] transition-transform duration-200 group-hover/btn:scale-110" />
                 <span>EXPLORE</span>
               </a>
 
@@ -92,9 +92,9 @@ export function ArchiveHero() {
               <button
                 type="button"
                 onClick={() => setAddResourceOpen(true)}
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-[#CBD5E1] bg-white text-[#0B132B] font-sans text-xs sm:text-[13px] font-bold uppercase tracking-wider hover:border-[#94A3B8] hover:bg-[#F8FAFC] hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 cursor-pointer shadow-2xs group/btn"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-[var(--border-strong)] bg-white text-[var(--text-primary)] font-sans text-xs sm:text-[13px] font-bold uppercase tracking-wider hover:border-[var(--text-secondary)] hover:bg-[var(--surface-hover)] hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 cursor-pointer shadow-2xs group/btn"
               >
-                <Plus className="w-4 h-4 text-[#00C4CC] transition-transform duration-200 group-hover/btn:scale-110" />
+                <Plus className="w-4 h-4 text-[var(--accent)] transition-transform duration-200 group-hover/btn:scale-110" />
                 <span>ADD RESOURCE</span>
               </button>
             </div>

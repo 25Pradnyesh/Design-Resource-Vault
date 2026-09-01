@@ -323,47 +323,47 @@ export function HeroStudioIllustration() {
         {/* =================================================== */}
         <div className="absolute -bottom-6 sm:-bottom-8 inset-x-2 sm:inset-x-6 z-30">
           <div className="glass-panel rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 shadow-2xl border border-white/95 backdrop-blur-md bg-white/90">
-            <div className="grid grid-cols-4 divide-x divide-[#CBD5E1]/60 text-center">
+            <div className="grid grid-cols-4 divide-x divide-[var(--border)] text-center">
               {/* Stat 01: Categories */}
               <div className="flex flex-col items-center justify-center px-1 sm:px-3 space-y-1">
-                <Folder className="w-4 h-4 sm:w-5 sm:h-5 text-[#0B132B]" />
-                <div className="text-lg sm:text-2xl lg:text-3xl font-black text-[#0B132B] tracking-tight">
+                <Folder className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--text-primary)]" />
+                <div className="text-lg sm:text-2xl lg:text-3xl font-black text-[var(--text-primary)] tracking-tight">
                   {categories.length}
                 </div>
-                <div className="text-[9px] sm:text-[10px] lg:text-[11px] font-mono font-bold uppercase tracking-wider text-[#64748B]">
+                <div className="text-[9px] sm:text-[10px] lg:text-[11px] font-mono font-bold uppercase tracking-wider text-[var(--text-muted)]">
                   CATEGORIES
                 </div>
               </div>
 
               {/* Stat 02: Resources */}
               <div className="flex flex-col items-center justify-center px-1 sm:px-3 space-y-1">
-                <Layers className="w-4 h-4 sm:w-5 sm:h-5 text-[#0B132B]" />
-                <div className="text-lg sm:text-2xl lg:text-3xl font-black text-[#0B132B] tracking-tight">
+                <Layers className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--text-primary)]" />
+                <div className="text-lg sm:text-2xl lg:text-3xl font-black text-[var(--text-primary)] tracking-tight">
                   {resources.length > 0 ? resources.length : 89}
                 </div>
-                <div className="text-[9px] sm:text-[10px] lg:text-[11px] font-mono font-bold uppercase tracking-wider text-[#64748B]">
+                <div className="text-[9px] sm:text-[10px] lg:text-[11px] font-mono font-bold uppercase tracking-wider text-[var(--text-muted)]">
                   RESOURCES
                 </div>
               </div>
 
               {/* Stat 03: Handpicked */}
               <div className="flex flex-col items-center justify-center px-1 sm:px-3 space-y-1">
-                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-[#0B132B]" />
-                <div className="text-lg sm:text-2xl lg:text-3xl font-black text-[#0B132B] tracking-tight">
+                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--text-primary)]" />
+                <div className="text-lg sm:text-2xl lg:text-3xl font-black text-[var(--text-primary)] tracking-tight">
                   100%
                 </div>
-                <div className="text-[9px] sm:text-[10px] lg:text-[11px] font-mono font-bold uppercase tracking-wider text-[#64748B]">
+                <div className="text-[9px] sm:text-[10px] lg:text-[11px] font-mono font-bold uppercase tracking-wider text-[var(--text-muted)]">
                   HANDPICKED
                 </div>
               </div>
 
               {/* Stat 04: Inspiration */}
               <div className="flex flex-col items-center justify-center px-1 sm:px-3 space-y-1">
-                <Heart className="w-4 h-4 sm:w-5 sm:h-5 text-[#0B132B]" />
-                <div className="text-lg sm:text-2xl lg:text-3xl font-black text-[#0B132B] tracking-tight leading-none pt-0.5">
+                <Heart className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--text-primary)]" />
+                <div className="text-lg sm:text-2xl lg:text-3xl font-black text-[var(--text-primary)] tracking-tight leading-none pt-0.5">
                   ∞
                 </div>
-                <div className="text-[9px] sm:text-[10px] lg:text-[11px] font-mono font-bold uppercase tracking-wider text-[#64748B]">
+                <div className="text-[9px] sm:text-[10px] lg:text-[11px] font-mono font-bold uppercase tracking-wider text-[var(--text-muted)]">
                   INSPIRATION
                 </div>
               </div>

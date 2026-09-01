@@ -25,7 +25,7 @@ export function ResourcePreview({
   if (resource.previewImage && !imgError) {
     return (
       <div
-        className={`relative w-full aspect-[16/10] overflow-hidden rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] select-none ${className}`}
+        className={`relative w-full aspect-[16/10] overflow-hidden rounded-xl bg-[var(--surface-hover)] border border-[var(--border)] select-none ${className}`}
       >
         <Image
           src={resource.previewImage}
@@ -39,7 +39,7 @@ export function ResourcePreview({
 
         {/* Archival category specimen watermark mark */}
         <div className="absolute top-2.5 left-2.5 z-10 pointer-events-none">
-          <span className="px-2 py-0.5 rounded-md bg-white/90 backdrop-blur-xs border border-black/8 font-mono text-[9px] font-bold text-[#0B132B] shadow-2xs">
+          <span className="px-2 py-0.5 rounded-md bg-white/90 backdrop-blur-xs border border-black/8 font-mono text-[9px] font-bold text-[var(--text-primary)] shadow-2xs">
             CAT // {theme.num}
           </span>
         </div>
@@ -64,7 +64,7 @@ export function ResourcePreview({
 
       {/* Top Bar: Archival Specimen Tag */}
       <div className="relative z-10 flex items-center justify-between w-full">
-        <span className="px-1.5 py-0.5 rounded bg-white/85 backdrop-blur-xs border border-black/6 font-mono text-[8.5px] font-bold text-[#334155] tracking-wider uppercase truncate shadow-2xs">
+        <span className="px-1.5 py-0.5 rounded bg-white/85 backdrop-blur-xs border border-black/6 font-mono text-[8.5px] font-bold text-[var(--text-secondary)] tracking-wider uppercase truncate shadow-2xs">
           CAT // {theme.num}
         </span>
       </div>
@@ -77,11 +77,11 @@ export function ResourcePreview({
       </div>
 
       {/* Bottom Bar: Collision-Proof Category Identity Label */}
-      <div className="relative z-10 flex items-center justify-between gap-1.5 pt-1.5 border-t border-black/6 font-mono text-[8.5px] text-[#64748B] overflow-hidden">
-        <span className="truncate font-semibold uppercase tracking-wider text-[#475569]">
+      <div className="relative z-10 flex items-center justify-between gap-1.5 pt-1.5 border-t border-black/6 font-mono text-[8.5px] text-[var(--text-muted)] overflow-hidden">
+        <span className="truncate font-semibold uppercase tracking-wider text-[var(--text-secondary)]">
           {primaryCategory?.name ?? "SPECIMEN"}
         </span>
-        <span className="shrink-0 text-[8px] uppercase tracking-wider font-bold text-[#94A3B8]">
+        <span className="shrink-0 text-[8px] uppercase tracking-wider font-bold text-[var(--text-muted)]">
           ARCHIVE
         </span>
       </div>
