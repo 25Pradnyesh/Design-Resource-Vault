@@ -4,10 +4,10 @@
 
 [![Next.js](https://img.shields.io/badge/Next.js-15.2.0-black?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.0.0-blue?style=flat-square&logo=react)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178c6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4.0-38bdf8?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/)
-[![Playwright](https://img.shields.io/badge/Playwright-Tested-green?style=flat-square&logo=playwright)](https://playwright.dev/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-emerald?style=flat-square)](LICENSE)
+[![Playwright](https://img.shields.io/badge/Playwright-Audited-2EAD33?style=flat-square&logo=playwright)](https://playwright.dev/)
+[![License](https://img.shields.io/badge/License-Not_Specified-64748b?style=flat-square)](#-license)
 
 ---
 
@@ -46,7 +46,11 @@ Standard bookmark managers reduce rich visual design work to unhelpful flat list
 
 Design Resource Vault is built around a continuous, cyclical reference workflow:
 
-$$\mathbf{DISCOVER} \longrightarrow \mathbf{EXPLORE} \longrightarrow \mathbf{SAVE} \longrightarrow \mathbf{RETURN}$$
+```text
+┌──────────────┐          ┌──────────────┐          ┌──────────────┐          ┌──────────────┐
+│  01 DISCOVER │  ─────>  │  02 EXPLORE  │  ─────>  │   03 SAVE    │  ─────>  │  04 RETURN   │
+└──────────────┘          └──────────────┘          └──────────────┘          └──────────────┘
+```
 
 1. **DISCOVER**: Rapidly scan visual specimen cards or invoke the global command palette (`⌘K`) to find relevant benchmarks by name, domain, category, tag, or style.
 2. **EXPLORE**: Inspect 4-quadrant technical specifications (*What It Does*, *Why Use It*, *When To Use It*, *How To Use It*), examine source domains, and explore related taxonomy recommendations.
@@ -57,49 +61,29 @@ $$\mathbf{DISCOVER} \longrightarrow \mathbf{EXPLORE} \longrightarrow \mathbf{SAV
 
 ## ✦ Features
 
-### Visual Specimen Archive
-A dense, high-contrast catalog organized for visual scanning. Every entry features a structured 3-zone visual specimen card complete with live favicon containers, fixed-ratio `16:10` previews with systematic 3D blueprint fallbacks, monospace source domains, and archival tag metadata.
+### 01 — Discovery & Visual Specimen Archive
+- **3-Zone Visual Specimen Cards**: Fixed `16:10` aspect ratio cards with live favicon containers, monospace source domains, archival tag chips, and instant external links.
+- **Systematic Blueprint Previews**: 3D geometric SVG specimen artwork serving as resilient visual blueprints whenever live screenshots are loading or absent.
+- **22-Category Design Taxonomy**: Deep categorization organized across 4 macro disciplines with custom 3D isometric SVG artwork for each category.
+- **Global Command Menu (`⌘K` / `Ctrl+K`)**: Keyboard-first command palette supporting Arrow key navigation with auto-scroll, `Enter` to inspect specifications, and `⌘Enter` to visit source websites.
 
-### 22-Category Design Taxonomy
-Resources are organized across 22 specialized design disciplines grouped into 4 macro clusters (Inspiration & Web, Interaction & Motion, Visual Systems & Assets, Product & Engineering). Every category includes bespoke 3D isometric SVG artwork and dedicated archive views.
+### 02 — Search & Intelligence Engine
+- **Multi-Signal Relevance Scoring** (`lib/search.ts`): Deterministic weighted scoring prioritizing Resource Name → Domain → Tags → Categories → Technologies & Styles → Purpose & Specifications.
+- **Source Domain Matching**: Direct indexing and scoring for root domains (e.g. `activetheory.net`, `bruno-simon.com`, `framer.com`).
+- **Forgiving Token Matching**: Normalized prefix queries (e.g. `typogr` → Typography, `figm` → Figma, `motion` → Motion Tools).
+- **Search Intent Parsing** (`lib/search-intent.ts`): Automatically extracts technologies, visual styles, and category concepts from natural language search queries.
 
-### Secondary Command Menu (`⌘K` / `Ctrl+K`)
-A focused, keyboard-first command interface accessible globally via header trigger or keyboard shortcut:
-- **Arrow Navigation**: Full `ArrowDown` and `ArrowUp` support with automatic list scrolling.
-- **Action Triggers**: `Enter` to navigate to the resource specification view; `⌘Enter` / `Ctrl+Enter` to open the source URL directly in a new tab.
-- **Immediate Reset**: Dedicated clear button (`×`) and instant Escape dismissal.
-- **Curated Discovery**: Automatically displays featured seed recommendations on open before typing.
+### 03 — Curation & Inspection
+- **4-Quadrant Technical Specifications**: Deep inspection on `/resources/[slug]` structured into *What It Does*, *Why Use It*, *When To Use It*, and *How To Use It*.
+- **Local-First Favorites**: Star resources to curate a persistent personal reference collection stored client-side in `localStorage` without login requirements.
+- **Browsing History**: Automatically tracks recently viewed and recently added specimens across browser sessions.
+- **Taxonomy Recommendation Engine** (`lib/related.ts`): Recommends contextually related specimens based on shared category tags and technical stacks.
 
-### Multi-Signal Relevance Scoring & Intent Engine
-A deterministic client-side search engine (`lib/search.ts`) that scores resources across multiple weighted attributes:
-- **Relevance Hierarchy**: Resource Name (highest) → Source Domain (high) → Tags (medium) → Categories (medium) → Technologies & Styles → Purpose & Specifications.
-- **Domain Matching**: Direct scoring and matching for source domains (e.g. `activetheory.net`, `bruno-simon.com`, `framer.com`).
-- **Forgiving Token Matching**: Normalized prefix search (e.g. `typogr` → Typography, `figm` → Figma, `motion` → Motion Tools).
-- **Natural Language Intent Parsing** (`lib/search-intent.ts`): Extracts technologies, styles, and intent categories from raw query strings.
-
-### Multi-Faceted Filter Matrix
-- **Category Filter Popover**: Multi-category selection with live category specimen counters and grouped taxonomy lists.
-- **Predictable Intersection (`AND`)**: Search queries and category/tag filters strictly intersect mathematically, ensuring clear, reproducible results.
-- **Independent Clear Actions**: Active filter chips allow clearing search queries while preserving active category filters, or removing category tags while keeping the active query.
-
-### Local-First Persistence
-- **Favorites Collection**: Star entries to curate a personal reference archive, persisted client-side in local storage and accessible via `/favorites`.
-- **Browsing History**: Automatically tracks recently viewed and recently added specimens without external tracking or authentication barriers.
-
-### 4-Quadrant Resource Specifications
-Individual resource pages (`/resources/[slug]`) provide structured technical specifications divided into four clear inspection zones:
-- **What It Does**: Functional overview of the platform or tool.
-- **Why Use It**: Key advantages, architectural strengths, and benchmark value.
-- **When To Use It**: Ideal project scenarios, workflows, and use cases.
-- **How To Use It**: Practical starting steps and usage recommendations.
-
-### Resource Ingestion Workflows
-- **Manual Submission (`AddResourceModal`)**: Structured metadata form for adding custom design resources with tags, categories, specifications, and descriptions.
+### 04 — Ingestion & System Architecture
+- **Manual Submission Form (`AddResourceModal`)**: Structured dialog for adding custom design resources with tags, categories, specifications, and descriptions.
 - **URL Metadata Analyzer (`AddByUrlModal`)**: In-browser URL draft parser that extracts domains and suggests contextual taxonomies.
-- **Resource Editing & Management**: In-place metadata editing and deletion for user-added resources.
-
-### Responsive Architecture
-Pixel-perfect layout adaptation across all viewport sizes (1440 × 900 desktop, 1280 × 800 laptop, 1024 × 768 tablet landscape, 768 × 1024 tablet portrait, and 390 × 844 mobile) with zero horizontal overflow and adaptive brand compression.
+- **Multi-Faceted Filter Matrix**: Category filter popover with active removable chips and independent clearing (clearing search preserves category filters; removing chips preserves search).
+- **Responsive Viewport Adaptation**: Pixel-perfect layout across desktop (1440 × 900, 1280 × 800), tablet (1024 × 768, 768 × 1024), and mobile (390 × 844) with zero horizontal overflow.
 
 ---
 
@@ -127,56 +111,57 @@ The Vault categorizes digital craft across 22 specialized design disciplines gro
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Macro Groups & Category Details:
+### Macro Groups & Category Slugs:
 
 #### 1. Inspiration & Web
-- `ui-web-inspiration`: Curated web and interface design inspiration.
-- `landing-page-inspiration`: High-quality landing page references and conversion patterns.
-- `saas-product-design`: SaaS dashboards, complex product UI, and application design.
-- `portfolio-inspiration`: Designer, agency, and creative technologist portfolio references.
-- `award-winning-experimental`: Award-winning, avant-garde, and experimental web experiences.
-- `creative-advertising`: Creative campaigns, digital advertising, and interactive brand experiences.
+- `ui-web-inspiration` — Curated web and interface design inspiration.
+- `landing-page-inspiration` — High-quality landing page references and conversion patterns.
+- `saas-product-design` — SaaS dashboards, complex product UI, and application design.
+- `portfolio-inspiration` — Designer, agency, and creative technologist portfolio references.
+- `award-winning-experimental` — Award-winning, avant-garde, and experimental web experiences.
+- `creative-advertising` — Creative campaigns, digital advertising, and interactive brand experiences.
 
 #### 2. Interaction & Motion
-- `website-animation-inspiration`: Animated websites and motion-rich digital experiences.
-- `animation-motion-tools`: Tools for creating, editing, and managing motion design.
-- `frontend-animation`: Code-first animation libraries, layout engines, and physics frameworks.
-- `3d-interactive-web`: 3D scenes, WebGL, shaders, and spatial interactive experiences.
-- `backgrounds-visual-effects`: Generative backgrounds, canvas effects, and shader generators.
+- `website-animation-inspiration` — Animated websites and motion-rich digital experiences.
+- `animation-motion-tools` — Tools for creating, editing, and managing motion design.
+- `frontend-animation` — Code-first animation libraries, layout engines, and physics frameworks.
+- `3d-interactive-web` — 3D scenes, WebGL, shaders, and spatial interactive experiences.
+- `backgrounds-visual-effects` — Generative backgrounds, canvas effects, and shader generators.
 
 #### 3. Visual Systems & Assets
-- `ui-components`: Reusable UI component libraries, design systems, and web primitives.
-- `color-typography`: Color palettes, type foundries, pairing tools, and typography systems.
-- `visual-assets`: High-quality illustrations, 3D assets, and graphic design collections.
-- `iconography`: Open-source icon sets, 3D icons, animated iconography, and symbol libraries.
-- `mockups-presentation`: Device mockups, scene generators, and editorial presentation kits.
-- `visual-search-moodboarding`: Visual search engines, moodboard curators, and aesthetic references.
+- `ui-components` — Reusable UI component libraries, design systems, and web primitives.
+- `color-typography` — Color palettes, type foundries, pairing tools, and typography systems.
+- `visual-assets` — High-quality illustrations, 3D assets, and graphic design collections.
+- `iconography` — Open-source icon sets, 3D icons, animated iconography, and symbol libraries.
+- `mockups-presentation` — Device mockups, scene generators, and editorial presentation kits.
+- `visual-search-moodboarding` — Visual search engines, moodboard curators, and aesthetic references.
 
 #### 4. Product & Engineering
-- `ux-user-flows`: User onboarding flows, UX patterns, and interaction mechanics.
-- `ui-ux-prototyping`: Prototyping tools for rapid wireframing and micro-interaction design.
-- `ai-design-vibe-coding`: AI-assisted design systems, prompt-to-UI, and vibe coding platforms.
-- `design-workflow`: Productivity tools, browser extensions, and designer-developer handoff.
-- `learning-vibe-coding`: Creative coding tutorials, engineering guides, and design learning hubs.
+- `ux-user-flows` — User onboarding flows, UX patterns, and interaction mechanics.
+- `ui-ux-prototyping` — Prototyping tools for rapid wireframing and micro-interaction design.
+- `ai-design-vibe-coding` — AI-assisted design systems, prompt-to-UI, and vibe coding platforms.
+- `design-workflow` — Productivity tools, browser extensions, and designer-developer handoff.
+- `learning-vibe-coding` — Creative coding tutorials, engineering guides, and design learning hubs.
 
 ---
 
 ## ✦ Design Philosophy
 
-Design Resource Vault is intentionally built as an **art-directed digital archive** rather than a generic SaaS product dashboard:
+Design Resource Vault is intentionally built as an **art-directed digital archive** rather than a generic commercial SaaS dashboard:
 
-- **Visual-First Recognition**: Prioritizes immediate visual inspection with fixed `16:10` specimen cards and systematic blueprint fallbacks over dense text lists.
-- **Editorial Hierarchy**: High-contrast typography pairing deep navy ink (`#0B132B`) with slate body text (`#334155`) on crisp white and subtle canvas surfaces (`#FFFFFF`, `#F8FAFC`).
-- **Visual Depth & Layered Planes**: Distinct separation of visual planes (ambient WebGL background canvas, middle-ground specimen cards, foreground floating glass chrome) with subtle tactile elevation.
-- **Restrained Motion**: Snappy, physical micro-interactions (160–280ms cubic-bezier easing) that provide tactile feedback without decorative distraction.
-- **Intentional Whitespace**: Generous layout margins, clean border grids, and structured dividers that eliminate visual noise.
-- **No SaaS Clutter**: Strict exclusion of aggressive purple/violet neon gradients, unnecessary glassmorphism, floating decorative badges, or dark-pattern telemetry.
+| Dimension | Vault Direction | Generic SaaS Clutter (Avoided) |
+|---|---|---|
+| **Visual Hierarchy** | High-contrast editorial ink on crisp white/slate canvas | Low-contrast text on dark purple backgrounds |
+| **Color Discipline** | Restrained Navy `#0B132B` + Slate with Electric Aqua `#00C4CC` & warm accents | Over-saturated neon rainbow gradients, aggressive violet washes |
+| **Motion** | Snappy, physical feedback (160–280ms) + Reduced Motion support | Excessive continuous floating/spinning decorative loops |
+| **Previews** | Fixed `16:10` aspect ratio with systematic 3D blueprint fallbacks | Inconsistent broken thumbnails, plain text link lists |
+| **Privacy & Storage** | Local-first client storage without login walls or tracking | Mandatory accounts, analytics bloat, cloud lock-in |
 
 ---
 
 ## ✦ Design System
 
-The interface is built on a semantic token architecture defined in `app/globals.css` with Tailwind CSS v4:
+The interface is built on a consolidated semantic token architecture defined in `app/globals.css` with Tailwind CSS v4:
 
 ### Color Palette
 
@@ -196,8 +181,6 @@ The interface is built on a semantic token architecture defined in `app/globals.
 | **Amber Accent** | `--accent-yellow` | `#FBBF24` | Featured highlights |
 | **Orange Accent** | `--accent-orange` | `#FB923C` | Category tags |
 | **Coral Accent** | `--accent-coral` | `#FA5252` | Specialty markers |
-
-*Strict Color Discipline: The interface strictly excludes generic purple, violet, indigo, and neon gradient backgrounds to maintain an authentic, archival look.*
 
 ### Typography
 
@@ -324,109 +307,34 @@ export interface Resource {
 
 ---
 
-## ✦ Project Structure
-
-```text
-Design-Resource-Vault/
-├── app/
-│   ├── categories/
-│   │   └── [slug]/
-│   │       └── page.tsx
-│   ├── favorites/
-│   │   └── page.tsx
-│   ├── recently-added/
-│   │   └── page.tsx
-│   ├── recently-viewed/
-│   │   └── page.tsx
-│   ├── resources/
-│   │   └── [slug]/
-│   │       └── page.tsx
-│   ├── globals.css
-│   ├── icon.svg
-│   ├── layout.tsx
-│   ├── not-found.tsx
-│   ├── page.tsx
-│   ├── providers.tsx
-│   ├── robots.ts
-│   └── sitemap.ts
-├── components/
-│   ├── add-resource/
-│   ├── archive/
-│   ├── command-menu/
-│   ├── filters/
-│   ├── layout/
-│   ├── resource-card/
-│   ├── resource-detail/
-│   ├── resource-grid/
-│   ├── sidebar/
-│   ├── ui/
-│   └── webgl/
-├── data/
-│   ├── categories.ts
-│   └── resources.ts
-├── lib/
-│   ├── related.ts
-│   ├── resource-context.tsx
-│   ├── search-intent.ts
-│   ├── search.ts
-│   ├── storage.ts
-│   ├── theme-context.tsx
-│   ├── ui-context.tsx
-│   └── utils.ts
-├── public/
-├── scripts/
-│   ├── test-design-system-audit.mjs
-│   ├── test-responsive-audit.mjs
-│   └── test-search-ux.mjs
-├── types/
-│   └── index.ts
-├── package.json
-├── package-lock.json
-├── next.config.ts
-├── tsconfig.json
-├── eslint.config.mjs
-├── postcss.config.mjs
-├── PRODUCT.md
-└── README.md
-```
-
----
-
 ## ✦ Getting Started
 
 ### Prerequisites
 - **Node.js**: `18.18.0` or higher
 - **Package Manager**: `npm` (or `pnpm` / `yarn`)
 
-### Installation
+### 01 — Clone
+```bash
+git clone https://github.com/25Pradnyesh/Design-Resource-Vault.git
+cd Design-Resource-Vault
+```
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/25Pradnyesh/Design-Resource-Vault.git
-   cd Design-Resource-Vault
-   ```
+### 02 — Install
+```bash
+npm install
+```
 
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
+### 03 — Run
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-3. **Start local development server:**
-   ```bash
-   npm run dev
-   ```
-   Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-### Available Scripts
-
-| Script | Command | Action |
-|---|---|---|
-| **Development** | `npm run dev` | Starts Next.js development server with hot module reloading |
-| **Type Check** | `npm run typecheck` | Runs strict TypeScript compiler check (`tsc --noEmit`) |
-| **Linting** | `npm run lint` | Runs ESLint validation across all project files |
-| **Production Build** | `npm run build` | Compiles optimized static & server production bundle |
-| **Production Start** | `npm run start` | Runs the compiled production build locally |
-| **Test Suite** | `npm test` | Runs the responsive cross-viewport Playwright audit |
+### 04 — Build & Verify
+```bash
+npm run typecheck
+npm run build
+```
 
 ---
 
@@ -434,12 +342,25 @@ Design-Resource-Vault/
 
 The project includes three automated Playwright browser test suites that run against the live application:
 
+### Static & Build Verification
+```bash
+# Type checking
+npm run typecheck
+
+# Linting
+npm run lint
+
+# Production build compilation
+npm run build
+```
+
+### Automated Playwright UX & Responsive Audits
 ```bash
 # 1. Design System & Color Token Audit (53 tests)
 node scripts/test-design-system-audit.mjs
 
 # 2. Comprehensive Responsive & Cross-Viewport Audit (60 tests across 5 viewports)
-node scripts/test-responsive-audit.mjs
+npm test
 
 # 3. Search, Command Menu, and Filter UX Audit (24 tests)
 node scripts/test-search-ux.mjs
@@ -472,4 +393,20 @@ node scripts/test-search-ux.mjs
 
 ## ✦ License
 
-This project is open source and available under the [MIT License](LICENSE).
+Currently no open-source license is specified. All rights reserved by the author.
+
+---
+
+<div align="center">
+
+### Built by Pradnyesh
+
+[![GitHub Profile](https://img.shields.io/badge/GitHub-25Pradnyesh-0B132B?style=for-the-badge&logo=github&logoColor=white)](https://github.com/25Pradnyesh)
+[![X Profile](https://img.shields.io/badge/X-@Pradnyesh__25-0B132B?style=for-the-badge&logo=x&logoColor=white)](https://x.com/Pradnyesh_25)
+
+<br />
+
+**Design Resource Vault**<br />
+*A visual archive for people who actually design.*
+
+</div>
