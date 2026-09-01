@@ -423,8 +423,23 @@ export function searchWithIntelligence(
 } {
   const intent = parseSearchIntent(query);
   if (!query.trim()) {
+    // Provide curated featured resources for immediate discovery in command menu
+    const featured = resources.filter((r) => r.featured).slice(0, limit);
+    const initialList = featured.length >= 6 ? featured : resources.slice(0, limit);
+    const scored: ScoredResource[] = initialList.map((resource) => ({
+      resource,
+      score: 100,
+      matchPercentage: 98,
+      matchReasons: [{ field: "spec", label: "Featured", matchedText: "Curated Reference" }],
+      matchExplanation: `Curated ${categoryMap[resource.categories[0]]?.name ?? "Design"} reference`,
+      matchedCategories: [categoryMap[resource.categories[0]]?.name ?? resource.categories[0]],
+      matchedTags: resource.tags.slice(0, 2),
+      matchedTechnologies: resource.technologies?.slice(0, 2) ?? [],
+      matchedStyles: resource.styles?.slice(0, 1) ?? [],
+    }));
+
     return {
-      scored: [],
+      scored,
       intent,
       adjacentConcepts: ["Brutalist Portfolios with WebGL", "Interactive 3D Web", "Minimal Landing Pages", "Micro-Interaction Primitives"],
     };

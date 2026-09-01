@@ -110,6 +110,7 @@ export default function CategoryPage({
               value={filterState.query}
               onChange={(e) => filterState.setQuery(e.target.value)}
               placeholder={`Search within ${category.name}...`}
+              aria-label={`Search within ${category.name}`}
               className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] py-2 pl-9 pr-4 text-xs sm:text-sm text-[var(--text-primary)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--border-strong)] transition-colors shadow-2xs font-sans"
             />
           </div>

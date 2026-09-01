@@ -65,7 +65,7 @@ export default function HomePage() {
       {!hasActiveFilters && <ArchiveFeatured />}
 
       {/* 04: Primary Resource Library & Filter System */}
-      <section id="resources-library" className="w-full flex-1 py-10 px-4 sm:px-8 lg:px-12">
+      <section id="resources-library" className="w-full flex-1 py-10 px-4 sm:px-8 lg:px-12 scroll-mt-20">
         <div className="mx-auto max-w-7xl space-y-6">
           {/* Active Search Intent & Adjacent Concepts Strip */}
           {filterState.query?.trim() && intent.adjacentConcepts.length > 0 && (
@@ -145,7 +145,7 @@ export default function HomePage() {
                 }
                 activeQuery={filterState.query}
                 onClearQuery={() => filterState.setQuery("")}
-                onClearAll={filterState.clearFilters}
+                onClearAll={filterState.clearAll}
                 totalResults={filtered.length}
               />
             )}
@@ -156,7 +156,7 @@ export default function HomePage() {
             resources={filtered}
             emptyTitle="No matching resources"
             emptyDescription="No resources found matching your current search query or active filter criteria."
-            onClearFilters={filterState.clearFilters}
+            onClearFilters={filterState.clearAll}
             scoredMap={scoredMap}
             activeQuery={filterState.query}
           />

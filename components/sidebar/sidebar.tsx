@@ -145,7 +145,7 @@ export function Sidebar({ mobile = false }: SidebarProps) {
       {/* Drawer Footer */}
       <div className="border-t border-[var(--border)] bg-[var(--surface-hover)] p-3 text-[10px] font-mono text-[var(--text-muted)] flex items-center justify-between">
         <span>REFERENCE LIBRARY</span>
-        <span>V3.0</span>
+        <span>V1.0 SHIP</span>
       </div>
     </div>
   );
@@ -153,6 +153,7 @@ export function Sidebar({ mobile = false }: SidebarProps) {
   if (mobile) {
     return (
       <motion.aside
+        id="navigation-drawer"
         initial={{ x: "-100%" }}
         animate={{ x: 0 }}
         exit={{ x: "-100%" }}
@@ -167,6 +168,7 @@ export function Sidebar({ mobile = false }: SidebarProps) {
 
   return (
     <aside
+      id="navigation-drawer"
       className="hidden lg:flex lg:w-64 lg:shrink-0 lg:flex-col border-r border-[var(--border)] bg-[var(--surface)]"
       aria-label="Site Navigation Index"
     >

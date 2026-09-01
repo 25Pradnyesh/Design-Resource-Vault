@@ -10,7 +10,7 @@ export function CategoryTileGrid() {
   const { categoryCounts } = useResources();
 
   return (
-    <section id="categories" className="w-full bg-[var(--background)] py-12 sm:py-16 px-4 sm:px-8 lg:px-12 font-sans select-none">
+    <section id="categories" className="w-full bg-[var(--background)] py-12 sm:py-16 px-4 sm:px-8 lg:px-12 font-sans select-none scroll-mt-20">
       <div className="mx-auto max-w-7xl">
         {/* Section Header matching Reference */}
         <div className="flex items-center justify-between gap-4 pb-4 mb-8 sm:mb-10 border-b border-[var(--border)]">

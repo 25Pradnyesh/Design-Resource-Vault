@@ -79,6 +79,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                   : "border border-black/5 bg-white/40 shadow-none hover:border-[var(--border-strong)]/60 hover:bg-white/85"
               }`}
               aria-label="Open Navigation Index Drawer"
+              aria-expanded={sidebarOpen}
+              aria-controls="navigation-drawer"
             >
               <Menu className="h-3.5 w-3.5 text-[var(--text-muted)]" />
 
@@ -291,9 +293,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <AnimatePresence>
         {sidebarOpen && (
           <>
-            <div
-              className="fixed inset-0 z-50 bg-[var(--text-primary)]/40 backdrop-blur-xs"
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.18 }}
+              className="fixed inset-0 z-50 bg-[var(--text-primary)]/40 backdrop-blur-xs cursor-pointer"
               onClick={() => setSidebarOpen(false)}
+              role="presentation"
+              aria-label="Close navigation drawer"
             />
 
             <Sidebar mobile />

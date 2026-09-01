@@ -366,14 +366,26 @@ export function useFilterState() {
   const [sort, setSort] = useState<SortOption>("recent");
   const [query, setQuery] = useState("");
 
-  const clearFilters = () => {
+  const clearFilterFacets = useCallback(() => {
+    setSelectedCategories([]);
+    setSelectedTags([]);
+    setSelectedPurposes([]);
+    setFavoritesOnly(false);
+    setSort("recent");
+  }, []);
+
+  const clearQuery = useCallback(() => {
+    setQuery("");
+  }, []);
+
+  const clearAll = useCallback(() => {
     setSelectedCategories([]);
     setSelectedTags([]);
     setSelectedPurposes([]);
     setFavoritesOnly(false);
     setSort("recent");
     setQuery("");
-  };
+  }, []);
 
   return {
     selectedCategories,
@@ -390,6 +402,9 @@ export function useFilterState() {
     setSort,
     query,
     setQuery,
-    clearFilters,
+    clearFilterFacets,
+    clearQuery,
+    clearAll,
+    clearFilters: clearFilterFacets,
   };
 }

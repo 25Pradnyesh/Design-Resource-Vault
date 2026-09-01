@@ -198,8 +198,10 @@ async function runResponsiveAudit() {
       // 6. FILTER POPOVER RESPONSIVE AUDIT
       const filterBtn = page.locator("#filters-primary-trigger");
       await filterBtn.scrollIntoViewIfNeeded();
+      await page.evaluate(() => window.scrollBy(0, -120));
+      await page.waitForTimeout(250);
       await filterBtn.click();
-      await page.waitForTimeout(300);
+      await page.waitForTimeout(400);
 
       const popoverMetrics = await page.evaluate(() => {
         const panel = document.querySelector("#filters-popover-panel");
@@ -229,10 +231,15 @@ async function runResponsiveAudit() {
 
       await page.keyboard.press("Escape");
       await page.waitForTimeout(300);
+      const isFilterPanelOpen = await page.locator("#filters-popover-panel").count();
+      if (isFilterPanelOpen > 0) {
+        await page.keyboard.press("Escape");
+        await page.waitForTimeout(200);
+      }
 
       // Scroll to top for Search & Sidebar
       await page.evaluate(() => window.scrollTo(0, 0));
-      await page.waitForTimeout(200);
+      await page.waitForTimeout(300);
 
       // 7. COMMAND MENU / SEARCH RESPONSIVE AUDIT
       if (vp.width < 640) {
@@ -241,7 +248,7 @@ async function runResponsiveAudit() {
       } else {
         await page.keyboard.press("Control+k");
       }
-      await page.waitForTimeout(350);
+      await page.waitForTimeout(400);
 
       const commandMetrics = await page.evaluate(() => {
         const dialog = document.querySelector('div[role="dialog"][aria-label="Command Menu Search"] .spotlight-window');
@@ -274,7 +281,7 @@ async function runResponsiveAudit() {
       // 8. SIDEBAR / DRAWER RESPONSIVE AUDIT
       const menuBtn = page.locator('header button[aria-label="Open Navigation Index Drawer"]').first();
       await menuBtn.click();
-      await page.waitForTimeout(350);
+      await page.waitForTimeout(400);
 
       const sidebarMetrics = await page.evaluate(() => {
         const aside = document.querySelector("aside");

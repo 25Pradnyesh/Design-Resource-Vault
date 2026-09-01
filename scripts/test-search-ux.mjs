@@ -1,6 +1,6 @@
 import { chromium } from "playwright";
 
-const BASE_URL = process.env.BASE_URL || "http://localhost:3002";
+const BASE_URL = process.env.BASE_URL || "http://localhost:3000";
 
 async function runTests() {
   console.log(`Starting Playwright Search UX Test Suite against ${BASE_URL}...`);
@@ -27,10 +27,11 @@ async function runTests() {
     // -------------------------------------------------------------
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(BASE_URL, { waitUntil: "networkidle" });
+    await page.waitForTimeout(500);
 
-    const desktopSearchBtn = page.locator('header button[aria-label="Search resources"]').first();
+    const desktopSearchBtn = page.locator('header button[aria-label="Search resources"]:visible');
     await desktopSearchBtn.click();
-    await page.waitForTimeout(300);
+    await page.waitForTimeout(400);
 
     const dialog = page.locator('div[role="dialog"][aria-label="Command Menu Search"]');
     assert(await dialog.isVisible(), "Test A: Open Search (Click Header Trigger)", "Dialog was not visible after click");
@@ -44,13 +45,13 @@ async function runTests() {
     // Test B: KEYBOARD SHORTCUT (Ctrl+K / Cmd+K)
     // -------------------------------------------------------------
     await page.keyboard.press("Control+k");
-    await page.waitForTimeout(300);
+    await page.waitForTimeout(400);
     assert(await dialog.isVisible(), "Test B: Keyboard Shortcut (Control+k opens Command Menu)");
 
     // -------------------------------------------------------------
     // Test C: SEARCH NAME
     // -------------------------------------------------------------
-    const searchInput = page.locator('input[placeholder*="Search resources"]');
+    const searchInput = page.locator('div[role="dialog"] input');
     await searchInput.fill("Framer");
     await page.waitForTimeout(300);
 
@@ -141,8 +142,11 @@ async function runTests() {
     // -------------------------------------------------------------
     // Open filter dropdown and select category
     const filterDropdownBtn = page.locator("#filters-primary-trigger");
+    await filterDropdownBtn.scrollIntoViewIfNeeded();
+    await page.evaluate(() => window.scrollBy(0, -120));
+    await page.waitForTimeout(250);
     await filterDropdownBtn.click();
-    await page.waitForTimeout(200);
+    await page.waitForTimeout(300);
 
     // Select "Iconography" category checkbox
     const iconCheckbox = page.locator('button[role="checkbox"]:has-text("Iconography")');
