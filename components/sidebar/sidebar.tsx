@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
@@ -7,10 +8,8 @@ import {
   LayoutGrid,
   Star,
   Clock,
-  Plus,
   Sparkles,
   X,
-  Link2,
   Layers,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -33,7 +32,18 @@ interface SidebarProps {
 export function Sidebar({ mobile = false }: SidebarProps) {
   const pathname = usePathname();
   const { categoryCounts, favorites, resources } = useResources();
-  const { setSidebarOpen, setAddResourceOpen, setAddByUrlOpen } = useUI();
+  const { setSidebarOpen } = useUI();
+
+  useEffect(() => {
+    if (!mobile) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setSidebarOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [mobile, setSidebarOpen]);
 
   const content = (
     <div className="flex h-full flex-col bg-[var(--surface)] text-[var(--text-primary)] border-r border-[var(--border)] font-sans select-none">
@@ -47,34 +57,10 @@ export function Sidebar({ mobile = false }: SidebarProps) {
         </Link>
         <button
           onClick={() => setSidebarOpen(false)}
-          className="p-1 rounded-md border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--surface)] transition-colors cursor-pointer"
+          className="p-1 rounded-md text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-muted)] transition-colors cursor-pointer"
           aria-label="Close Navigation Drawer"
         >
-          <X className="h-3.5 w-3.5" />
-        </button>
-      </div>
-
-      {/* Primary Action Buttons */}
-      <div className="p-3 grid grid-cols-2 gap-2 border-b border-[var(--border)] bg-[var(--background)]/50">
-        <button
-          className="flex items-center justify-center gap-1.5 rounded-lg bg-[var(--text-primary)] text-[var(--background)] px-2.5 py-2 text-xs font-semibold hover:opacity-90 transition-opacity cursor-pointer shadow-2xs"
-          onClick={() => {
-            setAddResourceOpen(true);
-            setSidebarOpen(false);
-          }}
-        >
-          <Plus className="h-3.5 w-3.5" />
-          <span>Add New</span>
-        </button>
-        <button
-          className="flex items-center justify-center gap-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)] px-2.5 py-2 text-xs font-medium hover:text-[var(--text-primary)] hover:border-[var(--border-strong)] transition-colors cursor-pointer shadow-2xs"
-          onClick={() => {
-            setAddByUrlOpen(true);
-            setSidebarOpen(false);
-          }}
-        >
-          <Link2 className="h-3.5 w-3.5" />
-          <span>Import URL</span>
+          <X className="h-4 w-4" />
         </button>
       </div>
 
@@ -172,6 +158,7 @@ export function Sidebar({ mobile = false }: SidebarProps) {
         exit={{ x: "-100%" }}
         transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
         className="fixed inset-y-0 left-0 z-50 w-72 sm:w-80 border-r border-[var(--border)] bg-[var(--surface)] shadow-2xl"
+        aria-label="Site Navigation Index"
       >
         {content}
       </motion.aside>
@@ -179,7 +166,10 @@ export function Sidebar({ mobile = false }: SidebarProps) {
   }
 
   return (
-    <aside className="hidden lg:flex lg:w-64 lg:shrink-0 lg:flex-col border-r border-[var(--border)] bg-[var(--surface)]">
+    <aside
+      className="hidden lg:flex lg:w-64 lg:shrink-0 lg:flex-col border-r border-[var(--border)] bg-[var(--surface)]"
+      aria-label="Site Navigation Index"
+    >
       {content}
     </aside>
   );

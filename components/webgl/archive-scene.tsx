@@ -78,23 +78,37 @@ export function ArchiveScene({ className = "" }: ArchiveSceneProps) {
     });
     resizeObserver.observe(container);
 
+    // Intersection Observer to pause rendering when hero is scrolled out of view
+    let isVisible = true;
+    const visibilityObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          isVisible = entry.isIntersecting;
+        });
+      },
+      { threshold: 0.05 }
+    );
+    visibilityObserver.observe(container);
+
     // Animation Loop
     let animationFrameId: number;
     const startTime = performance.now();
 
     const animate = () => {
-      const now = performance.now();
-      const elapsed = now - startTime;
+      if (isVisible) {
+        const now = performance.now();
+        const elapsed = now - startTime;
 
-      if (!prefersReducedMotion) {
-        // Smooth lerping for mouse parallax
-        currentMouseX += (targetMouseX - currentMouseX) * 0.04;
-        currentMouseY += (targetMouseY - currentMouseY) * 0.04;
+        if (!prefersReducedMotion) {
+          // Smooth lerping for mouse parallax
+          currentMouseX += (targetMouseX - currentMouseX) * 0.04;
+          currentMouseY += (targetMouseY - currentMouseY) * 0.04;
 
-        field.update(elapsed, currentMouseX, currentMouseY, scrollY);
+          field.update(elapsed, currentMouseX, currentMouseY, scrollY);
+        }
+
+        renderer.render(scene, camera);
       }
-
-      renderer.render(scene, camera);
       animationFrameId = requestAnimationFrame(animate);
     };
 
@@ -106,6 +120,7 @@ export function ArchiveScene({ className = "" }: ArchiveSceneProps) {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("scroll", handleScroll);
       resizeObserver.disconnect();
+      visibilityObserver.disconnect();
 
       field.dispose();
       renderer.dispose();

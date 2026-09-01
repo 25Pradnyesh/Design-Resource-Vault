@@ -14,15 +14,23 @@ export function HeroStudioIllustration() {
   useEffect(() => {
     if (shouldReduceMotion) return;
 
+    let rafId: number | null = null;
     const handleMouseMove = (e: MouseEvent) => {
-      const { innerWidth, innerHeight } = window;
-      const x = (e.clientX / innerWidth - 0.5) * 2;
-      const y = (e.clientY / innerHeight - 0.5) * 2;
-      setMousePos({ x, y });
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        const { innerWidth, innerHeight } = window;
+        const x = (e.clientX / innerWidth - 0.5) * 2;
+        const y = (e.clientY / innerHeight - 0.5) * 2;
+        setMousePos({ x, y });
+        rafId = null;
+      });
     };
 
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
   }, [shouldReduceMotion]);
 
   // Layered parallax coordinates (subtle, restrained physical offsets)

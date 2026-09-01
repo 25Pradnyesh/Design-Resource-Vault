@@ -71,7 +71,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <div className="relative z-20 flex items-center shrink-0">
             <button
               onClick={() => setSidebarOpen(true)}
-              className={`flex cursor-pointer items-center gap-1.5 sm:gap-2 rounded-full px-2.5 sm:px-3.5 py-1.5 font-sans text-xs font-bold text-[var(--text-primary)] transition-[background-color,border-color,box-shadow,transform] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-98 ${
+              className={`flex cursor-pointer items-center gap-1.5 sm:gap-2 rounded-full px-2.5 sm:px-3.5 py-1.5 font-sans text-xs font-bold text-[var(--text-primary)] transition-[background-color,border-color,box-shadow,transform] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-98 focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:outline-none ${
                 scrollTier === "top"
                   ? "border border-[var(--border)] bg-white/95 shadow-2xs hover:border-[var(--border-strong)] hover:bg-white"
                   : scrollTier === "light"
@@ -97,7 +97,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <div className="pointer-events-auto absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2">
             <Link
               href="/"
-              className="outline-none"
+              className="outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] rounded-full"
               aria-label="Design Resource Vault home"
             >
               <motion.div
@@ -108,75 +108,40 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               >
                 {/* --------------------------------------------------------
                     CREATIVE COLOR WHEEL (RESTRICTED COLOR PALETTE)
-                    180° smooth rotation on group hover with reduced motion check
+                    Geometric circular multi-spoke emblem following DRV tokens.
                 --------------------------------------------------------- */}
                 <motion.div
-                  className="relative h-7 w-7 shrink-0 cursor-pointer sm:h-8 sm:w-8"
+                  className="relative flex h-7 w-7 sm:h-7.5 sm:w-7.5 items-center justify-center shrink-0"
                   variants={{
-                    initial: { rotate: 0, scale: 1 },
-                    hover: {
-                      rotate: shouldReduceMotion ? 0 : 180,
-                      scale: shouldReduceMotion ? 1 : 1.06,
-                      transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] },
-                    },
+                    initial: { rotate: 0 },
+                    hover: { rotate: shouldReduceMotion ? 0 : 360 },
                   }}
+                  transition={{ duration: 1.8, ease: "easeInOut", repeat: Infinity }}
                 >
-                  <svg
-                    className="h-full w-full drop-shadow-xs"
-                    viewBox="0 0 36 36"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                  >
+                  <svg viewBox="0 0 48 48" className="h-full w-full" fill="none">
+                    {/* Ring Outer Rim */}
+                    <circle cx="24" cy="24" r="23" stroke="#CBD5E1" strokeWidth="1" strokeOpacity="0.4" />
+                    <circle cx="24" cy="24" r="21.5" stroke="#FFFFFF" strokeWidth="2.5" />
+
+                    {/* Restricted Spectrum Palette Spokes */}
+                    <path d="M24 2.5 A21.5 21.5 0 0 1 39.2 8.8 L24 24 Z" fill="#00C4CC" />
+                    <path d="M39.2 8.8 A21.5 21.5 0 0 1 45.5 24 L24 24 Z" fill="#10B981" />
+                    <path d="M45.5 24 A21.5 21.5 0 0 1 39.2 39.2 L24 24 Z" fill="#059669" />
+                    <path d="M39.2 39.2 A21.5 21.5 0 0 1 24 45.5 L24 24 Z" fill="#FBBF24" />
+                    <path d="M24 45.5 A21.5 21.5 0 0 1 8.8 39.2 L24 24 Z" fill="#FB923C" />
+                    <path d="M8.8 39.2 A21.5 21.5 0 0 1 2.5 24 L24 24 Z" fill="#FA5252" />
+                    <path d="M2.5 24 A21.5 21.5 0 0 1 8.8 8.8 L24 24 Z" fill="#F43F5E" />
+                    <path d="M8.8 8.8 A21.5 21.5 0 0 1 24 2.5 L24 24 Z" fill="#00C4CC" />
+
+                    {/* Iris Inner Core */}
+                    <circle cx="24" cy="24" r="10" fill="#FFFFFF" />
+                    <circle cx="24" cy="24" r="5.5" fill="#0B132B" />
                     <circle
-                      cx="18"
-                      cy="18"
-                      r="17"
+                      cx="22"
+                      cy="22"
+                      r="1.5"
                       fill="#FFFFFF"
-                      stroke="#E2E8F0"
-                      strokeWidth="1.5"
-                    />
-
-                    <path
-                      d="M18 4 A14 14 0 0 1 30 11 L24 14.5 A7 7 0 0 0 18 11 Z"
-                      fill="#00C4CC"
-                    />
-
-                    <path
-                      d="M30 11 A14 14 0 0 1 32 25 L25 21.5 A7 7 0 0 0 24 14.5 Z"
-                      fill="#10B981"
-                    />
-
-                    <path
-                      d="M32 25 A14 14 0 0 1 22 32 L20 25 A7 7 0 0 0 25 21.5 Z"
-                      fill="#059669"
-                    />
-
-                    <path
-                      d="M22 32 A14 14 0 0 1 10 30 L14 24 A7 7 0 0 0 20 25 Z"
-                      fill="#FBBF24"
-                    />
-
-                    <path
-                      d="M10 30 A14 14 0 0 1 4 18 L11 18 A7 7 0 0 0 14 24 Z"
-                      fill="#FB923C"
-                    />
-
-                    <path
-                      d="M4 18 A14 14 0 0 1 10 6 L14 12 A7 7 0 0 0 11 18 Z"
-                      fill="#FA5252"
-                    />
-
-                    <path
-                      d="M10 6 A14 14 0 0 1 18 4 L18 11 A7 7 0 0 0 14 12 Z"
-                      fill="#F43F5E"
-                    />
-
-                    <circle
-                      cx="18"
-                      cy="18"
-                      r="3.5"
-                      fill="#0B132B"
+                      fillOpacity="0.8"
                     />
                   </svg>
                 </motion.div>
@@ -213,7 +178,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             {/* FAVORITES */}
             <Link
               href="/favorites"
-              className={`flex items-center gap-1 sm:gap-1.5 rounded-full px-2 py-1.5 sm:px-3 text-xs text-[var(--text-primary)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-98 ${
+              className={`flex items-center gap-1 sm:gap-1.5 rounded-full px-2 py-1.5 sm:px-3 text-xs text-[var(--text-primary)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-98 focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:outline-none ${
                 scrollTier === "top"
                   ? "border border-[var(--border)] bg-white/95 shadow-2xs hover:border-[var(--border-strong)] hover:bg-white"
                   : scrollTier === "light"
@@ -236,7 +201,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             {/* EXPANDED DESKTOP SEARCH (≥ 1200px) */}
             <button
               onClick={() => setCommandMenuOpen(true)}
-              className={`hidden xl:flex cursor-pointer items-center gap-2.5 rounded-full px-3.5 py-1.5 text-xs transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-98 ${
+              className={`hidden xl:flex cursor-pointer items-center gap-2.5 rounded-full px-3.5 py-1.5 text-xs transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-98 focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:outline-none ${
                 scrollTier === "top"
                   ? "border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--text-muted)] shadow-2xs hover:border-[var(--border-strong)] hover:bg-white hover:text-[var(--text-primary)]"
                   : scrollTier === "light"
@@ -263,7 +228,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             {/* COMPACT TABLET / MEDIUM DESKTOP SEARCH (640px to 1199px) */}
             <button
               onClick={() => setCommandMenuOpen(true)}
-              className={`hidden sm:flex xl:hidden cursor-pointer items-center gap-2 rounded-full px-3 py-1.5 text-xs transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-98 ${
+              className={`hidden sm:flex xl:hidden cursor-pointer items-center gap-2 rounded-full px-3 py-1.5 text-xs transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-98 focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:outline-none ${
                 scrollTier === "top"
                   ? "border border-[var(--border)] bg-[var(--surface-muted)] text-[var(--text-muted)] shadow-2xs hover:border-[var(--border-strong)] hover:bg-white hover:text-[var(--text-primary)]"
                   : scrollTier === "light"
@@ -290,7 +255,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             {/* MOBILE SEARCH ICON BUTTON (< 640px) */}
             <button
               onClick={() => setCommandMenuOpen(true)}
-              className={`flex cursor-pointer items-center justify-center rounded-full p-2 text-[var(--text-muted)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-98 sm:hidden ${
+              className={`flex cursor-pointer items-center justify-center rounded-full p-2 text-[var(--text-muted)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-98 focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:outline-none sm:hidden ${
                 scrollTier === "top"
                   ? "border border-[var(--border)] bg-white/95 shadow-2xs hover:bg-white hover:text-[var(--text-primary)]"
                   : scrollTier === "light"
@@ -305,7 +270,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             {/* ADD BUTTON */}
             <button
               onClick={() => setAddResourceOpen(true)}
-              className={`flex cursor-pointer items-center gap-1.5 rounded-full px-2.5 py-1.5 sm:px-4 text-xs font-bold text-white shadow-2xs transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-[var(--text-secondary)] hover:shadow-xs active:scale-98 ${
+              className={`flex cursor-pointer items-center gap-1.5 rounded-full px-2.5 py-1.5 sm:px-4 text-xs font-bold text-white shadow-2xs transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-[var(--text-secondary)] hover:shadow-xs active:scale-98 focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:outline-none ${
                 scrollTier === "deep" ? "bg-[var(--text-primary)]/90" : "bg-[var(--text-primary)]"
               }`}
               aria-label="Add new resource"

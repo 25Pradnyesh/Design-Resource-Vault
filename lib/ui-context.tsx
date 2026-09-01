@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, useMemo, type ReactNode } from "react";
 
 interface UIContextValue {
   sidebarOpen: boolean;
@@ -27,22 +27,32 @@ export function UIProvider({ children }: { children: ReactNode }) {
 
   const toggleSidebar = useCallback(() => setSidebarOpen((p) => !p), []);
 
+  const value = useMemo(
+    () => ({
+      sidebarOpen,
+      setSidebarOpen,
+      toggleSidebar,
+      commandMenuOpen,
+      setCommandMenuOpen,
+      addResourceOpen,
+      setAddResourceOpen,
+      addByUrlOpen,
+      setAddByUrlOpen,
+      editingResourceId,
+      setEditingResourceId,
+    }),
+    [
+      sidebarOpen,
+      toggleSidebar,
+      commandMenuOpen,
+      addResourceOpen,
+      addByUrlOpen,
+      editingResourceId,
+    ]
+  );
+
   return (
-    <UIContext.Provider
-      value={{
-        sidebarOpen,
-        setSidebarOpen,
-        toggleSidebar,
-        commandMenuOpen,
-        setCommandMenuOpen,
-        addResourceOpen,
-        setAddResourceOpen,
-        addByUrlOpen,
-        setAddByUrlOpen,
-        editingResourceId,
-        setEditingResourceId,
-      }}
-    >
+    <UIContext.Provider value={value}>
       {children}
     </UIContext.Provider>
   );

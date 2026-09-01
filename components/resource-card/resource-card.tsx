@@ -122,7 +122,7 @@ export function ResourceCard({
           href={resource.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="outline-none focus-visible:ring-1 focus-visible:ring-[var(--accent)] rounded-sm group/title block"
+          className="outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] rounded-sm group/title block"
           title={`Visit ${domain}`}
         >
           <div className="flex items-center gap-1.5">
@@ -177,7 +177,7 @@ export function ResourceCard({
           {/* Detail Page Link (Internal Documentation) */}
           <Link
             href={`/resources/${resource.slug}`}
-            className="p-1 rounded-md text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-muted)] transition-colors inline-flex items-center justify-center focus-visible:ring-1 focus-visible:ring-[var(--accent)] outline-none"
+            className="p-1 rounded-md text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-muted)] transition-colors inline-flex items-center justify-center focus-visible:ring-2 focus-visible:ring-[var(--accent)] outline-none"
             title={`View ${resource.name} specifications & details`}
             aria-label={`View details for ${resource.name}`}
           >
@@ -189,7 +189,7 @@ export function ResourceCard({
             href={resource.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-1 rounded-md text-[var(--text-muted)] hover:text-[var(--accent)] hover:bg-[var(--surface-muted)] transition-colors inline-flex items-center justify-center group/arrow focus-visible:ring-1 focus-visible:ring-[var(--accent)] outline-none"
+            className="p-1 rounded-md text-[var(--text-muted)] hover:text-[var(--accent)] hover:bg-[var(--surface-muted)] transition-colors inline-flex items-center justify-center group/arrow focus-visible:ring-2 focus-visible:ring-[var(--accent)] outline-none"
             title={`Open ${domain} in new tab`}
             aria-label={`Open ${resource.name} website`}
           >
