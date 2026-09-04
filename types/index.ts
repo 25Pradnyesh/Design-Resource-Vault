@@ -39,6 +39,8 @@ export interface Resource {
 
 export type SortOption = "recent" | "featured" | "most-used" | "relevance";
 
+export type ViewMode = "gallery" | "dense" | "ledger";
+
 export interface ResourceFilters {
   query?: string;
   categories?: string[];

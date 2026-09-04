@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { SortOption } from "@/types";
-import { categories, CATEGORY_GROUPS, CategoryGroup } from "@/data/categories";
+import { SortOption, ViewMode } from "@/types";
+import { categories, CATEGORY_GROUPS } from "@/data/categories";
 import { useResources } from "@/lib/resource-context";
+import { useUI } from "@/lib/ui-context";
 import { cn } from "@/lib/utils";
 import {
   SlidersHorizontal,
@@ -13,6 +14,12 @@ import {
   RotateCcw,
   Sparkles,
   Star,
+  LayoutGrid,
+  Grid3X3,
+  List,
+  Layers,
+  Code,
+  Palette,
 } from "lucide-react";
 import { ActiveFilterChips } from "./active-filter-chips";
 
@@ -35,31 +42,37 @@ export interface FiltersProps {
   className?: string;
 }
 
+const COMMON_TECH = ["WebGL", "Three.js", "React", "Tailwind CSS", "GLSL Shaders", "Motion", "Canvas"];
+const COMMON_STYLES = ["Brutalist", "Minimalist", "3D / Spatial", "Dark Mode", "Kinetic Motion", "Editorial"];
+
 export function Filters({
   selectedCategories = [],
+  selectedTags = [],
   favoritesOnly = false,
   sort = "recent",
   onCategoriesChange,
+  onTagsChange,
   onFavoritesChange,
   onSortChange,
   onClear,
   className,
 }: FiltersProps) {
-  const { resources, categoryCounts } = useResources();
+  const { categoryCounts, resources } = useResources();
+  const { viewMode, setViewMode } = useUI();
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   const activeCategoryCount = selectedCategories.length;
-  const hasActiveCategories = activeCategoryCount > 0;
+  const activeTagsCount = selectedTags.length;
   const activeFilterCount =
     activeCategoryCount +
+    activeTagsCount +
     (favoritesOnly ? 1 : 0) +
     (sort !== "recent" && sort !== "relevance" ? 1 : 0);
 
   const hasFilters = activeFilterCount > 0;
 
-  // Close dropdown on outside click or ESC key without resetting selections
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
@@ -93,266 +106,292 @@ export function Filters({
     [selectedCategories, onCategoriesChange]
   );
 
+  const toggleTag = useCallback(
+    (tag: string) => {
+      if (!onTagsChange) return;
+      if (selectedTags.includes(tag)) {
+        onTagsChange(selectedTags.filter((t) => t !== tag));
+      } else {
+        onTagsChange([...selectedTags, tag]);
+      }
+    },
+    [selectedTags, onTagsChange]
+  );
+
   return (
-    <div ref={containerRef} className={cn("relative w-full font-sans select-none", className)}>
-      {/* Primary Filter Control Toolbar */}
-      <div className="flex flex-wrap items-center justify-between gap-2.5 py-1 text-xs">
-        
-        {/* Left: Primary [ FILTERS ] Trigger & Quick Sort / State Controls */}
+    <div ref={containerRef} className={cn("relative w-full font-sans select-none space-y-3", className)}>
+      {/* Main Filter & Viewport Bar */}
+      <div className="flex flex-wrap items-center justify-between gap-3 p-2 sm:p-2.5 rounded-xl border border-slate-200 bg-white shadow-2xs">
+
+        {/* Left Side: Filter Trigger & Quick Mode Selectors */}
         <div className="flex flex-wrap items-center gap-2">
-          
-          {/* Main Filter Button: "FILTERS" or "FILTERS · 3" */}
+          {/* Primary Filter Drawer/Popover Trigger */}
           <button
             ref={triggerRef}
-            type="button"
             id="filters-primary-trigger"
+            type="button"
             onClick={() => setIsOpen((prev) => !prev)}
             className={cn(
-              "flex items-center gap-2 px-3.5 py-2 rounded-lg border font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer shadow-2xs font-medium focus-visible:outline-2 focus-visible:outline-[var(--accent)]",
-              isOpen || hasActiveCategories
-                ? "bg-[var(--surface-muted)] text-[var(--text-primary)] border-[var(--text-primary)] font-semibold"
-                : "border-[var(--border-strong)] bg-[var(--surface)] text-[var(--text-primary)] hover:border-[var(--text-secondary)] hover:bg-[var(--surface-hover)]"
+              "inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border font-mono text-xs font-bold transition-all cursor-pointer",
+              isOpen || hasFilters
+                ? "bg-slate-900 text-white border-slate-900 shadow-xs"
+                : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:border-slate-300"
             )}
             aria-expanded={isOpen}
-            aria-haspopup="dialog"
             aria-controls="filters-popover-panel"
-            aria-label={
-              hasActiveCategories
-                ? `Filters, ${activeCategoryCount} active`
-                : "Filters"
-            }
+            aria-label="Filter resources by taxonomy and tags"
           >
-            <SlidersHorizontal className="h-3.5 w-3.5 text-[var(--text-secondary)] shrink-0" />
-
-            {/* Typographic Label: FILTERS or FILTERS · 3 */}
-            <span>
-              {hasActiveCategories
-                ? `FILTERS · ${activeCategoryCount}`
-                : "FILTERS"}
-            </span>
-
+            <SlidersHorizontal className="h-3.5 w-3.5 text-cyan-400" />
+            <span className="uppercase">TAXONOMY FILTERS</span>
+            {activeFilterCount > 0 && (
+              <span className="h-4 min-w-4 px-1 rounded-full bg-blue-600 text-white text-[10px] font-mono flex items-center justify-center font-bold">
+                {activeFilterCount}
+              </span>
+            )}
             <ChevronDown
-              className={cn(
-                "h-3.5 w-3.5 text-[var(--text-muted)] transition-transform duration-200 ease-out shrink-0",
-                isOpen && "rotate-180"
-              )}
+              className={cn("h-3.5 w-3.5 transition-transform duration-200", isOpen && "rotate-180")}
             />
           </button>
 
-          <div className="hidden sm:block h-4 w-px bg-[var(--border)] mx-1" />
-
-          {/* Quick Sort: Recently Added */}
-          <button
-            type="button"
-            onClick={() => onSortChange("recent")}
-            className={cn(
-              "hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-lg border font-mono text-[11px] uppercase tracking-wider transition-colors cursor-pointer shadow-2xs",
-              sort === "recent"
-                ? "bg-[var(--surface-muted)] text-[var(--text-primary)] border-[var(--border-strong)] font-semibold"
-                : "border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-strong)]"
-            )}
-            title="Sort by Recently Added"
-          >
-            <Sparkles className="h-3 w-3 text-[var(--text-muted)]" />
-            <span>RECENT</span>
-          </button>
-
-          {/* Quick Sort: Featured */}
-          <button
-            type="button"
-            onClick={() => onSortChange(sort === "featured" ? "recent" : "featured")}
-            className={cn(
-              "hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-lg border font-mono text-[11px] uppercase tracking-wider transition-colors cursor-pointer shadow-2xs",
-              sort === "featured"
-                ? "bg-[var(--surface-muted)] text-[var(--text-primary)] border-[var(--border-strong)] font-semibold"
-                : "border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-strong)]"
-            )}
-            title="Filter by Featured items"
-          >
-            <span>FEATURED</span>
-          </button>
-
-          {/* Quick Filter: Favorites */}
+          {/* Quick Filter: Favorites Only */}
           <button
             type="button"
             onClick={() => onFavoritesChange(!favoritesOnly)}
             className={cn(
-              "flex items-center gap-1.5 px-3 py-2 rounded-lg border font-mono text-[11px] uppercase tracking-wider transition-colors cursor-pointer shadow-2xs",
+              "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border font-sans text-xs font-semibold transition-colors cursor-pointer",
               favoritesOnly
-                ? "bg-[var(--surface-muted)] text-[var(--text-primary)] border-[var(--border-strong)] font-semibold"
-                : "border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-strong)]"
+                ? "bg-rose-50 text-rose-700 border-rose-300"
+                : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
             )}
-            title="Toggle Starred Favorites"
           >
-            <Star className={cn("h-3 w-3", favoritesOnly ? "fill-[var(--accent)] text-[var(--accent)]" : "text-[var(--text-muted)]")} />
-            <span>FAVORITES</span>
+            <Star className={cn("h-3.5 w-3.5", favoritesOnly ? "fill-rose-500 text-rose-500" : "text-slate-400")} />
+            <span>Starred</span>
           </button>
+
+          {/* Sort Selector */}
+          <div className="flex items-center gap-1 bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-xs">
+            {(["recent", "featured", "most-used"] as SortOption[]).map((option) => (
+              <button
+                key={option}
+                type="button"
+                onClick={() => onSortChange(option)}
+                className={cn(
+                  "px-2.5 py-1 rounded-md text-[11px] font-mono uppercase font-bold transition-all cursor-pointer",
+                  sort === option
+                    ? "bg-white text-slate-900 shadow-2xs"
+                    : "text-slate-500 hover:text-slate-900"
+                )}
+              >
+                {option === "recent" ? "Latest" : option === "featured" ? "Featured" : "Popular"}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Right: Active Filter Summary & Clear Control */}
-        {hasFilters && (
-          <div className="flex items-center gap-2">
+        {/* Right Side: View Mode Switcher (Gallery, Dense, Ledger) */}
+        <div className="flex items-center gap-2">
+          {hasFilters && (
             <button
               type="button"
               onClick={onClear}
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface)] text-[11px] font-mono text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-strong)] transition-colors cursor-pointer shadow-2xs"
-              title="Reset all active filters"
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-mono text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
             >
-              <RotateCcw className="h-3 w-3 text-[var(--text-muted)]" />
-              <span>CLEAR ALL</span>
+              <RotateCcw className="h-3 w-3" />
+              <span>CLEAR</span>
+            </button>
+          )}
+
+          <div className="flex items-center p-0.5 bg-slate-100 border border-slate-200 rounded-lg">
+            <button
+              type="button"
+              onClick={() => setViewMode("gallery")}
+              className={cn(
+                "p-1.5 rounded-md transition-all cursor-pointer",
+                viewMode === "gallery" ? "bg-white text-blue-600 shadow-2xs" : "text-slate-500 hover:text-slate-900"
+              )}
+              title="Gallery View (Large visual cards)"
+              aria-label="Gallery View"
+            >
+              <LayoutGrid className="h-4 w-4" />
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setViewMode("dense")}
+              className={cn(
+                "p-1.5 rounded-md transition-all cursor-pointer",
+                viewMode === "dense" ? "bg-white text-blue-600 shadow-2xs" : "text-slate-500 hover:text-slate-900"
+              )}
+              title="Dense Grid View (High scanability)"
+              aria-label="Dense Grid View"
+            >
+              <Grid3X3 className="h-4 w-4" />
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setViewMode("ledger")}
+              className={cn(
+                "p-1.5 rounded-md transition-all cursor-pointer",
+                viewMode === "ledger" ? "bg-white text-blue-600 shadow-2xs" : "text-slate-500 hover:text-slate-900"
+              )}
+              title="Archival Ledger View (Sortable data sheet)"
+              aria-label="Ledger Table View"
+            >
+              <List className="h-4 w-4" />
             </button>
           </div>
-        )}
+        </div>
       </div>
 
-      {/* Archival Category Filter Popover Panel */}
+      {/* Expanded Taxonomy Panel Popover */}
       {isOpen && (
-        <>
-          {/* Mobile Backdrop Overlay */}
-          <div
-            className="fixed inset-0 z-40 bg-black/20 backdrop-blur-xs sm:hidden transition-opacity"
-            onClick={() => setIsOpen(false)}
-            aria-hidden="true"
-          />
-
-          {/* Popover Panel Container */}
-          <div
-            id="filters-popover-panel"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Categories filter"
-            className="fixed sm:absolute inset-x-3 bottom-3 sm:inset-auto sm:left-0 sm:top-full sm:mt-2 z-50 w-auto sm:w-[380px] md:w-[420px] max-h-[80vh] sm:max-h-[540px] rounded-xl border border-[var(--border-strong)] bg-[var(--surface)] shadow-xl overflow-hidden flex flex-col font-sans animate-popover-in"
-            style={{
-              boxShadow: "0 20px 40px -12px rgba(11, 19, 43, 0.14), 0 0 0 1px rgba(11, 19, 43, 0.05)",
-            }}
-          >
-            {/* Popover Header */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--border)] bg-[var(--surface)] shrink-0">
-              <div className="flex items-center gap-2">
-                <span className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
-                  FILTERS
-                </span>
-                {hasActiveCategories && (
-                  <span className="font-mono text-[11px] text-[var(--text-muted)]">
-                    · {activeCategoryCount} selected
-                  </span>
-                )}
+        <div
+          id="filters-popover-panel"
+          className="w-full rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-xl animate-popover-in space-y-6 z-30 relative"
+        >
+          {/* Header */}
+          <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+            <div className="space-y-0.5">
+              <div className="font-mono text-xs uppercase font-bold text-slate-900 flex items-center gap-1.5">
+                <Layers className="h-4 w-4 text-blue-600" />
+                <span>ARCHIVAL TAXONOMY MATRIX</span>
               </div>
+              <p className="text-xs text-slate-500">
+                Filter across 22 specialized design domains, creative code technologies, and aesthetic archetypes.
+              </p>
+            </div>
 
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => setIsOpen(false)}
-                  className="p-1 rounded-md text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-muted)] transition-colors cursor-pointer"
-                  title="Close filters"
-                  aria-label="Close filters"
-                >
-                  <X className="h-3.5 w-3.5" />
-                </button>
+            <button
+              type="button"
+              onClick={() => setIsOpen(false)}
+              className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-900 transition-colors"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+
+          {/* Grouped Categories Matrix */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {CATEGORY_GROUPS.map((group) => (
+              <div key={group.id} className="space-y-2.5">
+                <div className="font-mono text-[10.5px] uppercase font-black tracking-wider text-slate-900 border-b border-slate-100 pb-1">
+                  {group.name}
+                </div>
+                <div className="flex flex-col gap-1">
+                  {group.categoryIds.map((catId) => {
+                    const cat = categories.find((c) => c.id === catId);
+                    if (!cat) return null;
+                    const isSelected = selectedCategories.includes(cat.id);
+                    const count = categoryCounts[cat.id] ?? 0;
+
+                    return (
+                      <button
+                        key={cat.id}
+                        type="button"
+                        onClick={() => toggleCategory(cat.id)}
+                        className={cn(
+                          "flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs transition-all text-left cursor-pointer",
+                          isSelected
+                            ? "bg-blue-600 text-white font-bold"
+                            : "text-slate-700 hover:bg-slate-100 hover:text-slate-900"
+                        )}
+                      >
+                        <span className="truncate pr-2">{cat.name}</span>
+                        <span
+                          className={cn(
+                            "font-mono text-[10px] px-1.5 py-0.2 rounded shrink-0",
+                            isSelected ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"
+                          )}
+                        >
+                          {count}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Tech Stack & Style Tags Section */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-200">
+            {/* Tech Stack */}
+            <div className="space-y-2">
+              <div className="font-mono text-[10.5px] uppercase font-bold text-slate-900 flex items-center gap-1.5">
+                <Code className="h-3.5 w-3.5 text-emerald-600" />
+                <span>TECHNOLOGIES & FRAMEWORKS</span>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {COMMON_TECH.map((tech) => {
+                  const isSelected = selectedTags.includes(tech);
+                  return (
+                    <button
+                      key={tech}
+                      type="button"
+                      onClick={() => toggleTag(tech)}
+                      className={cn(
+                        "px-2.5 py-1 rounded-md font-mono text-[10.5px] font-medium border transition-colors cursor-pointer",
+                        isSelected
+                          ? "bg-emerald-600 text-white border-emerald-600"
+                          : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
+                      )}
+                    >
+                      {tech}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
-            {/* Scrollable Category Groups List */}
-            <div className="overflow-y-auto p-3 space-y-4 flex-1 divide-y divide-[var(--border)]/50">
-              {CATEGORY_GROUPS.map((group: CategoryGroup) => {
-                const groupCategories = group.categoryIds
-                  .map((id) => categories.find((c) => c.id === id))
-                  .filter((c): c is (typeof categories)[0] => Boolean(c));
-
-                return (
-                  <div key={group.id} className="pt-3 first:pt-0 space-y-1.5">
-                    {/* Category Group Section Label */}
-                    <div className="px-2 py-0.5 flex items-center justify-between font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)]">
-                      <span>{group.name}</span>
-                    </div>
-
-                    {/* Category Interactive Rows */}
-                    <div className="space-y-0.5">
-                      {groupCategories.map((cat) => {
-                        const isSelected = selectedCategories.includes(cat.id);
-                        const count = categoryCounts[cat.id] ?? 0;
-
-                        return (
-                          <button
-                            key={cat.id}
-                            type="button"
-                            role="checkbox"
-                            aria-checked={isSelected}
-                            onClick={() => toggleCategory(cat.id)}
-                            onKeyDown={(e) => {
-                              if (e.key === " " || e.key === "Enter") {
-                                e.preventDefault();
-                                toggleCategory(cat.id);
-                              }
-                            }}
-                            className={cn(
-                              "w-full flex items-center justify-between gap-3 px-2.5 py-2 rounded-lg text-left text-xs transition-colors cursor-pointer group select-none",
-                              "focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-1",
-                              isSelected
-                                ? "bg-[var(--surface-muted)] text-[var(--text-primary)] font-medium"
-                                : "text-[var(--text-secondary)] hover:bg-[var(--surface-hover)] hover:text-[var(--text-primary)]"
-                            )}
-                          >
-                            <div className="flex items-center gap-2.5 min-w-0">
-                              {/* Semantic Custom Checkbox Box */}
-                              <div
-                                className={cn(
-                                  "w-4 h-4 rounded-[4px] border flex items-center justify-center shrink-0 transition-colors",
-                                  isSelected
-                                    ? "border-[var(--text-primary)] bg-[var(--text-primary)] text-[var(--background)] shadow-2xs"
-                                    : "border-[var(--border-strong)] bg-[var(--surface)] group-hover:border-[var(--text-secondary)]"
-                                )}
-                              >
-                                {isSelected && <Check className="w-3 h-3 stroke-[3]" />}
-                              </div>
-
-                              {/* Category Name */}
-                              <span className="truncate text-[12.5px] leading-snug">
-                                {cat.name}
-                              </span>
-                            </div>
-
-                            {/* Live Category Resource Count (Secondary Metadata) */}
-                            <span className="font-mono text-[11px] text-[var(--text-muted)] shrink-0 group-hover:text-[var(--text-secondary)]">
-                              {count}
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Popover Footer */}
-            <div className="flex items-center justify-between px-4 py-2.5 border-t border-[var(--border)] bg-[var(--surface)] shrink-0 text-xs">
-              <div>
-                {hasActiveCategories ? (
-                  <button
-                    type="button"
-                    onClick={() => onCategoriesChange([])}
-                    className="font-mono text-[11px] text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors cursor-pointer underline-offset-2 hover:underline"
-                  >
-                    Clear all
-                  </button>
-                ) : (
-                  <span className="font-mono text-[11px] text-[var(--text-muted)]">
-                    {resources.length} items in archive
-                  </span>
-                )}
+            {/* Visual Styles */}
+            <div className="space-y-2">
+              <div className="font-mono text-[10.5px] uppercase font-bold text-slate-900 flex items-center gap-1.5">
+                <Palette className="h-3.5 w-3.5 text-amber-600" />
+                <span>VISUAL & INTERACTION STYLES</span>
               </div>
-
-              <button
-                type="button"
-                onClick={() => setIsOpen(false)}
-                className="px-3 py-1 rounded-lg border border-[var(--border)] font-mono text-[11px] font-semibold text-[var(--text-primary)] hover:bg-[var(--surface-hover)] hover:border-[var(--border-strong)] transition-colors cursor-pointer shadow-2xs"
-              >
-                Done
-              </button>
+              <div className="flex flex-wrap gap-1.5">
+                {COMMON_STYLES.map((style) => {
+                  const isSelected = selectedTags.includes(style);
+                  return (
+                    <button
+                      key={style}
+                      type="button"
+                      onClick={() => toggleTag(style)}
+                      className={cn(
+                        "px-2.5 py-1 rounded-md font-mono text-[10.5px] font-medium border transition-colors cursor-pointer",
+                        isSelected
+                          ? "bg-amber-600 text-white border-amber-600"
+                          : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
+                      )}
+                    >
+                      {style}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
-        </>
+
+          {/* Footer Controls */}
+          <div className="flex items-center justify-between pt-4 border-t border-slate-200">
+            <button
+              type="button"
+              onClick={onClear}
+              className="font-mono text-xs text-slate-500 hover:text-slate-900 uppercase font-bold"
+            >
+              RESET ALL FILTERS
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setIsOpen(false)}
+              className="px-5 py-2 rounded-xl bg-slate-900 hover:bg-blue-600 text-white font-sans text-xs font-bold uppercase tracking-wider transition-colors shadow-xs cursor-pointer"
+            >
+              APPLY FILTERS
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

@@ -122,7 +122,7 @@ export default function CategoryPage({
             selectedPurposes={filterState.selectedPurposes}
             favoritesOnly={filterState.favoritesOnly}
             sort={filterState.sort}
-            onCategoriesChange={() => {}}
+            onCategoriesChange={() => { }}
             onTagsChange={filterState.setSelectedTags}
             onPurposeChange={filterState.setSelectedPurpose}
             onPurposesChange={filterState.setSelectedPurposes}

@@ -62,7 +62,7 @@ export default function FavoritesPage() {
               onTagsChange={filterState.setSelectedTags}
               onPurposeChange={filterState.setSelectedPurpose}
               onPurposesChange={filterState.setSelectedPurposes}
-              onFavoritesChange={() => {}}
+              onFavoritesChange={() => { }}
               onSortChange={filterState.setSort}
               onClear={filterState.clearFilters}
             />

@@ -11,16 +11,17 @@ import {
   Sparkles,
   X,
   Layers,
+  ArrowRight,
+  Code,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { categories } from "@/data/categories";
+import { categories, CATEGORY_GROUPS } from "@/data/categories";
 import { useResources } from "@/lib/resource-context";
 import { useUI } from "@/lib/ui-context";
-import { CategoryIcon } from "@/components/ui/category-icon";
 
 const navItems = [
   { href: "/", label: "All Resources", icon: LayoutGrid },
-  { href: "/favorites", label: "Favorites", icon: Star },
+  { href: "/favorites", label: "Starred Favorites", icon: Star },
   { href: "/recently-added", label: "Recently Added", icon: Sparkles },
   { href: "/recently-viewed", label: "Recently Viewed", icon: Clock },
 ];
@@ -46,18 +47,29 @@ export function Sidebar({ mobile = false }: SidebarProps) {
   }, [mobile, setSidebarOpen]);
 
   const content = (
-    <div className="flex h-full flex-col bg-[var(--surface)] text-[var(--text-primary)] border-r border-[var(--border)] font-sans select-none">
+    <div className="flex h-full flex-col bg-white text-slate-900 border-r border-slate-200 font-sans select-none w-80 sm:w-96 shadow-2xl">
       {/* Drawer Header */}
-      <div className="flex items-center justify-between px-4 py-3.5 border-b border-[var(--border)] bg-[var(--surface-hover)]">
-        <Link href="/" className="group flex items-center gap-2" onClick={() => setSidebarOpen(false)}>
-          <span className="h-2 w-2 rounded-sm bg-[var(--accent)]" />
-          <div className="font-sans text-xs font-bold uppercase tracking-tight text-[var(--text-primary)]">
-            DESIGN RESOURCE VAULT
+      <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200 bg-slate-50">
+        <Link
+          href="/"
+          className="group flex items-center gap-2"
+          onClick={() => setSidebarOpen(false)}
+        >
+          <div className="h-6 w-6 rounded bg-slate-900 text-white font-mono text-[11px] font-bold flex items-center justify-center">
+            V
+          </div>
+          <div>
+            <div className="font-display text-xs font-bold uppercase tracking-tight text-slate-900">
+              DESIGN RESOURCE VAULT
+            </div>
+            <div className="font-mono text-[9px] text-slate-400 uppercase">
+              TAXONOMY INDEX // 22 CATEGORIES
+            </div>
           </div>
         </Link>
         <button
           onClick={() => setSidebarOpen(false)}
-          className="p-1 rounded-md text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-muted)] transition-colors cursor-pointer"
+          className="p-1.5 rounded-lg text-slate-400 hover:text-slate-900 hover:bg-slate-200 transition-colors cursor-pointer"
           aria-label="Close Navigation Drawer"
         >
           <X className="h-4 w-4" />
@@ -65,9 +77,9 @@ export function Sidebar({ mobile = false }: SidebarProps) {
       </div>
 
       {/* Main Navigation Links */}
-      <nav className="px-3 py-3 space-y-0.5 border-b border-[var(--border)]">
-        <div className="mb-1.5 px-2 text-[10px] font-mono font-bold uppercase tracking-wider text-[var(--text-muted)]">
-          NAVIGATION
+      <nav className="px-3.5 py-3 space-y-1 border-b border-slate-200">
+        <div className="mb-1.5 px-2 text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">
+          CURATED BENCHMARKS
         </div>
         {navItems.map(({ href, label, icon: Icon }) => {
           const active = pathname === href;
@@ -75,8 +87,8 @@ export function Sidebar({ mobile = false }: SidebarProps) {
             href === "/"
               ? resources.length
               : href === "/favorites"
-              ? favorites.length
-              : undefined;
+                ? favorites.length
+                : undefined;
 
           return (
             <Link
@@ -84,16 +96,26 @@ export function Sidebar({ mobile = false }: SidebarProps) {
               href={href}
               onClick={() => setSidebarOpen(false)}
               className={cn(
-                "group flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-xs transition-colors",
+                "group flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-medium transition-colors",
                 active
-                  ? "bg-[var(--accent-soft)] text-[var(--accent)] font-semibold border border-[var(--accent)]/20"
-                  : "text-[var(--text-secondary)] hover:bg-[var(--surface-hover)] hover:text-[var(--text-primary)]"
+                  ? "bg-slate-900 text-white font-bold"
+                  : "text-slate-700 hover:bg-slate-100 hover:text-slate-900"
               )}
             >
-              <Icon className={cn("h-3.5 w-3.5 shrink-0", active ? "text-[var(--accent)]" : "text-[var(--text-muted)]")} />
+              <Icon
+                className={cn(
+                  "h-4 w-4 shrink-0",
+                  active ? "text-cyan-400" : "text-slate-400 group-hover:text-slate-900"
+                )}
+              />
               <span className="flex-1">{label}</span>
-              {count !== undefined && count > 0 && (
-                <span className="text-[10px] font-mono text-[var(--text-muted)] bg-[var(--surface-muted)] px-1.5 py-0.5 rounded">
+              {count !== undefined && (
+                <span
+                  className={cn(
+                    "text-[10px] font-mono px-2 py-0.5 rounded font-bold",
+                    active ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"
+                  )}
+                >
                   {count}
                 </span>
               )}
@@ -102,77 +124,75 @@ export function Sidebar({ mobile = false }: SidebarProps) {
         })}
       </nav>
 
-      {/* 22 Categories List */}
-      <div className="flex-1 overflow-y-auto px-3 py-3 space-y-0.5">
-        <div className="mb-1.5 px-2 text-[10px] font-mono font-bold uppercase tracking-wider text-[var(--text-muted)] flex items-center justify-between">
-          <div className="flex items-center gap-1.5">
-            <Layers className="h-3 w-3" />
-            <span>CATEGORIES</span>
-          </div>
-          <span className="font-mono text-[9px]">({categories.length})</span>
+      {/* Grouped Taxonomy Index List */}
+      <div className="flex-1 overflow-y-auto px-3.5 py-4 space-y-5">
+        <div className="px-2 text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">
+          SPECIALIZED TAXONOMIES (22)
         </div>
-        <div className="space-y-0.5">
-          {categories.map((cat) => {
-            const href = `/categories/${cat.slug}`;
-            const active = pathname === href;
-            const count = categoryCounts[cat.id] ?? 0;
 
-            return (
-              <Link
-                key={cat.id}
-                href={href}
-                onClick={() => setSidebarOpen(false)}
-                className={cn(
-                  "flex items-center gap-2.5 rounded-lg px-2 py-1.5 text-xs transition-colors",
-                  active
-                    ? "bg-[var(--accent-soft)] text-[var(--accent)] font-semibold border border-[var(--accent)]/20"
-                    : "text-[var(--text-secondary)] hover:bg-[var(--surface-hover)] hover:text-[var(--text-primary)]"
-                )}
-              >
-                <div className="h-4 w-4 shrink-0 flex items-center justify-center">
-                  <CategoryIcon id={cat.id} className="h-4 w-4" />
-                </div>
-                <span className="flex-1 truncate">{cat.name}</span>
-                {count > 0 && (
-                  <span className="text-[10px] font-mono text-[var(--text-muted)]">{count}</span>
-                )}
-              </Link>
-            );
-          })}
-        </div>
+        {CATEGORY_GROUPS.map((group) => (
+          <div key={group.id} className="space-y-1.5">
+            <div className="px-2 font-mono text-[10px] font-black uppercase text-slate-900 border-b border-slate-100 pb-1">
+              {group.name}
+            </div>
+
+            <div className="space-y-0.5">
+              {group.categoryIds.map((catId) => {
+                const cat = categories.find((c) => c.id === catId);
+                if (!cat) return null;
+                const active = pathname === `/categories/${cat.slug}`;
+                const count = categoryCounts[cat.id] ?? 0;
+
+                return (
+                  <Link
+                    key={cat.id}
+                    href={`/categories/${cat.slug}`}
+                    onClick={() => setSidebarOpen(false)}
+                    className={cn(
+                      "flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs transition-colors",
+                      active
+                        ? "bg-blue-600 text-white font-bold"
+                        : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                    )}
+                  >
+                    <span className="truncate pr-2">{cat.name}</span>
+                    <span
+                      className={cn(
+                        "font-mono text-[10px] px-1.5 py-0.2 rounded shrink-0",
+                        active ? "bg-white/20 text-white font-bold" : "bg-slate-100 text-slate-500"
+                      )}
+                    >
+                      {count}
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Drawer Footer */}
-      <div className="border-t border-[var(--border)] bg-[var(--surface-hover)] p-3 text-[10px] font-mono text-[var(--text-muted)] flex items-center justify-between">
-        <span>REFERENCE LIBRARY</span>
-        <span>V1.0 SHIP</span>
+      <div className="px-5 py-3.5 border-t border-slate-200 bg-slate-50 flex items-center justify-between text-slate-500 font-mono text-[10.5px]">
+        <span>ARCHIVE LEDGER</span>
+        <span className="text-blue-600 font-bold">V2.0 STABLE</span>
       </div>
     </div>
   );
 
   if (mobile) {
     return (
-      <motion.aside
+      <aside
         id="navigation-drawer"
-        initial={{ x: "-100%" }}
-        animate={{ x: 0 }}
-        exit={{ x: "-100%" }}
-        transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed inset-y-0 left-0 z-50 w-72 sm:w-80 border-r border-[var(--border)] bg-[var(--surface)] shadow-2xl"
-        aria-label="Site Navigation Index"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Navigation drawer"
+        className="fixed inset-y-0 left-0 z-50 flex focus:outline-none"
       >
         {content}
-      </motion.aside>
+      </aside>
     );
   }
 
-  return (
-    <aside
-      id="navigation-drawer"
-      className="hidden lg:flex lg:w-64 lg:shrink-0 lg:flex-col border-r border-[var(--border)] bg-[var(--surface)]"
-      aria-label="Site Navigation Index"
-    >
-      {content}
-    </aside>
-  );
+  return <aside className="hidden lg:block shrink-0">{content}</aside>;
 }

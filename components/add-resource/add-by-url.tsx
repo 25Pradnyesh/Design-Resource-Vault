@@ -207,18 +207,18 @@ export function AddByUrlModal() {
         initialData={
           draft.status === "ready"
             ? {
-                name: draft.suggestedName ?? "",
-                url: draft.url,
-                description: draft.suggestedDescription ?? "",
-                whatItDoes: draft.suggestedWhatItDoes ?? "",
-                whyUseIt: draft.suggestedWhyUseIt ?? "",
-                whenToUseIt: draft.suggestedWhenToUseIt ?? "",
-                howToUseIt: draft.suggestedHowToUseIt ?? "",
-                categories: draft.suggestedCategories ?? [],
-                tags: draft.suggestedTags ?? [],
-                purpose: draft.suggestedPurpose ?? "",
-                featured: false,
-              }
+              name: draft.suggestedName ?? "",
+              url: draft.url,
+              description: draft.suggestedDescription ?? "",
+              whatItDoes: draft.suggestedWhatItDoes ?? "",
+              whyUseIt: draft.suggestedWhyUseIt ?? "",
+              whenToUseIt: draft.suggestedWhenToUseIt ?? "",
+              howToUseIt: draft.suggestedHowToUseIt ?? "",
+              categories: draft.suggestedCategories ?? [],
+              tags: draft.suggestedTags ?? [],
+              purpose: draft.suggestedPurpose ?? "",
+              featured: false,
+            }
             : undefined
         }
       />

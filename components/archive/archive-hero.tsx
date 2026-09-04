@@ -1,108 +1,198 @@
 "use client";
 
-import React from "react";
-import { LayoutGrid, Plus } from "lucide-react";
+import React, { useState } from "react";
+import { Search, Sparkles, Layers, ArrowRight, Plus, Terminal } from "lucide-react";
 import { useUI } from "@/lib/ui-context";
-import { HeroStudioIllustration } from "./hero-studio-illustration";
+import { useResources } from "@/lib/resource-context";
+import { categories, CATEGORY_GROUPS } from "@/data/categories";
 
-export function ArchiveHero() {
-  const { setAddResourceOpen } = useUI();
+interface ArchiveHeroProps {
+  onSearchChange?: (q: string) => void;
+  activeQuery?: string;
+  onCategorySelect?: (catId: string) => void;
+  selectedCategory?: string;
+}
+
+export function ArchiveHero({
+  onSearchChange,
+  activeQuery = "",
+  onCategorySelect,
+  selectedCategory,
+}: ArchiveHeroProps) {
+  const { setCommandMenuOpen, setAddResourceOpen } = useUI();
+  const { resources } = useResources();
+  const [localQuery, setLocalQuery] = useState(activeQuery);
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (onSearchChange) {
+      onSearchChange(localQuery);
+    }
+  };
+
+  const curatedFeaturedCats = [
+    { id: "ui-web-inspiration", label: "UI / Web Inspiration" },
+    { id: "3d-interactive-web", label: "3D & WebGL" },
+    { id: "animation-motion-tools", label: "Motion & Animation" },
+    { id: "ui-components", label: "UI Components" },
+    { id: "color-typography", label: "Typography" },
+    { id: "ai-design-vibe-coding", label: "AI & Vibe Coding" },
+    { id: "award-winning-experimental", label: "Experimental" },
+  ];
 
   return (
-    <section className="relative w-full bg-gradient-to-b from-[#FFFFFF] via-[#F8FAFC] to-[#FFFFFF] min-h-[78vh] lg:min-h-[88vh] flex flex-col justify-center pt-8 sm:pt-12 lg:pt-16 pb-20 sm:pb-24 lg:pb-28 px-4 sm:px-8 lg:px-12 font-sans overflow-hidden select-none">
-      {/* 01: Ambient Atmospheric Background Plane (Radial Blooms & Organic Wave Meshes) */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden -z-0">
-        {/* Soft Radial Ambient Lighting */}
-        <div className="absolute -top-28 right-4 w-[650px] h-[650px] bg-radial from-[#5EEAD4]/25 via-[#00C4CC]/14 to-transparent rounded-full blur-3xl opacity-80" />
-        <div className="absolute top-1/4 left-1/5 w-[520px] h-[520px] bg-radial from-[#FEF08A]/20 via-[#FED7AA]/10 to-transparent rounded-full blur-3xl opacity-65" />
-        <div className="absolute -bottom-24 right-1/4 w-[480px] h-[480px] bg-radial from-[#2DD4BF]/20 to-transparent rounded-full blur-3xl opacity-55" />
+    <section className="relative w-full bg-[#FFFFFF] border-b border-slate-200 pt-10 sm:pt-14 pb-10 sm:pb-12 px-4 sm:px-8 lg:px-12 font-sans select-none overflow-hidden">
+      {/* Architectural Fine Grid & Technical Watermark */}
+      <div className="absolute inset-0 architectural-grid opacity-30 pointer-events-none -z-0" />
 
-        {/* Large Flowing Curved Gradient Atmosphere Ribbon */}
-        <svg
-          className="absolute top-0 right-0 w-full h-full opacity-65 pointer-events-none"
-          viewBox="0 0 1440 900"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M 280 0 C 580 220, 820 80, 1140 360 C 1320 510, 1420 290, 1520 390 L 1520 0 Z"
-            fill="url(#ambient_wave_mint)"
-            opacity="0.35"
-          />
-          <path
-            d="M 480 0 C 760 310, 960 140, 1340 460 L 1520 0 Z"
-            fill="url(#ambient_wave_peach)"
-            opacity="0.24"
-          />
-          <defs>
-            <linearGradient id="ambient_wave_mint" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#A7F3D0" />
-              <stop offset="40%" stopColor="#67E8F9" />
-              <stop offset="100%" stopColor="#99F6E4" />
-            </linearGradient>
-            <linearGradient id="ambient_wave_peach" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#FEF08A" />
-              <stop offset="100%" stopColor="#FED7AA" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
+      <div className="relative z-10 mx-auto max-w-7xl">
+        <div className="space-y-8">
 
-      {/* 02: Hero Main Content Layout Container */}
-      <div className="relative z-10 mx-auto max-w-7xl w-full my-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 xl:gap-14 items-center">
-          
-          {/* LEFT COLUMN: Eyebrow, Dominant Headline, Subtitle & Action CTAs (Cols 1-6) */}
-          <div className="lg:col-span-6 flex flex-col justify-center space-y-6 sm:space-y-7">
-            
-            {/* Curated Eyebrow Tag */}
-            <div className="inline-flex items-center gap-2 self-start font-mono text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-[var(--text-primary)]">
-              <span className="h-2 w-2 rounded-full bg-[var(--intel-high)] inline-block shadow-xs animate-pulse" />
-              <span>CURATED DESIGN INTELLIGENCE // ARCHIVE REFERENCE</span>
+          {/* Eyebrow & Live Archive Ledger Status */}
+          <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 text-white font-bold text-[11px] shadow-xs">
+              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>ARCHIVAL REFERENCE SYSTEM // V2.0</span>
             </div>
 
-            {/* Dominant Editorial Headline: DESIGN RESOURCES / FOR PEOPLE WHO / ACTUALLY DESIGN */}
-            <div className="space-y-0.5">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[58px] xl:text-[68px] font-black tracking-tight text-[var(--text-primary)] leading-[0.98] uppercase font-sans">
-                DESIGN RESOURCES<br />
-                <span className="text-[var(--accent)]">
-                  FOR PEOPLE WHO
-                </span><br />
-                ACTUALLY DESIGN
-              </h1>
-            </div>
-
-            {/* Editorial Positioning Subtitle */}
-            <p className="text-sm sm:text-base md:text-lg text-[var(--text-secondary)] font-medium max-w-lg leading-relaxed">
-              Handpicked visual references, design systems, UI components, motion patterns, and creative tools for designers and frontend engineers.
-            </p>
-
-            {/* Action CTA Buttons with Smooth Micro-Interactions (200-300ms) */}
-            <div className="flex flex-wrap items-center gap-3.5 pt-2">
-              {/* Primary CTA: EXPLORE (Navy Pill) */}
-              <a
-                href="#categories"
-                className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-[var(--text-primary)] text-white font-sans text-xs sm:text-[13px] font-bold uppercase tracking-wider hover:bg-[var(--text-secondary)] hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 cursor-pointer shadow-md group/btn"
-              >
-                <LayoutGrid className="w-4 h-4 text-[var(--accent)] transition-transform duration-200 group-hover/btn:scale-110" />
-                <span>EXPLORE</span>
-              </a>
-
-              {/* Secondary CTA: ADD RESOURCE (White Pill) */}
-              <button
-                type="button"
-                onClick={() => setAddResourceOpen(true)}
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-[var(--border-strong)] bg-white text-[var(--text-primary)] font-sans text-xs sm:text-[13px] font-bold uppercase tracking-wider hover:border-[var(--text-secondary)] hover:bg-[var(--surface-hover)] hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 cursor-pointer shadow-2xs group/btn"
-              >
-                <Plus className="w-4 h-4 text-[var(--accent)] transition-transform duration-200 group-hover/btn:scale-110" />
-                <span>ADD RESOURCE</span>
-              </button>
+            <div className="hidden sm:flex items-center gap-4 text-slate-500 text-[11px]">
+              <span>CURATED FOR CREATIVE TECHNOLOGISTS & DESIGNERS</span>
+              <span className="text-slate-300">•</span>
+              <span className="text-blue-600 font-bold">{resources.length} VERIFIED SPECIMENS</span>
             </div>
           </div>
 
-          {/* RIGHT COLUMN: 3D Vault Artwork + Floating Stats Panel (Cols 7-12) */}
-          <div className="lg:col-span-6 flex items-center justify-center lg:justify-end">
-            <HeroStudioIllustration />
+          {/* Master Typographic Statement */}
+          <div className="max-w-4xl space-y-3">
+            <h1 className="text-3xl sm:text-5xl lg:text-[54px] font-black tracking-tight text-slate-900 font-display leading-[1.05] uppercase">
+              The Permanent Visual Memory <br />
+              <span className="text-blue-600">Of The Design Internet</span>
+            </h1>
+
+            <p className="text-sm sm:text-base text-slate-600 font-normal max-w-2xl leading-relaxed">
+              Handpicked visual references, design systems, UI components, motion patterns, WebGL shaders, and creative tools for digital craftspeople.
+            </p>
+          </div>
+
+          {/* Interactive In-Hero Search Bar */}
+          <div className="max-w-3xl">
+            <form
+              onSubmit={handleSearchSubmit}
+              className="relative flex items-center w-full rounded-2xl border-2 border-slate-900 bg-white p-1.5 shadow-[0_8px_30px_rgb(0,0,0,0.06)] focus-within:border-blue-600 transition-colors"
+            >
+              <div className="flex items-center pl-3 text-slate-400">
+                <Search className="h-5 w-5 text-blue-600" />
+              </div>
+
+              <input
+                type="text"
+                value={localQuery}
+                onChange={(e) => {
+                  setLocalQuery(e.target.value);
+                  if (onSearchChange) onSearchChange(e.target.value);
+                }}
+                placeholder="Search resources, technologies (WebGL, Three.js, React), styles, or keywords..."
+                className="w-full px-3 py-2 text-xs sm:text-sm font-sans text-slate-900 placeholder:text-slate-400 outline-none bg-transparent"
+              />
+
+              <div className="flex items-center gap-1.5 pr-1 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setCommandMenuOpen(true)}
+                  className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-slate-100 border border-slate-200 font-mono text-[11px] font-bold text-slate-600 hover:bg-slate-200 transition-colors cursor-pointer"
+                  title="Open Spotlight Command Menu"
+                >
+                  <Terminal className="h-3 w-3 text-slate-500" />
+                  <span>⌘K</span>
+                </button>
+
+                <button
+                  type="submit"
+                  className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-blue-600 text-white font-sans text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer shadow-xs"
+                >
+                  EXPLORE
+                </button>
+              </div>
+            </form>
+          </div>
+
+          {/* Horizontal Quick-Filter Category Ribbon */}
+          <div className="space-y-2 pt-1">
+            <div className="flex items-center justify-between text-xs font-mono text-slate-500">
+              <span className="font-bold uppercase tracking-wider text-[10.5px]">QUICK TAXONOMY FILTER:</span>
+              <a href="#categories" className="text-blue-600 hover:underline text-[11px]">
+                View all 22 categories ↓
+              </a>
+            </div>
+
+            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+              <button
+                type="button"
+                onClick={() => onCategorySelect && onCategorySelect("")}
+                className={`px-3 py-1.5 rounded-lg font-mono text-xs font-bold whitespace-nowrap transition-all cursor-pointer border ${!selectedCategory
+                    ? "bg-slate-900 text-white border-slate-900 shadow-2xs"
+                    : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
+                  }`}
+              >
+                ALL ({resources.length})
+              </button>
+
+              {curatedFeaturedCats.map((cat) => {
+                const isSelected = selectedCategory === cat.id;
+                return (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    onClick={() => onCategorySelect && onCategorySelect(isSelected ? "" : cat.id)}
+                    className={`px-3 py-1.5 rounded-lg font-mono text-xs font-semibold whitespace-nowrap transition-all cursor-pointer border ${isSelected
+                        ? "bg-blue-600 text-white border-blue-600 shadow-2xs"
+                        : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50 hover:border-slate-300"
+                      }`}
+                  >
+                    {cat.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Real-Time Catalog Metrics Bar */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-slate-200 font-mono text-xs">
+            <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
+              <div className="text-xl font-bold text-slate-900 font-display">
+                {resources.length}+
+              </div>
+              <div className="text-[10.5px] uppercase font-semibold text-slate-500">
+                Verified Resources
+              </div>
+            </div>
+
+            <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
+              <div className="text-xl font-bold text-slate-900 font-display">
+                22
+              </div>
+              <div className="text-[10.5px] uppercase font-semibold text-slate-500">
+                Design Taxonomies
+              </div>
+            </div>
+
+            <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
+              <div className="text-xl font-bold text-blue-600 font-display">
+                100%
+              </div>
+              <div className="text-[10.5px] uppercase font-semibold text-slate-500">
+                Editorial Curation
+              </div>
+            </div>
+
+            <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
+              <div className="text-xl font-bold text-emerald-600 font-display">
+                0ms
+              </div>
+              <div className="text-[10.5px] uppercase font-semibold text-slate-500">
+                Local-First Persistence
+              </div>
+            </div>
           </div>
 
         </div>

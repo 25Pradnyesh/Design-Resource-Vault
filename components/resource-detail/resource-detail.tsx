@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
@@ -12,8 +12,12 @@ import {
   ArrowUpRight,
   Sparkles,
   Layers,
+  Code,
   Palette,
-  Terminal,
+  Eye,
+  Layout,
+  Share2,
+  Check,
 } from "lucide-react";
 import { Resource } from "@/types";
 import { categoryMap } from "@/data/categories";
@@ -23,7 +27,6 @@ import { getRelatedResourcesWithRationale } from "@/lib/related";
 import { cn, getDomainFromUrl } from "@/lib/utils";
 import { ResourceCard } from "@/components/resource-card/resource-card";
 import { ResourcePreview } from "@/components/resource-card/resource-preview";
-import { CategoryIcon } from "@/components/ui/category-icon";
 import { Footer } from "@/components/layout/footer";
 
 interface ResourceDetailProps {
@@ -40,13 +43,14 @@ export function ResourceDetail({ resource }: ResourceDetailProps) {
     deleteResource,
   } = useResources();
   const { setEditingResourceId } = useUI();
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     trackView(resource.id);
   }, [resource.id, trackView]);
 
   const relatedWithRationale = useMemo(
-    () => getRelatedResourcesWithRationale(resource, resources, 5),
+    () => getRelatedResourcesWithRationale(resource, resources, 4),
     [resource, resources]
   );
 
@@ -60,7 +64,15 @@ export function ResourceDetail({ resource }: ResourceDetailProps) {
     }
   };
 
-  const sections = [
+  const handleCopyLink = () => {
+    if (typeof window !== "undefined") {
+      navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  const quadrants = [
     { label: "WHAT IT DOES", content: resource.whatItDoes },
     { label: "WHY USE IT", content: resource.whyUseIt },
     { label: "WHEN TO USE IT", content: resource.whenToUseIt },
@@ -68,42 +80,62 @@ export function ResourceDetail({ resource }: ResourceDetailProps) {
   ];
 
   return (
-    <div className="w-full flex-1 bg-[var(--background)] text-[var(--text-primary)] font-sans">
-      <div className="mx-auto max-w-7xl py-8 px-4 sm:px-8 lg:px-12">
-        {/* Navigation back */}
-        <Link
-          href="/"
-          className="inline-flex items-center gap-1.5 font-mono text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors mb-6 uppercase"
-        >
-          <ArrowLeft className="h-3.5 w-3.5" /> BACK TO ALL RESOURCES
-        </Link>
+    <div className="w-full flex-1 bg-white text-slate-900 font-sans select-none">
+      <div className="mx-auto max-w-7xl py-8 sm:py-12 px-4 sm:px-8 lg:px-12 space-y-10">
 
-        {/* Documentation Header */}
-        <div className="border-b border-[var(--border)] pb-8 mb-8">
-          <div className="flex flex-wrap items-center justify-between gap-4 font-mono text-xs text-[var(--text-muted)] uppercase mb-3">
-            <div className="flex items-center gap-2">
-              <span className="h-2 w-2 rounded-xs bg-[var(--accent)]" />
-              <span>REFERENCE SPECIFICATION // {resource.id}</span>
-            </div>
-            <span>INDEXED {new Date(resource.createdAt).toLocaleDateString()}</span>
+        {/* Navigation Breadcrumb */}
+        <div className="flex items-center justify-between gap-4 font-mono text-xs text-slate-500 border-b border-slate-200 pb-4">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 text-slate-600 hover:text-blue-600 transition-colors uppercase font-bold"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" />
+            <span>BACK TO ALL SPECIMENS</span>
+          </Link>
+
+          <div className="flex items-center gap-3">
+            <span className="text-slate-400 hidden sm:inline">INDEXED: {new Date(resource.createdAt).toLocaleDateString()}</span>
+            <button
+              type="button"
+              onClick={handleCopyLink}
+              className="inline-flex items-center gap-1 text-slate-600 hover:text-slate-900 transition-colors"
+              title="Copy Spec URL"
+            >
+              {copied ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Share2 className="h-3.5 w-3.5" />}
+              <span>{copied ? "COPIED" : "SHARE"}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Specimen Header & Actions */}
+        <div className="space-y-6">
+          <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
+            <span className="px-2.5 py-1 rounded bg-slate-900 text-white font-bold uppercase">
+              SPECIMEN // {resource.id}
+            </span>
+            {resource.featured && (
+              <span className="px-2.5 py-1 rounded bg-amber-50 text-amber-700 border border-amber-300 font-bold uppercase">
+                FEATURED BENCHMARK
+              </span>
+            )}
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            <div className="lg:col-span-8 space-y-3">
-              <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-[var(--text-primary)] leading-tight">
+          <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
+            <div className="space-y-3 max-w-3xl">
+              <h1 className="text-3xl sm:text-5xl font-black font-display text-slate-900 tracking-tight leading-tight">
                 {resource.name}
               </h1>
 
-              <p className="text-sm sm:text-base text-[var(--text-secondary)] max-w-3xl leading-relaxed">
+              <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
                 {resource.description}
               </p>
 
-              <div className="pt-1 flex items-center gap-3">
+              <div className="flex items-center gap-3 font-mono text-xs pt-1">
                 <a
                   href={resource.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 font-mono text-xs text-[var(--accent)] hover:underline"
+                  className="text-blue-600 font-bold hover:underline inline-flex items-center gap-1"
                 >
                   <span>{domain}</span>
                   <ArrowUpRight className="h-3.5 w-3.5" />
@@ -111,46 +143,49 @@ export function ResourceDetail({ resource }: ResourceDetailProps) {
               </div>
             </div>
 
-            {/* Action Bar */}
-            <div className="lg:col-span-4 flex flex-wrap lg:justify-end gap-2.5 font-sans text-xs">
+            {/* Top Action CTAs */}
+            <div className="flex flex-wrap items-center gap-2.5 shrink-0">
               <button
+                type="button"
                 onClick={() => toggleFavorite(resource.id)}
                 className={cn(
-                  "flex items-center gap-2 px-3.5 py-2 rounded-lg border transition-colors cursor-pointer shadow-2xs",
+                  "px-4 py-2.5 rounded-xl border font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer shadow-xs",
                   favorited
-                    ? "bg-[var(--accent-soft)] border-[var(--accent)] text-[var(--accent)] font-bold"
-                    : "border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-strong)]"
+                    ? "bg-rose-50 text-rose-700 border-rose-300"
+                    : "bg-white text-slate-700 border-slate-300 hover:bg-slate-50"
                 )}
               >
-                <Star className={cn("h-3.5 w-3.5", favorited && "fill-[var(--accent)] text-[var(--accent)]")} />
-                <span>{favorited ? "SAVED" : "FAVORITE"}</span>
+                <Star className={cn("h-4 w-4", favorited ? "fill-rose-500 text-rose-500" : "text-slate-400")} />
+                <span>{favorited ? "STARRED" : "STAR REFERENCE"}</span>
               </button>
 
               <a
                 href={resource.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 bg-[var(--text-primary)] text-[var(--background)] px-4 py-2 rounded-lg font-semibold hover:opacity-90 transition-opacity cursor-pointer shadow-2xs"
+                className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-blue-600 text-white font-sans text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-colors shadow-xs"
               >
-                <span>OPEN WEBSITE</span>
-                <ExternalLink className="h-3.5 w-3.5" />
+                <span>VISIT WEBSITE</span>
+                <ArrowUpRight className="h-4 w-4" />
               </a>
 
               {resource.isUserAdded && (
-                <div className="flex items-center gap-2 w-full lg:w-auto pt-1">
+                <div className="flex items-center gap-1">
                   <button
+                    type="button"
                     onClick={() => setEditingResourceId(resource.id)}
-                    className="flex-1 lg:flex-none flex items-center justify-center gap-1.5 border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer"
+                    className="p-2.5 rounded-xl border border-slate-300 text-slate-600 hover:bg-slate-100 transition-colors"
+                    title="Edit custom resource"
                   >
-                    <Pencil className="h-3.5 w-3.5" />
-                    EDIT
+                    <Pencil className="h-4 w-4" />
                   </button>
                   <button
+                    type="button"
                     onClick={handleDelete}
-                    className="flex-1 lg:flex-none flex items-center justify-center gap-1.5 border border-[var(--error)]/30 bg-[var(--error)]/10 text-[var(--error)] px-3 py-1.5 rounded-lg hover:bg-[var(--error)]/20 cursor-pointer"
+                    className="p-2.5 rounded-xl border border-rose-200 text-rose-600 hover:bg-rose-50 transition-colors"
+                    title="Delete custom resource"
                   >
-                    <Trash2 className="h-3.5 w-3.5" />
-                    DELETE
+                    <Trash2 className="h-4 w-4" />
                   </button>
                 </div>
               )}
@@ -158,173 +193,151 @@ export function ResourceDetail({ resource }: ResourceDetailProps) {
           </div>
         </div>
 
-        {/* Main Reference Body */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Left Column: Visual Preview + 4-Quadrant Specifications */}
-          <div className="lg:col-span-8 space-y-8">
-            {/* Visual Preview Frame */}
-            <div className="overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface)] shadow-xs">
-              <div className="flex items-center justify-between border-b border-[var(--border)] px-4 py-2.5 bg-[var(--surface-hover)] font-mono text-[11px] text-[var(--text-muted)]">
-                <span>PREVIEW // {domain}</span>
-                <a
-                  href={resource.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-[var(--text-primary)] flex items-center gap-1 font-semibold"
-                >
-                  VISIT <ExternalLink className="h-2.5 w-2.5" />
-                </a>
-              </div>
-              <div className="w-full">
-                <ResourcePreview resource={resource} className="aspect-[16/9] w-full rounded-none border-0" />
-              </div>
+        {/* Specimen Exhibition Canvas */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+          {/* Main Visual Specimen Frame (8 Cols) */}
+          <div className="lg:col-span-8 space-y-4">
+            <div className="w-full rounded-2xl overflow-hidden border border-slate-200 shadow-md">
+              <ResourcePreview resource={resource} />
             </div>
 
-            {/* Systematic 4-Quadrant Specifications */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
-                <span className="h-2 w-2 rounded-xs bg-[var(--accent)]" />
-                <span>4-QUADRANT SPECIFICATIONS</span>
+            {/* 4-Quadrant Specifications Matrix */}
+            <div className="space-y-4 pt-6">
+              <div className="font-mono text-xs uppercase font-bold text-slate-900 border-b border-slate-200 pb-2 flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-blue-600" />
+                <span>4-Quadrant Architectural Specifications</span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-                {sections.map(({ label, content }) => {
-                  if (!content) return null;
-                  return (
-                    <div key={label} className="border border-[var(--border)] bg-[var(--surface)] p-4 rounded-xl space-y-1.5 shadow-2xs">
-                      <h3 className="font-mono text-[11px] font-bold uppercase tracking-wider text-[var(--accent)]">
-                        {label}
-                      </h3>
-                      <p className="text-xs text-[var(--text-primary)] leading-relaxed">
-                        {content}
-                      </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {quadrants.map(({ label, content }) => (
+                  <div
+                    key={label}
+                    className="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-2"
+                  >
+                    <div className="font-mono text-[11px] font-black uppercase text-blue-600 tracking-wider">
+                      {label}
                     </div>
-                  );
-                })}
+                    <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                      {content || "Specification not documented."}
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
 
-          {/* Right Column: Structured Metadata Sidebar */}
-          <div className="lg:col-span-4 space-y-4">
-            <div className="border border-[var(--border)] bg-[var(--surface)] p-5 rounded-xl space-y-5 shadow-2xs">
-              {/* Disciplines / Categories */}
-              <div>
-                <h3 className="font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)] mb-2.5 flex items-center gap-1.5">
-                  <Layers className="h-3 w-3 text-[var(--accent)]" />
+          {/* Technical Metadata Ledger Sidebar (4 Cols) */}
+          <div className="lg:col-span-4 space-y-6">
+            <div className="p-5 rounded-2xl border border-slate-200 bg-slate-50 space-y-5">
+              <div className="font-mono text-xs uppercase font-bold text-slate-900 border-b border-slate-200 pb-2">
+                Taxonomy & Engineering Specs
+              </div>
+
+              {/* Categories */}
+              <div className="space-y-2">
+                <div className="font-mono text-[10.5px] uppercase font-bold text-slate-500 flex items-center gap-1.5">
+                  <Layers className="h-3.5 w-3.5 text-blue-600" />
                   <span>CATEGORIES</span>
-                </h3>
+                </div>
                 <div className="flex flex-wrap gap-1.5">
-                  {resource.categories.map((catId) => {
-                    const cat = categoryMap[catId];
-                    if (!cat) return null;
-                    return (
-                      <Link key={catId} href={`/categories/${cat.slug}`}>
-                        <span className="text-xs bg-[var(--surface-muted)] border border-[var(--border)] px-2.5 py-1 rounded-lg text-[var(--text-primary)] hover:border-[var(--border-strong)] transition-colors inline-flex items-center gap-1.5 font-medium">
-                          <span className="h-3.5 w-3.5 shrink-0 flex items-center justify-center text-[var(--accent)]">
-                            <CategoryIcon id={cat.id} className="h-3.5 w-3.5" />
-                          </span>
-                          <span>{cat.name}</span>
-                        </span>
-                      </Link>
-                    );
-                  })}
+                  {resource.categories.map((c) => (
+                    <Link
+                      key={c}
+                      href={`/categories/${categoryMap[c]?.slug || c}`}
+                      className="px-2.5 py-1 rounded-md bg-white border border-slate-200 text-xs text-slate-800 hover:border-blue-400 font-medium transition-colors"
+                    >
+                      {categoryMap[c]?.name || c}
+                    </Link>
+                  ))}
                 </div>
               </div>
 
               {/* Technologies */}
-              {resource.technologies && resource.technologies.length > 0 && (
-                <div>
-                  <h3 className="font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)] mb-2 flex items-center gap-1.5">
-                    <Terminal className="h-3 w-3 text-[var(--accent)]" />
-                    <span>TECHNOLOGIES & FRAMEWORKS</span>
-                  </h3>
-                  <div className="flex flex-wrap gap-1.5 font-mono text-[11px]">
-                    {resource.technologies.map((tech) => (
-                      <span key={tech} className="border border-[var(--border)] bg-[var(--surface-muted)] px-2 py-0.5 rounded text-[var(--text-primary)]">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
+              <div className="space-y-2">
+                <div className="font-mono text-[10.5px] uppercase font-bold text-slate-500 flex items-center gap-1.5">
+                  <Code className="h-3.5 w-3.5 text-emerald-600" />
+                  <span>TECHNOLOGIES</span>
                 </div>
-              )}
+                <div className="flex flex-wrap gap-1.5">
+                  {(resource.technologies || ["Standard Web"]).map((t) => (
+                    <span
+                      key={t}
+                      className="px-2.5 py-1 rounded-md bg-emerald-50 border border-emerald-200 font-mono text-xs font-semibold text-emerald-800"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
 
               {/* Visual Styles */}
-              {resource.styles && resource.styles.length > 0 && (
-                <div>
-                  <h3 className="font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)] mb-2 flex items-center gap-1.5">
-                    <Palette className="h-3 w-3 text-[var(--accent)]" />
-                    <span>VISUAL & INTERACTION STYLE</span>
-                  </h3>
-                  <div className="flex flex-wrap gap-1.5 font-mono text-[11px]">
-                    {resource.styles.map((style) => (
-                      <span key={style} className="border border-[var(--border)] bg-[var(--surface-muted)] px-2 py-0.5 rounded text-[var(--text-primary)]">
-                        {style}
-                      </span>
-                    ))}
-                  </div>
+              <div className="space-y-2">
+                <div className="font-mono text-[10.5px] uppercase font-bold text-slate-500 flex items-center gap-1.5">
+                  <Palette className="h-3.5 w-3.5 text-amber-600" />
+                  <span>VISUAL & INTERACTION STYLES</span>
                 </div>
-              )}
-
-              {/* Purpose */}
-              {resource.purpose && (
-                <div>
-                  <h3 className="font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)] mb-1.5 flex items-center gap-1.5">
-                    <Sparkles className="h-3 w-3 text-[var(--accent)]" />
-                    <span>PURPOSE & WORKFLOW VALUE</span>
-                  </h3>
-                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                    {resource.purpose}
-                  </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {(resource.styles || ["Modern Digital"]).map((s) => (
+                    <span
+                      key={s}
+                      className="px-2.5 py-1 rounded-md bg-amber-50 border border-amber-200 font-mono text-xs font-semibold text-amber-800"
+                    >
+                      {s}
+                    </span>
+                  ))}
                 </div>
-              )}
+              </div>
 
               {/* Tags */}
-              {resource.tags.length > 0 && (
-                <div>
-                  <h3 className="font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)] mb-2">
-                    TAGS
-                  </h3>
-                  <div className="flex flex-wrap gap-1.5 font-mono text-[11px]">
-                    {resource.tags.map((tag) => (
-                      <span key={tag} className="border border-[var(--border)] bg-[var(--surface-muted)] px-2 py-0.5 rounded text-[var(--text-muted)]">
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
+              <div className="space-y-2">
+                <div className="font-mono text-[10.5px] uppercase font-bold text-slate-500">
+                  ARCHIVAL TAGS
                 </div>
-              )}
+                <div className="flex flex-wrap gap-1">
+                  {(resource.tags || []).map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-2 py-0.5 rounded bg-white border border-slate-200 font-mono text-[10px] text-slate-600"
+                    >
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
+
         </div>
 
-        {/* Related References Grid with Relationship Rationale */}
+        {/* Adjacent Discovery & Related References */}
         {relatedWithRationale.length > 0 && (
-          <div className="mt-14 pt-8 border-t border-[var(--border)]">
-            <div className="flex items-center justify-between mb-5">
+          <div className="space-y-6 pt-10 border-t border-slate-200">
+            <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-xs bg-[var(--accent)]" />
-                <h2 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[var(--text-primary)]">
-                  RELATED REFERENCES & ADJACENT DISCOVERY
+                <span className="h-2 w-2 rounded-full bg-blue-600" />
+                <h2 className="font-display text-sm sm:text-base font-bold uppercase tracking-wider text-slate-900">
+                  Adjacent Discoveries & Related Benchmarks
                 </h2>
               </div>
-              <span className="font-mono text-[11px] text-[var(--text-muted)]">
+              <span className="font-mono text-xs text-slate-400 uppercase">
                 {relatedWithRationale.length} SUGGESTIONS
               </span>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-3.5">
-              {relatedWithRationale.map((rel) => (
-                <div key={rel.resource.id} className="flex flex-col gap-1.5">
-                  <ResourceCard resource={rel.resource} />
-                  <span className="text-[10px] font-mono text-[var(--text-muted)] truncate px-1">
-                    {rel.relationshipRationale}
-                  </span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {relatedWithRationale.map(({ resource: rel, rationale }) => (
+                <div key={rel.id} className="space-y-1.5">
+                  <ResourceCard resource={rel} dense={true} />
+                  <p className="text-[10px] font-mono text-slate-500 italic px-1 truncate">
+                    &ldquo;{rationale}&rdquo;
+                  </p>
                 </div>
               ))}
             </div>
           </div>
         )}
+
       </div>
 
       <Footer />

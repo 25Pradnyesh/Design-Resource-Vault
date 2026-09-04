@@ -30,13 +30,13 @@
   --color-semantic-success: var(--semantic-success);
   --color-semantic-warning: var(--semantic-warning);
   --color-semantic-error: var(--semantic-error);
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", "Plus Jakarta Sans", "Helvetica Neue", Arial, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --font-display: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", "Plus Jakarta Sans", sans-serif;
+  --font-sans: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
+  --font-mono: var(--font-mono), "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-display: var(--font-display), "Space Grotesk", -apple-system, sans-serif;
 }
 
 :root {
-  /* Fresh, Airy, Clean Canvas Tokens */
+  /* Modernist Curatorial Canvas Tokens */
   --background: #FFFFFF;
   --background-subtle: #F8FAFC;
   --surface: #FFFFFF;
@@ -44,40 +44,40 @@
   --surface-muted: #F1F5F9;
   --surface-hover: #F8FAFC;
   --border: #E2E8F0;
-  --border-subtle: #E2E8F0;
+  --border-subtle: #EDF2F7;
   --border-default: #E2E8F0;
   --border-strong: #CBD5E1;
-  
-  /* Primary Typography: Deep Navy / Slate Ink */
-  --text-primary: #0B132B;
+  --border-dark: #090D16;
+
+  /* Primary Typographic Ink */
+  --text-primary: #090D16;
   --text-secondary: #334155;
   --text-muted: #64748B;
-  
-  /* Primary Accent: Electric Aqua / Cyan */
-  --accent: #00C4CC;
-  --accent-primary: #00C4CC;
-  --accent-secondary: #FBBF24;
-  --accent-hover: #00A8AF;
-  --accent-soft: rgba(0, 196, 204, 0.08);
-  --accent-muted: rgba(0, 196, 204, 0.16);
-  --accent-cyan: #06B6D4;
+  --text-subtle: #94A3B8;
+
+  /* Signature Accents: International Cobalt & Electric Tangerine */
+  --accent: #2563EB;
+  --accent-primary: #2563EB;
+  --accent-secondary: #FF5500;
+  --accent-hover: #1D4ED8;
+  --accent-soft: rgba(37, 99, 235, 0.08);
+  --accent-muted: rgba(37, 99, 235, 0.16);
+  --accent-orange: #FF5500;
+  --accent-orange-soft: rgba(255, 85, 0, 0.08);
+  --accent-cyan: #0EA5E9;
   --accent-teal: #0D9488;
   --accent-mint: #10B981;
-  --accent-coral: #FA5252;
-  --accent-pink: #F472B6;
-  --accent-yellow: #FBBF24;
-  --accent-orange: #FB923C;
-  --accent-green: #22C55E;
+  --accent-coral: #EF4444;
 
   /* Intelligence Engine Status Tokens */
   --intel-high: #10B981;
   --intel-high-bg: rgba(16, 185, 129, 0.08);
   --intel-high-border: rgba(16, 185, 129, 0.25);
-  
-  --intel-med: #00C4CC;
-  --intel-med-bg: rgba(0, 196, 204, 0.08);
-  --intel-med-border: rgba(0, 196, 204, 0.25);
-  
+
+  --intel-med: #2563EB;
+  --intel-med-bg: rgba(37, 99, 235, 0.08);
+  --intel-med-border: rgba(37, 99, 235, 0.25);
+
   --intel-adjacent: #0D9488;
   --intel-adjacent-bg: rgba(13, 148, 136, 0.08);
   --intel-adjacent-border: rgba(13, 148, 136, 0.2);
@@ -85,20 +85,20 @@
   /* Semantic Status Colors */
   --success: #10B981;
   --warning: #F59E0B;
-  --error: #E11D48;
+  --error: #EF4444;
   --semantic-success: #10B981;
   --semantic-warning: #F59E0B;
-  --semantic-error: #E11D48;
-  --ring: rgba(0, 196, 204, 0.25);
+  --semantic-error: #EF4444;
+  --ring: rgba(37, 99, 235, 0.25);
 
-  /* Elevation & Glassmorphism Tokens */
-  --glass-bg: rgba(255, 255, 255, 0.85);
-  --glass-border: rgba(226, 232, 240, 0.8);
-  --glass-shadow: 0 20px 40px -15px rgba(11, 19, 43, 0.07), 0 0 1px 1px rgba(255, 255, 255, 0.9) inset;
-  --card-shadow: 0 2px 8px -2px rgba(11, 19, 43, 0.04), 0 1px 2px -1px rgba(11, 19, 43, 0.02);
-  --card-hover-shadow: 0 16px 32px -8px rgba(11, 19, 43, 0.09), 0 4px 12px -2px rgba(11, 19, 43, 0.04);
+  /* Architectural Hairline & Elevation Tokens */
+  --glass-bg: rgba(255, 255, 255, 0.92);
+  --glass-border: rgba(226, 232, 240, 0.85);
+  --glass-shadow: 0 20px 40px -15px rgba(9, 13, 22, 0.05), 0 0 1px 1px rgba(255, 255, 255, 0.9) inset;
+  --card-shadow: 0 1px 3px 0 rgba(9, 13, 22, 0.04), 0 1px 2px -1px rgba(9, 13, 22, 0.02);
+  --card-hover-shadow: 0 16px 32px -8px rgba(9, 13, 22, 0.08), 0 4px 12px -2px rgba(9, 13, 22, 0.03);
   --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
-  --duration-fast: 160ms;
+  --duration-fast: 180ms;
 }
 
 * {
@@ -108,7 +108,7 @@
 
 html {
   scroll-behavior: smooth;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.012em;
 }
 
 body {
@@ -119,9 +119,18 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Typographic Display Class */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
 ::selection {
   background: var(--accent);
-  color: #0B132B;
+  color: #FFFFFF;
 }
 
 ::-webkit-scrollbar {
@@ -142,99 +151,92 @@ body {
   background: var(--text-muted);
 }
 
-/* Category & Resource Card Styling */
-.category-card-item {
-  box-shadow: var(--card-shadow);
-  will-change: transform, box-shadow;
-  transition: transform 280ms var(--ease-smooth),
-              box-shadow 280ms var(--ease-smooth),
-              border-color 280ms var(--ease-smooth),
-              background-color 280ms var(--ease-smooth);
+/* Subtle Architectural Grid Texture */
+.architectural-grid {
+  background-image: radial-gradient(rgba(9, 13, 22, 0.07) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
-.category-card-item:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--card-hover-shadow);
+.architectural-grid-fine {
+  background-image: radial-gradient(rgba(9, 13, 22, 0.06) 1px, transparent 1px);
+  background-size: 14px 14px;
 }
 
+/* Card Transitions */
 .resource-card {
   box-shadow: var(--card-shadow);
-  will-change: transform, box-shadow;
+  will-change: transform, box-shadow, border-color;
   transition: transform var(--duration-fast) var(--ease-smooth),
-              border-color var(--duration-fast) ease,
-              box-shadow var(--duration-fast) ease,
-              background-color var(--duration-fast) ease;
+    border-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease,
+    background-color var(--duration-fast) ease;
 }
 
 .resource-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   box-shadow: var(--card-hover-shadow);
 }
 
-/* Glassmorphic Stats Panel */
-.glass-panel {
-  background: var(--glass-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
+.category-chip-btn {
+  will-change: transform, background-color, border-color;
+  transition: transform 150ms var(--ease-smooth),
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+}
+
+.category-chip-btn:hover {
+  transform: translateY(-1px);
 }
 
 /* Hide scrollbars */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
-/* Ambient Floating Keyframes */
-@keyframes ambient-float-1 {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-8px) rotate(1deg); }
-}
-
-@keyframes ambient-float-2 {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(7px) rotate(-1.5deg); }
-}
-
-@keyframes ribbon-pulse {
-  0%, 100% { opacity: 0.85; transform: scale(1); }
-  50% { opacity: 0.95; transform: scale(1.02); }
-}
-
 @keyframes popover-in {
-  0% { opacity: 0; transform: translateY(-8px) scale(0.98); }
-  100% { opacity: 1; transform: translateY(0px) scale(1); }
+  0% {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.99);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0px) scale(1);
+  }
 }
 
-.animate-ambient-float-1 {
-  animation: ambient-float-1 6s ease-in-out infinite;
-}
+@keyframes drawer-slide-in {
+  0% {
+    transform: translateX(100%);
+  }
 
-.animate-ambient-float-2 {
-  animation: ambient-float-2 7s ease-in-out infinite;
-}
-
-.animate-ribbon-pulse {
-  animation: ribbon-pulse 8s ease-in-out infinite;
+  100% {
+    transform: translateX(0%);
+  }
 }
 
 .animate-popover-in {
-  animation: popover-in 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: popover-in 180ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-drawer-in {
+  animation: drawer-slide-in 240ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .category-card-item,
-  .category-card-item:hover,
+
   .resource-card,
   .resource-card:hover,
-  .animate-ambient-float-1,
-  .animate-ambient-float-2,
-  .animate-ribbon-pulse,
+  .category-chip-btn,
+  .category-chip-btn:hover,
   .animate-popover-in,
+  .animate-drawer-in,
   * {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
