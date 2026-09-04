@@ -1,88 +1,92 @@
 # Design Resource Vault
 
-Design Resource Vault is an editorial, curated visual archive created to bring clarity and physical museum restraint to the discovery and organization of high-quality digital design references. Built as a permanent visual memory for creative craftspeople, it replaces cluttered bookmarks and ephemeral link dumps with an architectural, edge-to-edge catalogue where every entry is presented as a framed print.
+Design Resource Vault is a curated, visual-first archive for discovering and organizing high-quality design resources. Built as a permanent visual memory for designers, creative technologists, and frontend engineers, it replaces cluttered bookmarks and ephemeral link dumps with an architectural, edge-to-edge catalogue where every specimen is presented as a framed print. The visual identity is strictly editorial, archival, gallery-inspired, monochrome, architectural, typography-led, edge-to-edge, and intentionally restrained.
 
 ---
 
 ## What It Is
 
-Designers and creative technologists accumulate hundreds of references, websites, animation studies, component libraries, and tools across projects. However, discovery quickly becomes fragmented: bookmarks lack visual hierarchy, browser tabs get lost, and unstructured notes bury valuable work.
+Designers collect huge numbers of resources, references, inspiration sites, tools, and visual systems across their projects, but discovery quickly becomes fragmented and difficult to revisit. Bookmarks lack visual hierarchy, browser tabs get lost, and unstructured notes bury valuable work.
 
-Design Resource Vault solves this with an intentional curatorial archive engineered around focused discovery, strict taxonomy classification, and in-depth visual reference. It treats digital craft not as throwaway content, but as archival specimens catalogued for sustained study and daily professional reference.
+Design Resource Vault solves this problem as a curated archive designed specifically around discovery, classification, and visual reference. It treats digital craft not as throwaway bookmark fodder, but as archival specimens catalogued for sustained study, contextual rediscovery, and daily professional reference.
 
 ---
 
 ## Design Philosophy
 
-The visual layer of Design Resource Vault intentionally rejects conventional SaaS dashboards, pastel UI templates, glassmorphism, and startup marketing patterns. The interface recedes completely so the work itself leads.
+The visual system of Design Resource Vault intentionally rejects conventional SaaS dashboards, AI startup landing pages, colorful marketing components, and generic resource marketplaces. The interface recedes completely into an achromatic architectural canvas so the creative work itself leads.
 
-- **Museum & Archive Metaphor**: The interface behaves like a gallery catalogue or architectural exhibition rather than a software tool.
-- **Editorial Composition**: Clean typography, strict baseline rhythm, and generous deliberate whitespace anchor every page.
-- **Continuous Edge-to-Edge Grid**: The two-column 50/50 grid lattice runs edge-to-edge with no centered wrapper or artificial max-width constraints, framed top and bottom by 1px solid black viewport rules.
-- **Framed-Print Resource Cards**: Cards butt directly against each other, sharing 1px hairlines. Each card features 45px padding, a category label at the top-left, project title in whisper weight 200, and a year timestamp anchored at the bottom-right.
-- **Monochrome UI**: The chrome is strictly achromatic (`#eaeaea` canvas, `#f0f0f0` card surface, `#d8d8d8` hairlines, `#000000` ink, and `#ffffff` paper drawer surfaces). Color is permitted only inside actual resource artwork.
-- **Whisper-Weight Typography**: Set exclusively in Inter with ultra-light weights (200 for headlines, 300 for body/captions, 400 for rare emphasis). Semibold and bold weights (500–900) are eliminated.
-- **Zero-Radius Geometry**: All elements—cards, buttons, inputs, tags, dialogs, and drawers—feature sharp 0px corners (`border-radius: 0`).
-- **Zero Shadows**: Depth is established exclusively through 1px structural hairlines, spacing, and typographic proportion—never through elevation or drop shadows.
-- **Restrained Artwork**: Imagery is used sparingly as deliberate compositional counterpoints rather than ambient decoration.
+- **Museum & Archive Metaphor**: The interface functions as a physical exhibition catalogue or gallery archive rather than a commercial web software application.
+- **Editorial Composition**: Strict baseline grid alignment, generous deliberate whitespace, and disciplined hierarchy structure every view.
+- **Continuous Grid**: The two-column 50/50 grid lattice runs edge-to-edge with no centered container wrapper or artificial max-width constraints, framed at the top and bottom by 1px solid black viewport rules.
+- **Framed-Print Resource Cards**: Cards butt directly against each other with zero gap, sharing 1px hairlines. Each card features 45px padding on all sides, a category label at the top-left, a project title set in whisper weight 200, and a year timestamp anchored at the bottom-right.
+- **Edge-to-Edge Layout**: Full viewport bleed maximizes visual reference immersion without arbitrary gutters.
+- **Monochrome UI**: The chrome is strictly achromatic (`#eaeaea` canvas, `#f0f0f0` card surface, `#d8d8d8` hairlines, `#000000` typographic ink, and `#ffffff` paper drawer surfaces). Color is strictly isolated to the resource media itself.
+- **Whisper-Weight Typography**: Set exclusively in Inter with ultra-light weights (200 for headlines, 300 for body/captions, and 400 for rare emphasis). Standard bold and semibold weights (500–900) are intentionally eliminated.
+- **1px Hairlines**: Structural 1px hairlines define all boundaries, dividing lines, and card perimeters—never decorative outlines.
+- **Zero-Radius Geometry**: Universal 0px border radius across all elements—cards, buttons, inputs, tags, drawers, and modal dialogs feature razor-sharp corners.
+- **Zero Shadows**: All drop shadows, box shadows, and fake elevations are eliminated. Visual depth is established purely through 1px structural hairlines, tonal contrast, and typographic proportions.
+- **Deliberate Whitespace**: Spacious 45px internal padding and proportional margins establish an unhurried, contemplative rhythm.
+- **Restrained Use of Visual Artwork**: Imagery and WebGL graphics are deployed as deliberate compositional counterpoints rather than ambient decorative filler.
 
 ---
 
 ## Features
 
-All features documented below are implemented and verified in the repository:
+All features listed below are verified and implemented in the repository:
 
 ### Discovery
 - **Curated Resource Archive**: 88 verified digital craft specimens across design systems, WebGL, typography, motion, and creative tools.
-- **Category Browsing**: Dedicated taxonomy route (`/categories/[slug]`) with in-category search, descriptions, and adjacent taxonomy recommendations.
-- **Catalogue Search**: Direct text search indexing resource names, root domains, tags, categories, technologies, and styles.
-- **Intelligent Search & Intent Matching**: Multi-signal scoring engine (`lib/search.ts`) with intent parsing (`lib/search-intent.ts`) that extracts adjacent discovery concepts from natural-language queries.
-- **Structural Taxonomy Filters**: Collapsible architectural matrix covering all 22 categories, technologies (WebGL, Three.js, React, Tailwind CSS, GLSL Shaders, Canvas), and aesthetic styles (Brutalist, Minimalist, 3D / Spatial, Dark Mode, Kinetic Motion, Editorial).
-- **Related Specimens**: Algorithmic relatedness engine (`lib/related.ts`) that scores shared tags, technologies, and categories to surface contextually relevant specimens.
+- **Category Browsing**: Dedicated taxonomy route (`/categories/[slug]`) with in-category filtering, descriptions, and adjacent taxonomy recommendations.
+- **Search**: Fast catalogue search indexing resource titles, root domains, tags, categories, technologies, and styles.
+- **Intelligent Search & Intent Matching**: Multi-signal scoring engine (`lib/search.ts`) with intent parsing (`lib/search-intent.ts`) that extracts semantic intent and adjacent discovery paths from natural queries.
+- **Filtering**: Architectural taxonomy matrix covering all 22 categories, creative technologies (WebGL, Three.js, React, Tailwind CSS, GLSL Shaders, Canvas), aesthetic styles (Brutalist, Minimalist, 3D / Spatial, Dark Mode, Kinetic Motion, Editorial), and operational purposes.
+- **Related Resources**: Algorithmic relatedness engine (`lib/related.ts`) that computes shared categories, tags, technologies, and styles to suggest contextually adjacent resources.
 
 ### Personal Organization
-- **Starred Favorites**: Save resources to a personal collection accessible at `/favorites`, complete with independent filtering and search.
+- **Favorites / Starred Resources**: Bookmark resources into a personal collection accessible at `/favorites`, complete with independent search and filtering.
 - **Recently Viewed**: Automatic history tracking on `/recently-viewed` recording specimens inspected across active browser sessions.
-- **Recently Added**: Chronological archive feed on `/recently-added` sorted by initial indexing date.
-- **Local-First Persistence**: Favorites and viewing history are stored client-side in `localStorage` without tracking or authentication barriers.
+- **Recently Added**: Chronological archive feed on `/recently-added` sorted by specimen indexing date.
+- **Local-First Persistence**: User collections, favorites, and viewing history are stored client-side via `localStorage` with zero account barriers or tracking.
 
 ### Resource Management
-- **Resource Detail Pages**: Dedicated specimen view (`/resources/[slug]`) featuring 4-Quadrant architectural specifications (*What It Does*, *Why Use It*, *When To Use It*, *How To Use It*), technical metadata, and adjacent discoveries.
-- **Custom Resource Creation**: Manual ingestion modal (`AddResourceForm`) to catalogue new resources with categories, tags, and architectural specifications.
-- **URL Metadata Import**: In-browser URL draft analyzer (`AddByUrlModal`) that parses domain references and suggests contextual taxonomy tags.
-- **Resource Modification**: Editing and deletion actions for custom user-added resources with immediate state updates.
+- **Resource Detail Pages**: Dedicated specimen view (`/resources/[slug]`) featuring 4-Quadrant architectural specifications (*What It Does*, *Why To Use It*, *When To Use It*, *How To Use It*), technical metadata, and adjacent discoveries.
+- **Custom Resource Creation**: Manual ingestion modal (`AddResourceModal`) to catalogue custom resources with categories, tags, and architectural specifications.
+- **Resource Ingestion via URL**: Automated URL analyzer (`AddByUrlModal`) that parses domain references and pre-fills taxonomy tags and descriptions.
+- **Editing & Deleting Resources**: In-place edit and delete capabilities for custom user-created resources with immediate state updates.
+- **Resource Metadata**: Comprehensive multi-axial metadata capturing categories, tags, purpose, technologies, and aesthetic styles.
+- **Categorization and Tagging**: Multi-tag classification system allowing overlapping assignments across disciplines.
 
 ### Navigation
-- **Minimalist Framing & Hamburger**: Top and bottom 1px solid black framing rules, with an unobtrusive two-line hamburger button in the top-right corner.
-- **Architectural Index Drawer**: Slide-out paper drawer (`#ffffff`) providing direct access to primary navigation, quick search, specimen creation, and all 22 categorized taxonomies.
-- **Command Palette (`⌘K` / `Ctrl+K`)**: Keyboard-first search modal (`CommandMenu`) with keyboard navigation (`↑`/`↓`/`↵`) and instant slug routing.
-- **Quick Inspect Drawer**: Slide-over specification drawer (`QuickInspectDrawer`) to review full architectural quadrant details without leaving the current view.
+- **Minimal Archive Index**: Top and bottom 1px solid black viewport framing rules, paired with an unobtrusive two-line hamburger trigger in the top-right corner that opens an architectural paper drawer (`#ffffff`).
+- **Command Menu (`⌘K` / `Ctrl+K`)**: Keyboard-first search modal (`CommandMenu`) with arrow key navigation (`↑`/`↓`/`↵`) and instant slug routing.
+- **Quick Inspector**: Slide-over drawer (`QuickInspectDrawer`) allowing rapid inspection of a specimen's 4-Quadrant specifications without losing grid position.
 
 ---
 
 ## Resource Architecture
 
-The application data model is defined in `types/index.ts`. Every specimen follows a structured schema:
+The data architecture is defined in `types/index.ts`. Every specimen follows a strict TypeScript model:
 
 ```typescript
 export interface Resource {
-  id: string;                      // Unique identifier (e.g. "bruno-simon")
-  slug: string;                    // URL-safe routing slug
+  id: string;                      // Unique slug identifier (e.g. "bruno-simon")
+  slug: string;                    // URL-safe routing path
   name: string;                    // Specimen display title
-  url: string;                     // Canonical external URL
+  url: string;                     // Canonical external website URL
   description: string;             // Concise curatorial summary
   whatItDoes: string;              // Architectural Quadrant 1
   whyUseIt: string;                // Architectural Quadrant 2
   whenToUseIt: string;             // Architectural Quadrant 3
   howToUseIt: string;              // Architectural Quadrant 4
-  categories: string[];            // Primary and secondary category IDs
+  categories: string[];            // Canonical category IDs
   tags: string[];                  // Curated indexing tags
-  purpose: string;                 // Primary use case descriptor
+  purpose: string;                 // Primary operational use case
   featured: boolean;               // Editorial spotlight status
-  isUserAdded?: boolean;           // Flag for client-created custom resources
-  previewImage?: string;           // Optional image reference
-  technologies?: string[];         // Tech stack (e.g. ["WebGL", "Three.js"])
-  styles?: string[];               // Aesthetic styles (e.g. ["Brutalist", "3D / Spatial"])
+  isUserAdded?: boolean;           // Flag identifying client-created specimens
+  previewImage?: string;           // Optional asset path or screenshot reference
+  technologies?: string[];         // Creative technology stack identifiers
+  styles?: string[];               // Aesthetic design language classifications
   visualKeywords?: string[];       // Visual indexing tokens
   relatedResourceIds?: string[];   // Explicit relation overrides
   createdAt: string;               // ISO 8601 creation timestamp
@@ -91,129 +95,146 @@ export interface Resource {
 }
 ```
 
+### Important Metadata Fields
+
+- **name**: The primary specimen title and brand/studio identity.
+- **URL**: The canonical destination link to the original resource or experience.
+- **description**: A concise curatorial overview summarizing the resource's creative importance and utility.
+- **whatItDoes** *(Quadrant 1)*: Functional breakdown detailing what the resource produces, facilitates, or demonstrates.
+- **why to use it** (`whyUseIt` - *Quadrant 2*): The rational justification and competitive creative edge provided by the resource.
+- **when to use it** (`whenToUseIt` - *Quadrant 3*): Concrete project scenarios and design phases where this specimen is most effectively applied.
+- **how to use it** (`howToUseIt` - *Quadrant 4*): Practical workflows, implementation advice, and step-by-step guidance for integrating the resource.
+- **categories**: Multi-category taxonomy mapping assigning the specimen to one or more curated design disciplines.
+- **tags**: Fine-grained indexing tags for search discovery and thematic filtering.
+- **purpose**: Controlled operational classification (Inspiration, Reference, Tool, Asset, Template, Component, Design System, Learning, AI, Development).
+- **featured status** (`featured`): Editorial boolean indicating whether the specimen is spotlighted in curated showcase sections.
+- **preview image** (`previewImage`): Path or URL to high-fidelity visual documentation of the specimen.
+- **technologies**: Stack identifiers documenting code frameworks and libraries (e.g., WebGL, Three.js, React, Tailwind CSS, GLSL Shaders, Canvas).
+- **styles**: Aesthetic classifications cataloguing design languages (e.g., Brutalist, Minimalist, 3D / Spatial, Dark Mode, Kinetic Motion, Editorial).
+- **visual keywords** (`visualKeywords`): Micro-aesthetic visual descriptors capturing lighting, typography, and layout nuances.
+- **related resources** (`relatedResourceIds`): Explicit relationship mappings linking to complementary specimens across the archive.
+- **timestamps** (`createdAt`, `updatedAt`): ISO 8601 dates recording the initial indexing date and recent edits.
+- **view count** (`viewCount`): Numeric frequency tracking how often a specimen's specifications have been inspected in active sessions.
+
 ---
 
 ## Categories
 
-The archive organizes 88 specimens across **22 specialized design taxonomies** grouped into 4 macro disciplines (`data/categories.ts`):
+The archive classifies 88 specimens across **22 verified categories** organized into **4 macro disciplines** (`data/categories.ts`):
 
-### 1. Inspiration & Web (6)
+### 1. Inspiration & Web (6 Categories)
 - **UI / Web Inspiration** (`ui-web-inspiration`): Curated web and interface design inspiration.
-- **Landing Page Inspiration** (`landing-page-inspiration`): High-quality landing page references and patterns.
+- **Landing Page Inspiration** (`landing-page-inspiration`): High-quality landing page references and conversion patterns.
 - **SaaS / Product Design** (`saas-product-design`): SaaS dashboards, product UI, and growth design.
-- **Portfolio Inspiration** (`portfolio-inspiration`): Benchmark portfolios and interactive personal showcases.
-- **Award-Winning / Experimental** (`award-winning-experimental`): Boundary-pushing web design and digital art direction.
-- **Creative / Advertising** (`creative-advertising`): Digital campaigns, creative agencies, and brand experiences.
+- **Portfolio Inspiration** (`portfolio-inspiration`): Benchmark portfolios and interactive developer showcases.
+- **Award-Winning / Experimental Web** (`award-winning-experimental`): Boundary-pushing web design, digital art direction, and experimental interfaces.
+- **Creative / Advertising** (`creative-advertising`): Digital campaigns, agency showcases, and interactive brand experiences.
 
-### 2. Interaction & Motion (5)
-- **Website Animation Inspiration** (`website-animation-inspiration`): Animated websites and motion-rich experiences.
-- **Animation / Motion Tools** (`animation-motion-tools`): Tools for creating and managing motion design.
-- **Frontend Animation** (`frontend-animation`): Creative development libraries and motion frameworks.
-- **3D / Interactive Web** (`3d-interactive-web`): Three.js, WebGL, shaders, and spatial web experiences.
-- **Backgrounds / Visual Effects** (`backgrounds-visual-effects`): Dynamic canvas shaders, geometric fields, and canvas backgrounds.
+### 2. Interaction & Motion (5 Categories)
+- **Website Animation Inspiration** (`website-animation-inspiration`): Animated websites and motion-rich digital experiences.
+- **Animation / Motion Tools** (`animation-motion-tools`): Tools for creating, authoring, and exporting motion design.
+- **Frontend Animation** (`frontend-animation`): Creative coding animation libraries and web motion frameworks.
+- **3D / Interactive Web** (`3d-interactive-web`): Three.js, WebGL, shaders, and spatial web environments.
+- **Backgrounds / Visual Effects** (`backgrounds-visual-effects`): Dynamic canvas shaders, geometric particles, and generative backgrounds.
 
-### 3. Visual Systems & Assets (6)
-- **UI Components** (`ui-components`): Reusable UI components, design systems, and code patterns.
-- **Color / Typography** (`color-typography`): Color palettes, type specimen foundries, and visual foundations.
-- **Visual Assets** (`visual-assets`): High-craft textures, 3D elements, gradients, and graphic assets.
-- **Iconography** (`iconography`): Open-source, 3D, animated, and specialty icon sets.
-- **Mockups / Presentation** (`mockups-presentation`): Device frames, presentation kits, and staging mockups.
-- **Visual Search / Moodboarding** (`visual-search-moodboarding`): Visual curation, board curation, and moodboard tools.
+### 3. Visual Systems & Assets (6 Categories)
+- **UI Components** (`ui-components`): Reusable UI component libraries, design systems, and code patterns.
+- **Color / Typography** (`color-typography`): Color palettes, type specimen foundries, and visual foundation utilities.
+- **Visual Assets** (`visual-assets`): High-craft textures, 3D elements, graphic kits, and visual assets.
+- **ICONOGRAPHY** (`iconography`): Curated open-source, 3D, animated, brand, and specialty icon systems.
+- **Mockups / Presentation** (`mockups-presentation`): Device frames, presentation kits, and portfolio staging mockups.
+- **Visual Search / Moodboarding** (`visual-search-moodboarding`): Visual discovery platforms, reference boards, and moodboarding tools.
 
-### 4. Product & Engineering (5)
-- **UX / User Flows** (`ux-user-flows`): User flows, onboarding breakdowns, and product UX patterns.
-- **UI / UX Prototyping** (`ui-ux-prototyping`): Prototyping tools, interaction recorders, and testing suites.
-- **AI Design / Vibe Coding** (`ai-design-vibe-coding`): Generative interface builders and agentic coding workflows.
-- **Design Workflow** (`design-workflow`): Hand-off utilities, documentation generators, and workflow tools.
-- **Learning / Vibe Coding** (`learning-vibe-coding`): Tutorials, creative coding courses, and shader workshops.
+### 4. Product & Engineering (5 Categories)
+- **UX / User Flows** (`ux-user-flows`): Real-world user flows, onboarding breakdowns, and product UX teardowns.
+- **UI / UX Prototyping** (`ui-ux-prototyping`): Prototyping software, interaction recorders, and user testing platforms.
+- **AI Design / Vibe Coding** (`ai-design-vibe-coding`): AI-assisted design systems, generative UI builders, and agentic coding workflows.
+- **Design Workflow** (`design-workflow`): Hand-off utilities, keyboard shortcut tools, and design productivity resources.
+- **Learning / Vibe Coding** (`learning-vibe-coding`): Creative coding courses, shader workshops, tutorials, and technical blogs.
 
 ---
 
 ## Design System
 
-The application is styled with strict custom tokens defined in [DESIGN.md](file:///d:/Design%20Resouce%20Vault/DESIGN.md) and compiled through Tailwind CSS v4 in `app/globals.css`:
+The visual design system is governed by strict tokens defined in [DESIGN.md](file:///d:/Design%20Resouce%20Vault/DESIGN.md) and applied globally:
 
-| Token | CSS Variable | Value | Role |
-|---|---|---|---|
-| **Warm Concrete** | `--color-warm-concrete` | `#eaeaea` | Page canvas background |
-| **Bone** | `--color-bone` | `#f0f0f0` | Card interior surface |
-| **Hairline** | `--color-hairline` | `#d8d8d8` | 1px structural dividers and shared card borders |
-| **Obsidian** | `--color-obsidian` | `#000000` | Typographic ink and viewport framing rules |
-| **Paper** | `--color-paper` | `#ffffff` | Navigation drawer, modal surfaces, and active tags |
-
-### Typography Scale
-
-| Role | Font Family | Size | Weight | Line Height |
-|---|---|---|---|---|
-| **Display** | Inter | `38px` | `200` (Extra Light) | `1.00` |
-| **Subheading** | Inter | `21px` | `300` (Light) | `1.31` |
-| **Body / UI** | Inter | `16px` | `300` (Light) | Normal / `1.6` |
-| **Year / Caption** | Inter | `16px` | `300` (Light) | `2.37` |
-| **Emphasis** | Inter | `14px`–`16px` | `400` (Regular) | Normal |
-
-### Shape & Elevation
-- **Border Radius**: `0px` universal across all elements (Cards, Buttons, Inputs, Tags, Dialogs, Menus).
-- **Box Shadows**: `none` universal across all surfaces. Depth is established purely through 1px hairlines and contrast.
-- **Card Padding**: `45px` on desktop/tablet (`24px` responsive on small mobile).
+| Token | Value | Description / Role |
+|---|---|---|
+| **Canvas** | `#eaeaea` | Warm concrete page background |
+| **Card Surface** | `#f0f0f0` | Bone card interior surface |
+| **Hairline** | `#d8d8d8` | 1px structural dividing lines and shared card perimeters |
+| **Text** | `#000000` | Obsidian typographic ink and viewport framing rules |
+| **Paper** | `#ffffff` | Navigation drawer, modal surfaces, and active tags |
+| **Display Weight** | `200` | Extra-light whisper weight for display titles |
+| **Body Weight** | `300` | Light weight for body copy, category labels, and timestamps |
+| **Emphasis Weight** | `400` | Regular weight reserved for rare structural emphasis |
+| **Display Size** | `38px` | Primary headline scale with line-height 1.00 |
+| **Subheading** | `21px` | Section header scale with line-height 1.31 |
+| **Body / UI** | `16px` | Standard interface copy and metadata scale |
+| **Card Radius** | `0px` | Universal sharp corners across all elements |
+| **Shadow** | `none` | Zero box-shadow or artificial drop-shadow elevation |
+| **Card Padding** | `45px` | Generous internal margin framing every specimen card |
 
 ---
 
 ## Tech Stack
 
-The application runs on modern, production-grade web technologies:
+The application is built on modern, production-grade web technologies:
 
-- **Framework**: [Next.js 15.2 (App Router)](https://nextjs.org/)
-- **Core Library**: [React 19](https://react.dev/)
-- **Language**: [TypeScript 5](https://www.typescriptlang.org/)
-- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) with native CSS variables
-- **Motion & Transitions**: [Framer Motion](https://www.framer.com/motion/)
-- **Icons**: [Lucide React](https://lucide.dev/)
-- **Testing & Visual Audit**: [Playwright](https://playwright.dev/) with automated multi-viewport screenshot captures
-- **Linting**: [ESLint 9](https://eslint.org/) with Next.js configuration
+- **Next.js**: [Next.js 15.2 (App Router)](https://nextjs.org/) for server-rendered page routing, metadata handling, and optimized static generation.
+- **React**: [React 19](https://react.dev/) utilizing client components and responsive hooks.
+- **TypeScript**: [TypeScript 5](https://www.typescriptlang.org/) for complete type safety across schemas, filters, and state contexts.
+- **Tailwind CSS**: [Tailwind CSS v4](https://tailwindcss.com/) using modern CSS variable integration and universal hairline layout utilities.
+- **Framer Motion**: [Framer Motion 12](https://www.framer.com/motion/) powering restrained drawer transitions and modal physics.
+- **Icon Libraries**: [Lucide React](https://lucide.dev/) for minimal geometric iconography across navigation, actions, and quadrants.
+- **Three.js**: [Three.js (0.185)](https://threejs.org/) powering interactive WebGL geometric fields and ambient background canvases.
+- **Playwright**: [Playwright 1.62](https://playwright.dev/) for automated multi-viewport responsive testing across 5 standard viewport resolutions.
+- **ESLint**: [ESLint 9](https://eslint.org/) with Next.js core web vitals and strict linting rules.
 
 ---
 
 ## Project Structure
 
 ```text
-├── app/
-│   ├── categories/[slug]/       # Category archive routes
-│   ├── favorites/               # Starred personal collection
-│   ├── recently-added/          # Chronological feed route
-│   ├── recently-viewed/         # Session history route
-│   ├── resources/[slug]/        # Specimen detail & 4-Quadrant matrix
-│   ├── globals.css              # Strict monochrome design tokens & zero-radius rules
-│   ├── layout.tsx               # Root layout with Inter font and AppShell
-│   ├── not-found.tsx            # Minimalist 404 specimen page
-│   └── page.tsx                 # Homepage: Edge-to-edge 50/50 curated archive
-├── components/
-│   ├── add-resource/            # Resource creation & URL draft modals
-│   ├── command-menu/            # ⌘K keyboard search palette
-│   ├── filters/                 # Structural taxonomy matrix & active tags
-│   ├── layout/                  # Framing rules, app shell, and footer
-│   ├── resource-card/           # Framed print resource card (45px padding, 38px/200 title)
-│   ├── resource-detail/         # Specimen detail view & quick inspect drawer
-│   ├── resource-grid/           # Edge-to-edge continuous 50/50 lattice grid
-│   ├── sidebar/                 # Architectural paper drawer (INDEX)
-│   └── ui/                      # Zero-radius primitives (Button, Input, Modal, Badge)
-├── data/
-│   ├── categories.ts            # 22 design disciplines across 4 macro groups
-│   └── resources.ts             # 88 curated digital craft specimens
-├── lib/
-│   ├── related.ts               # Algorithmic relatedness engine
-│   ├── resource-context.tsx     # State management, local-first store & analytics
-│   ├── search.ts                # Multi-signal search scoring
-│   ├── search-intent.ts         # Query intent parser & adjacent paths
-│   ├── storage.ts               # LocalStorage abstraction
-│   └── ui-context.tsx           # Global modal & drawer UI state
-├── scripts/
-│   └── test-responsive-audit.mjs# 5-viewport Playwright audit & screenshot suite
-├── screenshots/                 # Multi-viewport audit screenshot captures
-├── types/
-│   └── index.ts                 # TypeScript interfaces & Resource schema
-├── DESIGN.md                    # Strict visual design specification
-├── package.json                 # Project dependencies & verification scripts
-└── tsconfig.json                # TypeScript configuration
+app/
+├── categories/[slug]/           # Category archive routes
+├── favorites/                   # Starred personal collection
+├── recently-added/              # Chronological archive feed
+├── recently-viewed/             # Session history view
+├── resources/[slug]/            # Specimen detail & 4-Quadrant matrix
+├── globals.css                  # Strict monochrome design tokens & zero-radius rules
+├── layout.tsx                   # Root layout with Inter font and AppShell
+├── not-found.tsx                # Minimalist 404 specimen page
+└── page.tsx                     # Homepage: Edge-to-edge curated archive
+components/
+├── add-resource/                # Manual creation & URL draft ingestion modals
+├── command-menu/                # ⌘K keyboard search palette
+├── filters/                     # Structural taxonomy matrix & active tags
+├── layout/                      # Viewport framing rules, app shell, and footer
+├── resource-card/               # Framed print resource card (45px padding, 38px/200 title)
+├── resource-detail/             # Specimen detail view & quick inspect drawer
+├── resource-grid/               # Edge-to-edge continuous 50/50 lattice grid
+├── sidebar/                     # Architectural paper drawer (INDEX)
+├── ui/                          # Zero-radius primitives (Button, Input, Modal, Badge)
+└── webgl/                       # Interactive Three.js canvas scenes
+data/
+├── categories.ts                # 22 design disciplines across 4 macro groups
+└── resources.ts                 # 88 curated digital craft specimens
+lib/
+├── related.ts                   # Algorithmic relatedness engine
+├── resource-context.tsx         # State management, local-first store & analytics
+├── search.ts                    # Multi-signal search scoring
+├── search-intent.ts             # Query intent parser & adjacent paths
+├── storage.ts                   # LocalStorage abstraction
+└── ui-context.tsx               # Global modal & drawer UI state
+scripts/
+└── test-responsive-audit.mjs    # 5-viewport Playwright audit & screenshot suite
+screenshots/                     # Multi-viewport audit screenshot captures
+types/
+└── index.ts                     # TypeScript interfaces & Resource schema
+DESIGN.md                        # Strict visual design specification
+package.json                     # Project dependencies & verification scripts
+tsconfig.json                    # TypeScript configuration
 ```
 
 ---
@@ -221,7 +242,7 @@ The application runs on modern, production-grade web technologies:
 ## Getting Started
 
 ### Prerequisites
-- Node.js 18.17+ or newer
+- Node.js 18.17 or newer
 - npm, pnpm, or yarn
 
 ### Installation
@@ -239,7 +260,7 @@ npm install
 # Start the Next.js development server
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) to view the archive.
+Open [http://localhost:3000](http://localhost:3000) in your browser to explore the archive.
 
 ### Verification Suite
 ```bash

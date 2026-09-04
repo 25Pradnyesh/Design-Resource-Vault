@@ -5,11 +5,14 @@ import { ResourceCard } from "@/components/resource-card/resource-card";
 import { ResourceLedgerRow } from "@/components/resource-card/resource-ledger-row";
 import { useUI } from "@/lib/ui-context";
 
-interface ResourceGridProps {
+export interface ResourceGridProps {
   resources: Resource[];
   scoredMap?: Map<string, ScoredResource>;
   activeQuery?: string;
   customViewMode?: ViewMode;
+  emptyTitle?: string;
+  emptyDescription?: string;
+  onClearFilters?: () => void;
 }
 
 export function ResourceGrid({
@@ -17,6 +20,9 @@ export function ResourceGrid({
   scoredMap,
   activeQuery,
   customViewMode,
+  emptyTitle,
+  emptyDescription,
+  onClearFilters,
 }: ResourceGridProps) {
   const { viewMode: globalViewMode } = useUI();
   const activeViewMode = customViewMode || globalViewMode;
@@ -28,11 +34,20 @@ export function ResourceGrid({
           [ 000 // ARCHIVE EMPTY ]
         </div>
         <h3 className="text-lg font-bold text-slate-800 mb-1">
-          No resources matched the active criteria
+          {emptyTitle || "No resources matched the active criteria"}
         </h3>
-        <p className="text-xs text-slate-500 max-w-md mx-auto">
-          Try clearing filters, searching for alternate design keywords, or exploring adjacent categories.
+        <p className="text-xs text-slate-500 max-w-md mx-auto mb-4">
+          {emptyDescription || "Try clearing filters, searching for alternate design keywords, or exploring adjacent categories."}
         </p>
+        {onClearFilters && (
+          <button
+            type="button"
+            onClick={onClearFilters}
+            className="inline-flex items-center justify-center px-4 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-300 rounded-md hover:bg-slate-50 transition-colors"
+          >
+            Reset Filters
+          </button>
+        )}
       </div>
     );
   }
